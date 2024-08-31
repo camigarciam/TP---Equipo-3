@@ -24,18 +24,41 @@ def validarcontraseña(nuevacontra):
 
 #2. mostrar los titulos de las peliculas 
 def Mostrarpelis():
-   pass
+   global catalogo
+   print("Nuestro catálogo es el siguiente")
+   catalogo=["1.Laguna Azul", "2.Her", "3.Drive", "4.Whiplash", "5.Historia de un Matrimonio", "6.Mente indomable(drama)", "7.Como entrenar a tu Dragón" ]
+   for n in catalogo:
+       print(n)
+   
 #3. elegir una peli y mostrar detalles 
-def Elegirpeli(numpeli,peli):
-    pass
+def Elegirpeli(numpeli):
+    while numpeli<0 or numpeli>len(catalogo):
+        numpeli=int(input("Número de película inválido. Ingrese un número válido"))
+    if numpeli==1:
+        print("La Laguna Azul\n Géneros:Romance, Drama. Año: 1980")
+    elif numpeli==2:
+        print("Her\n Géneros:Romance, Ciencia Ficción. Año: 2013")
+    elif numpeli==3:
+        print("Drive\n Géneros: Acción. Ryan Gosling. Año: 2011")
+    elif numpeli==4:
+        print("Whiplash\n Géneros: Suspenso, Drama. Año: 2014")
+    elif numpeli==5:
+        print("Historia de un Matrimonio\n Géneros: Romance, Drama. Año: 2014")
+    elif numpeli==6:
+        print("Mente indomable\n Géneros: Romance, Drama. Año: 1997")
+    elif numpeli==7:
+        print("Como Entrenar a tu Dragón\n Géneros: Animación, Aventura. Año: 2010")
+    return numpeli
 #4. mostrar disponibilidad y seleccionar 
 def Disponibilidad(numpeli,dispo):
+
     pass
 #5. sacar la seleccion 
 def Sacar(numpeli):
     pass
 #6. recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion(num,peli):
+
 
     pass
 #7. finalizar
@@ -45,7 +68,11 @@ def Finalizar():
 
 #programa principal
 
-usuario=input("Cree su nombre de usuario: ")
-usuario=validarusuario(usuario)
-nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres: ")
-contraseña=validarcontraseña(nuevacontra)
+#usuario=input("Cree su nombre de usuario: ")
+#usuario=validarusuario(usuario)
+#nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres: ")
+#contraseña=validarcontraseña(nuevacontra)
+
+Mostrarpelis()
+numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
+Elegirpeli(numero)
