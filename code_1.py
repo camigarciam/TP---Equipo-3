@@ -68,11 +68,19 @@ def Alquilarpeli(numero,dispo):
 #5. sacar la seleccion 
 def Sacar(numpeli):
     pass
+
 #6. recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion(num,peli):
+    peliculas_disponibles = [i + 1 for i in range(len(disponibilidad)) if disponibilidad[i]]
+    if peliculas_disponibles:
+        indice_aleatorio = random.randint(0, len(peliculas_disponibles) - 1)
+        pelicula_recomendada = peliculas_disponibles[indice_aleatorio]
+        print(f"Te recomendamos: {catalogo[pelicula_recomendada - 1]}")
+        return pelicula_recomendada
+    else: 
+        print("Lo siento, no hay peliculas disponibles para recomendar")
+        return None
 
-
-    pass
 #7. finalizar
 def Finalizar():
     pass
@@ -80,10 +88,10 @@ def Finalizar():
 
 #programa principal
 
-#usuario=input("Cree su nombre de usuario: ")
-#usuario=validarusuario(usuario)
-#nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres: ")
-#contraseña=validarcontraseña(nuevacontra)
+usuario=input("Cree su nombre de usuario: ")
+usuario=validarusuario(usuario)
+nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres: ")
+contraseña=validarcontraseña(nuevacontra)
 
 Mostrarpelis()
 
