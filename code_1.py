@@ -31,8 +31,9 @@ def Mostrarpelis():
        print(n)
    
 #3. elegir una peli y mostrar detalles 
-def Elegirpeli(numpeli):
-    while numpeli<0 or numpeli>len(catalogo):
+def Infopeli(numpeli):
+
+    while numpeli<1 or numpeli>len(catalogo):
         numpeli=int(input("Número de película inválido. Ingrese un número válido"))
     if numpeli==1:
         print("La Laguna Azul\n Géneros:Romance, Drama. Año: 1980")
@@ -50,9 +51,20 @@ def Elegirpeli(numpeli):
         print("Como Entrenar a tu Dragón\n Géneros: Animación, Aventura. Año: 2010")
     return numpeli
 #4. mostrar disponibilidad y seleccionar 
-def Disponibilidad(numpeli,dispo):
+def Alquilarpeli(numero,dispo):
 
-    pass
+    if disponibilidad[numero - 1] > 0:
+        print(f"Hay {disponibilidad[numero - 1]} unidades disponibles de '{catalogo[numero - 1]}'")
+        confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
+        if confirmacion == 's':
+            disponibilidad[numero - 1] -= 1
+            print(f"Has alquilado '{catalogo[numero - 1]}'. Quedan {disponibilidad[numero - 1]} unidades disponibles.")
+        else:
+            print("No se ha realizado el alquiler.")
+            return False
+    else:
+        print(f"Lo siento, '{catalogo[numero - 1]}' no está disponible en este momento.")
+    return True
 #5. sacar la seleccion 
 def Sacar(numpeli):
     pass
@@ -74,5 +86,16 @@ def Finalizar():
 #contraseña=validarcontraseña(nuevacontra)
 
 Mostrarpelis()
+
+disponibilidad = [5, 3, 4, 2, 6, 1, 5]
 numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
-Elegirpeli(numero)
+# Comprobar disponibilidad y alquilar
+while True:
+    Infopeli(numero)
+    if Alquilarpeli(numero, disponibilidad):
+        break
+    else:
+        Mostrarpelis()
+        numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
+        Infopeli(numero)
+        Alquilarpeli(numero, disponibilidad)
