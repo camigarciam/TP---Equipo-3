@@ -70,7 +70,7 @@ def Sacar(numpeli):
     pass
 
 #6. recomendacion de una pelicula por si no sabes qué elegir! 
-def Recomendacion(num,peli):
+def Recomendacion():
     peliculas_disponibles = [i + 1 for i in range(len(disponibilidad)) if disponibilidad[i]]
     if peliculas_disponibles:
         indice_aleatorio = random.randint(0, len(peliculas_disponibles) - 1)
@@ -107,3 +107,7 @@ while True:
         numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
         Infopeli(numero)
         Alquilarpeli(numero, disponibilidad)
+
+recomendada = input("¿Desea que le recomendemos una pelicula? (s/n): ")
+if recomendada == "s":
+    Recomendacion()
