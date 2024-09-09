@@ -1,5 +1,6 @@
 
 import random
+from pelis import listapelis
 
 
 ##login 
@@ -34,54 +35,39 @@ def Mostrarpelis():
 def Infopeli(numpeli):
 
     while numpeli<1 or numpeli>len(catalogo):
-        numpeli=int(input("Número de película inválido. Ingrese un número válido"))
-    if numpeli==1:
-        print("La Laguna Azul\n Géneros:Romance, Drama. Año: 1980")
-    elif numpeli==2:
-        print("Her\n Géneros:Romance, Ciencia Ficción. Año: 2013")
-    elif numpeli==3:
-        print("Drive\n Géneros: Acción. Ryan Gosling. Año: 2011")
-    elif numpeli==4:
-        print("Whiplash\n Géneros: Suspenso, Drama. Año: 2014")
-    elif numpeli==5:
-        print("Historia de un Matrimonio\n Géneros: Romance, Drama. Año: 2014")
-    elif numpeli==6:
-        print("Mente indomable\n Géneros: Romance, Drama. Año: 1997")
-    elif numpeli==7:
-        print("Como Entrenar a tu Dragón\n Géneros: Animación, Aventura. Año: 2010")
-    return numpeli
-#4. mostrar disponibilidad y seleccionar 
-def Alquilarpeli(numero,dispo):
+        numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
+    peli = listapelis[numpeli - 1]
+    print(f"{peli['Titulo']}\nGéneros: {peli['Generos']}\nAño: {peli['Año']}")
 
-    if disponibilidad[numero - 1] > 0:
-        print(f"Hay {disponibilidad[numero - 1]} unidades disponibles de '{catalogo[numero - 1]}'")
+#4. mostrar disponibilidad y seleccionar 
+def Alquilarpeli(numero):
+    peli = listapelis[numero - 1]
+    if peli["Disponibilidad"] > 0:
+        print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
-            disponibilidad[numero - 1] -= 1
-            print(f"Has alquilado '{catalogo[numero - 1]}'. Quedan {disponibilidad[numero - 1]} unidades disponibles.")
+            peli["Disponibilidad"]-= 1
+            print(f"Has alquilado '{catalogo[numero - 1]}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
             print("No se ha realizado el alquiler.")
             return False
     else:
         print(f"Lo siento, '{catalogo[numero - 1]}' no está disponible en este momento.")
     return True
-#5. sacar la seleccion 
-def Sacar(numpeli):
-    pass
 
-#6. recomendacion de una pelicula por si no sabes qué elegir! 
+#5. recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
-    peliculas_disponibles = [i + 1 for i in range(len(disponibilidad)) if disponibilidad[i]]
-    if peliculas_disponibles:
-        indice_aleatorio = random.randint(0, len(peliculas_disponibles) - 1)
-        pelicula_recomendada = peliculas_disponibles[indice_aleatorio]
-        print(f"Te recomendamos: {catalogo[pelicula_recomendada - 1]}")
-        return pelicula_recomendada
+    pelis_disponibles = [i for i, peli in enumerate(listapelis) if peli['disponibilidad'] > 0]
+    if pelis_disponibles:
+        indice_random = random.randint(0, len(pelis_disponibles) - 1)
+        peli_recomendada = pelis_disponibles[indice_random]
+        print(f"Te recomendamos: {catalogo[peli_recomendada - 1]}")
+        return peli_recomendada
     else: 
         print("Lo siento, no hay peliculas disponibles para recomendar")
         return None
 
-#7. finalizar
+#6. finalizar
 def Finalizar():
     pass
 
@@ -95,19 +81,17 @@ contraseña=validarcontraseña(nuevacontra)
 
 Mostrarpelis()
 
-disponibilidad = [5, 3, 4, 2, 6, 1, 5]
-numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
+numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
 # Comprobar disponibilidad y alquilar
 while True:
     Infopeli(numero)
-    if Alquilarpeli(numero, disponibilidad):
+    if Alquilarpeli(numero):
         break
     else:
         Mostrarpelis()
         numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
-        Infopeli(numero)
-        Alquilarpeli(numero, disponibilidad)
+        
 
 recomendada = input("¿Desea que le recomendemos una pelicula? (s/n): ")
-if recomendada == "s":
+if recomendada.lower() == "s":
     Recomendacion()
