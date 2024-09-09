@@ -1,4 +1,3 @@
-
 import random
 from pelis import listapelis
 
@@ -25,16 +24,14 @@ def validarcontraseña(nuevacontra):
 
 #2. mostrar los titulos de las peliculas 
 def Mostrarpelis():
-   global catalogo
    print("Nuestro catálogo es el siguiente")
-   catalogo=["1.Laguna Azul", "2.Her", "3.Drive", "4.Whiplash", "5.Historia de un Matrimonio", "6.Mente indomable(drama)", "7.Como entrenar a tu Dragón" ]
-   for n in catalogo:
-       print(n)
+   for i, peli in enumerate(listapelis):
+        print(f"{i+1}. {peli['Titulo']}")
+       
    
 #3. elegir una peli y mostrar detalles 
 def Infopeli(numpeli):
-
-    while numpeli<1 or numpeli>len(catalogo):
+    while numpeli<1 or numpeli>len(listapelis):
         numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
     peli = listapelis[numpeli - 1]
     print(f"{peli['Titulo']}\nGéneros: {peli['Generos']}\nAño: {peli['Año']}")
@@ -47,21 +44,21 @@ def Alquilarpeli(numero):
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
             peli["Disponibilidad"]-= 1
-            print(f"Has alquilado '{catalogo[numero - 1]}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
+            print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
             print("No se ha realizado el alquiler.")
             return False
     else:
-        print(f"Lo siento, '{catalogo[numero - 1]}' no está disponible en este momento.")
+        print(f"Lo siento, '{peli['Titulo']}' no está disponible en este momento.")
     return True
 
 #5. recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
-    pelis_disponibles = [i for i, peli in enumerate(listapelis) if peli['disponibilidad'] > 0]
+    pelis_disponibles = [i for i, peli in enumerate(listapelis) if peli['Disponibilidad'] > 0]
     if pelis_disponibles:
         indice_random = random.randint(0, len(pelis_disponibles) - 1)
         peli_recomendada = pelis_disponibles[indice_random]
-        print(f"Te recomendamos: {catalogo[peli_recomendada - 1]}")
+        print(f"Te recomendamos: {listapelis[peli_recomendada]}")
         return peli_recomendada
     else: 
         print("Lo siento, no hay peliculas disponibles para recomendar")
