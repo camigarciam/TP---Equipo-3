@@ -2,7 +2,7 @@ import random
 from pelis import listapelis
 
 
-##login 
+#1.login 
 def validarusuario(usuario):
         while len(usuario)<6:
             print("El nombre de usuario debe contener al menos 6 caracteres")
@@ -68,7 +68,11 @@ def Recomendacion():
         print("Lo siento, no hay peliculas disponibles para recomendar")
         return None
 
-#6. finalizar
+#6. Pago
+def Pago():
+        pass
+
+#7. finalizar
 def Finalizar():
     print("Gracias por usar el programa de alquiler de películas.")
     if peliculas_alquiladas:
