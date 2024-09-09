@@ -27,7 +27,10 @@ A partir de la lista, seleccionar una de las películas y poder alquilarla <br>
 Permite revertir la acción de la película elegida en el caso de no haber querido alquilarla.<br>
 
 #6. recomendacion de una pelicula por si no sabes qué elegir! <br>
-Recomienda una película al azar en el caso de no saber qué película elegir dentro de la lista.<br>
+En el caso de no saber qué película elegir dentro de la lista, responde un test en función de tus gustos y mirá el género recomendado según las respuestas.<br>
 
-#7. finalizar<br>
-Terminar con el alquiler de las películas, mostrando cuales se seleccionaron.
+#9. Pagos <br>
+Una vez elegidas las peliculas, se toman los datos de pago y los descuentos en caso de aplicar.
+
+#8. finalizar<br>
+Terminar con el alquiler de las películas, mostrando cuales se seleccionaron, datos de alquiler y del usuario
