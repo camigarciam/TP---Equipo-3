@@ -36,7 +36,10 @@ def Infopeli(numpeli):
     peli = listapelis[numpeli - 1]
     print(f"{peli['Titulo']}\nGéneros: {peli['Generos']}\nAño: {peli['Año']}")
 
+
 #4. mostrar disponibilidad y seleccionar 
+
+peliculas_alquiladas = []
 def Alquilarpeli(numero):
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
@@ -44,6 +47,7 @@ def Alquilarpeli(numero):
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
             peli["Disponibilidad"]-= 1
+            peliculas_alquiladas.append(peli["Titulo"])
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
             print("No se ha realizado el alquiler.")
@@ -66,7 +70,13 @@ def Recomendacion():
 
 #6. finalizar
 def Finalizar():
-    pass
+    print("Gracias por usar el programa de alquiler de películas.")
+    if peliculas_alquiladas:
+        print("Películas que alquilaste en esta sesión:")
+        for peli in peliculas_alquiladas:
+            print(f"- {peli}")
+    else:
+        print("No alquilaste ninguna película en esta sesión.")
 
 
 #programa principal
@@ -78,6 +88,11 @@ contraseña=validarcontraseña(nuevacontra)
 
 Mostrarpelis()
 
+#recomendacion de película
+recomendada = input("¿Desea que le recomendemos una pelicula? (s/n): ")
+if recomendada.lower() == "s":
+    Recomendacion()
+
 numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
 # Comprobar disponibilidad y alquilar
 while True:
@@ -88,7 +103,14 @@ while True:
         Mostrarpelis()
         numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
         
+while True:
+    numero = int(input("Ingrese el número de película sobre la que desea obtener más información: "))
+    Infopeli(numero)
+    if Alquilarpeli(numero):
+        continuar = input("¿Desea alquilar otra película? (s/n): ")
+        if continuar.lower() != 's':
+            break
+    else:
+        Mostrarpelis()
 
-recomendada = input("¿Desea que le recomendemos una pelicula? (s/n): ")
-if recomendada.lower() == "s":
-    Recomendacion()
+Finalizar()
