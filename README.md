@@ -1,13 +1,15 @@
 
-Intregrantes:
+Intregrantes:<br>
 
-Abril Montoya
-Nicolas Algranti
-Sol Ares
-Camila Garcia Martin
+Abril Montoya <br>
+Nicolas Algranti <br>
+Sol Ares<br>
+Camila Garcia Martin<br>
 
-Alquilá y consulta sobre películas!
-Funciones específicas:
+Alquilá y consulta sobre películas!<br>
+<br>
+
+Funciones específicas:<br>
 
 #1.login <br>
 Funcion que permite crear un usuario con nombre y contraseña, pidiendo validación de la misma para entra al sistema<br>
