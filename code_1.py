@@ -11,7 +11,7 @@ def validarusuario(usuario):
         return usuario
 
 def validarcontraseña(nuevacontra):
-    while len(nuevacontra) <8:
+    while len(nuevacontra) <8 or not any(char.isdigit() for char in nuevacontra) or not any(char.isalpha() for char in nuevacontra):
         nuevacontra=input("Contraseña invalida, ingrese la contraseña nuevamente: ")
     print("Contraseña válida")
     contraseña=input("Confirme su contraseña: ")
@@ -84,37 +84,30 @@ def Finalizar():
 
 
 #programa principal
+def Main():
+    usuario=input("Cree su nombre de usuario: ")
+    usuario=validarusuario(usuario)
+    nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
+    contraseña=validarcontraseña(nuevacontra)
 
-usuario=input("Cree su nombre de usuario: ")
-usuario=validarusuario(usuario)
-nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres: ")
-contraseña=validarcontraseña(nuevacontra)
+    Mostrarpelis()
 
-Mostrarpelis()
+    #recomendacion de película
+    recomendada = input("¿Desea que le recomendemos una pelicula? (s/n): ")
+    if recomendada.lower() == "s":
+        Recomendacion()
 
-#recomendacion de película
-recomendada = input("¿Desea que le recomendemos una pelicula? (s/n): ")
-if recomendada.lower() == "s":
-    Recomendacion()
+   
+    # Comprobar disponibilidad y alquilar
+    while True:
+        numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
+        Infopeli(numero)
+        if Alquilarpeli(numero):
+            continuar = input("¿Desea alquilar otra película? (s/n): ")
+            if continuar.lower() != 's':
+                break
+        else:
+            Mostrarpelis()
 
-numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
-# Comprobar disponibilidad y alquilar
-while True:
-    Infopeli(numero)
-    if Alquilarpeli(numero):
-        break
-    else:
-        Mostrarpelis()
-        numero=int(input("Ingrese el número de película sobre la que desea obtener más información"))
-        
-while True:
-    numero = int(input("Ingrese el número de película sobre la que desea obtener más información: "))
-    Infopeli(numero)
-    if Alquilarpeli(numero):
-        continuar = input("¿Desea alquilar otra película? (s/n): ")
-        if continuar.lower() != 's':
-            break
-    else:
-        Mostrarpelis()
-
+Main()
 Finalizar()
