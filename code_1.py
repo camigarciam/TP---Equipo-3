@@ -34,7 +34,8 @@ def Infopeli(numpeli):
     while numpeli<1 or numpeli>len(listapelis):
         numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
     peli = listapelis[numpeli - 1]
-    print(f"{peli['Titulo']}\nGéneros: {peli['Generos']}\nAño: {peli['Año']}")
+    puntos = lambda rating: "*" * int(rating * 2)
+    print(f"{peli['Titulo']}\nGéneros: {', '.join(peli['Generos'])}\nAño: {peli['Año']}\nRating: {puntos(peli['Rating'])}")
 
 
 #4. mostrar disponibilidad y seleccionar 
@@ -111,3 +112,4 @@ def Main():
 
 Main()
 Finalizar()
+
