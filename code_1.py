@@ -72,7 +72,7 @@ def Infopeli(numpeli):
     while numpeli<1 or numpeli>len(listapelis):
         numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
     peli = listapelis[numpeli - 1]
-    puntos = lambda rating: "*" * int(rating * 2)
+    puntos = lambda rating: "*" * int(rating)
     print(f"{peli['Titulo']}\nGéneros: {', '.join(peli['Generos'])}\nAño: {peli['Año']}\nRating: {puntos(peli['Rating'])}")
 
 
@@ -134,7 +134,7 @@ def Pago():
 
 #7. finalizar
 def Finalizar():
-     """
+    """
     Imprime un mensaje de agradecimiento y muestra una lista de las películas que el usuario ha alquilado durante la sesión. 
     Si no se alquiló ninguna película, informa al usuario.
 
@@ -167,14 +167,17 @@ def Main():
    
     # Comprobar disponibilidad y alquilar
     while True:
-        numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
-        Infopeli(numero)
-        if Alquilarpeli(numero):
-            continuar = input("¿Desea alquilar otra película? (s/n): ")
-            if continuar.lower() != 's':
-                break
-        else:
-            Mostrarpelis()
+        try:
+            numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
+            Infopeli(numero)
+            if Alquilarpeli(numero):
+                continuar = input("¿Desea alquilar otra película? (s/n): ")
+                if continuar.lower() != 's':
+                    break
+            else:
+                Mostrarpelis()
+        except ValueError:
+            print("Por favor, ingrese un número.")
 
 Main()
 Finalizar()
