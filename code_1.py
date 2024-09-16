@@ -50,7 +50,7 @@ def Alquilarpeli(numero):
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
             peli["Disponibilidad"]-= 1
-            peliculas_alquiladas.append((indice_alquiler, peli["Titulo"]))
+            peliculas_alquiladas.append([indice_alquiler, peli["Titulo"]])
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
@@ -86,7 +86,6 @@ def Finalizar():
     else:
         print("No alquilaste ninguna película en esta sesión.")
     print(peliculas_alquiladas)
-
 
 #programa principal
 def Main():
