@@ -31,6 +31,16 @@ def Mostrarpelis():
    
 #3. elegir una peli y mostrar detalles 
 def Infopeli(numpeli):
+    """
+    Muestra información detallada sobre una película basadandose en el número seleccionado por el usuario.
+    Si el número de película no es válido, solicita al usuario que ingrese uno nuevamente hasta que cumpla la condición.
+
+    Parametro:
+        numpeli (int): Número de la película, ingresado por el usuario, de la cual se desea tener información.
+
+    Returns: 
+            None: La función imprime la información de la película en la maquina y no retorna ningún valor.
+    """
     while numpeli<1 or numpeli>len(listapelis):
         numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
     peli = listapelis[numpeli - 1]
@@ -62,6 +72,13 @@ def Alquilarpeli(numero):
 
 #5. recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
+    """
+    Hace una recomendación de manera aleatoria.
+    Selecciona una película de la lista de películas disponibles y muestra su información. Si no hay películas disponibles, informa al usuario.
+
+    Returns:
+        int or None: El índice de la película recomendada en la lista de películas, o None si no hay películas disponibles.
+    """
     pelis_disponibles = [i for i, peli in enumerate(listapelis) if peli['Disponibilidad'] > 0]
     if pelis_disponibles:
         indice_random = random.randint(0, len(pelis_disponibles) - 1)
@@ -78,6 +95,13 @@ def Pago():
 
 #7. finalizar
 def Finalizar():
+     """
+    Imprime un mensaje de agradecimiento y muestra una lista de las películas que el usuario ha alquilado durante la sesión. 
+    Si no se alquiló ninguna película, informa al usuario.
+
+    Returns:
+        None: La función imprime un mensaje en la maquina y no retorna ningún valor.
+    """
     print("Gracias por usar el programa de alquiler de películas.")
     if peliculas_alquiladas:
         print("Películas que alquilaste en esta sesión:")
@@ -85,7 +109,7 @@ def Finalizar():
             print(f"{indice}. {titulo}")
     else:
         print("No alquilaste ninguna película en esta sesión.")
-    print(peliculas_alquiladas)
+
 
 #programa principal
 def Main():
