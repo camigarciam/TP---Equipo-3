@@ -41,14 +41,17 @@ def Infopeli(numpeli):
 #4. mostrar disponibilidad y seleccionar 
 
 peliculas_alquiladas = []
+indice_alquiler = 1
 def Alquilarpeli(numero):
+    global indice_alquiler
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
             peli["Disponibilidad"]-= 1
-            peliculas_alquiladas.append(peli["Titulo"])
+            peliculas_alquiladas.append((indice_alquiler, peli["Titulo"]))
+            indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
             print("No se ha realizado el alquiler.")
@@ -78,10 +81,11 @@ def Finalizar():
     print("Gracias por usar el programa de alquiler de películas.")
     if peliculas_alquiladas:
         print("Películas que alquilaste en esta sesión:")
-        for peli in peliculas_alquiladas:
-            print(f"- {peli}")
+        for indice, titulo in peliculas_alquiladas:
+            print(f"{indice}. {titulo}")
     else:
         print("No alquilaste ninguna película en esta sesión.")
+    print(peliculas_alquiladas)
 
 
 #programa principal
@@ -109,7 +113,6 @@ def Main():
                 break
         else:
             Mostrarpelis()
-
 Main()
 Finalizar()
 
