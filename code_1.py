@@ -179,6 +179,58 @@ def Main():
         except ValueError:
             print("Por favor, ingrese un número.")
 
-Main()
-Finalizar()
+
+
+
+
+def registro_usuarios():
+    global nombreusuario
+    global contrasena
+    global usuarioinfo
+
+    nombreusuario=input("Ingrese su nombre de usuario deseado")
+    contrasena=input("Ingrese una contraseña")
+
+    usuarioinfo=str(nombreusuario)+";"+str(contrasena)
+
+    return usuarioinfo
+
+
+
+
+def generarListaUsuarios():
+
+    try:
+        archivo_usuarios = open("usuarios.csv", "wt")
+        
+        registro_usuarios()
+        
+        archivo_usuarios.write(usuarioinfo)
+    
+    except ValueError():
+        pass
+
+    finally:
+        try:
+            archivo_usuarios.close()
+        except NameError:
+            print("Byebye")
+
+#Main()
+#Finalizar()
+
+
+generarListaUsuarios()
+
+
+
+
+
+
+
+    
+    
+
+
+    
 
