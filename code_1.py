@@ -35,12 +35,12 @@ def validarcontraseña(nuevacontra):
     while len(nuevacontra) <8 or not any(char.isdigit() for char in nuevacontra) or not any(char.isalpha() for char in nuevacontra):
         nuevacontra=input("Contraseña invalida, ingrese la contraseña nuevamente: ")
     print("Contraseña válida")
-    contraseña=input("Confirme su contraseña: ")
-    while contraseña != nuevacontra:
-        contraseña=input("Las contraseñas no coinciden, ingrese la contraseña nuevamente: ")
+    contrasena=input("Confirme su contraseña: ")
+    while contrasena != nuevacontra:
+        contrasena=input("Las contraseñas no coinciden, ingrese la contraseña nuevamente: ")
     else:
         print("Contraseña confirmada")
-    return contraseña
+    return contrasena
 
 
 #2. mostrar los titulos de las peliculas 
@@ -155,7 +155,7 @@ def Main():
     usuario=input("Cree su nombre de usuario: ")
     usuario=validarusuario(usuario)
     nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
-    contraseña=validarcontraseña(nuevacontra)
+    contrasena=validarcontraseña(nuevacontra)
 
     Mostrarpelis()
 
@@ -166,14 +166,15 @@ def Main():
 
    
     # Comprobar disponibilidad y alquilar
-    while True:
+    bandera=True
+    while bandera:
         try:
             numero=int(input("Ingrese el número de película sobre la que desea obtener más información: "))
             Infopeli(numero)
             if Alquilarpeli(numero):
                 continuar = input("¿Desea alquilar otra película? (s/n): ")
                 if continuar.lower() != 's':
-                    break
+                    bandera=False
             else:
                 Mostrarpelis()
         except ValueError:
