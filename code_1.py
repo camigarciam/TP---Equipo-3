@@ -189,8 +189,10 @@ def registro_usuarios():
     global contrasena
     global usuarioinfo
 
-    nombreusuario=input("Ingrese su nombre de usuario deseado")
-    contrasena=input("Ingrese una contraseña")
+    nombreusuario=input("Cree su nombre de usuario: ")
+    nombreusuario=validarusuario(nombreusuario)
+    contrasena=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
+    contrasena=validarcontraseña(contrasena)
 
     usuarioinfo=str(nombreusuario)+";"+str(contrasena)
 
@@ -223,15 +225,4 @@ def generarListaUsuarios():
 
 generarListaUsuarios()
 
-
-
-
-
-
-
-    
-    
-
-
-    
 
