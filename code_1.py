@@ -1,4 +1,5 @@
 import random
+import json
 from pelis import listapelis
 
 
@@ -152,10 +153,19 @@ def Finalizar():
 
 #programa principal
 def Main():
-    usuario=input("Cree su nombre de usuario: ")
-    usuario=validarusuario(usuario)
-    nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
-    contrasena=validarcontraseña(nuevacontra)
+    loginregister=int(input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2 "))
+    if loginregister==1:
+        usuario=input("Cree su nombre de usuario: ")
+        usuario=validarusuario(usuario)
+        nuevacontra=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
+        nuevacontra=validarcontraseña(nuevacontra)
+        registrarUsuario(usuario,nuevacontra)
+
+    elif loginregister==2:
+        usuario=input("Ingrese su nombre de usuario")
+        contra=input("Ingrese su contraseña")
+        login_user(usuario,contra)
+
 
     Mostrarpelis()
 
@@ -184,45 +194,102 @@ def Main():
 
 
 
-def registro_usuarios():
-    global nombreusuario
-    global contrasena
-    global usuarioinfo
 
-    nombreusuario=input("Cree su nombre de usuario: ")
-    nombreusuario=validarusuario(nombreusuario)
-    contrasena=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
-    contrasena=validarcontraseña(contrasena)
-
-    usuarioinfo=str(nombreusuario)+";"+str(contrasena)
-
-    return usuarioinfo
-
-
-
-
-def generarListaUsuarios():
-
+def registrarUsuario(usuario,contra):
     try:
-        archivo_usuarios = open("usuarios.csv", "wt")
-        
-        registro_usuarios()
-        
-        archivo_usuarios.write(usuarioinfo)
-    
-    except ValueError():
-        pass
+        with open('usuarios.json', 'r') as file:
+            usuarios=json.load(file)
+    except FileNotFoundError:
+        usuarios={}
 
-    finally:
-        try:
-            archivo_usuarios.close()
-        except NameError:
-            print("Byebye")
+    if usuario in usuarios:
+        print("El nombre de usuario ya existe")
+        return
+
+    usuarios[usuario]={
+        "nombreUsuario": usuario,
+        "contrasena": contra
+
+    }
+
+    with open('usuarios.json', 'w') as file:
+        json.dump(usuarios, file) 
+
+    print("Usuario creado con éxito")
+
+def login_user(usuario, contra):
+    try:
+        with open('usuarios.json', 'r') as file:
+            usuarios=json.load(file)
+    
+    except FileNotFoundError:
+        print("No hay usuarios registrados")
+        return
+    
+    if usuario in usuarios and usuarios[usuario]["contrasena"] == contra:
+        print("Inicio de sesión exitoso")
+    else:
+        print("Su nombre de usuario o contraseña no es válido")
+
+
+Main()
+Finalizar()
+
+
+
+
+
+
+# def registro_usuarios():
+#     global nombreusuario
+#     global contrasena
+#     global usuarioinfo
+
+#     nombreusuario=input("Cree su nombre de usuario: ")
+#     nombreusuario=validarusuario(nombreusuario)
+#     contrasena=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
+#     contrasena=validarcontraseña(contrasena)
+#     registrarUsuario(nombreusuario,contrasena)
+
+
+#     usuarioinfo={
+#         "nombreUsuario": nombreusuario,
+#         "contrasena": contrasena
+#     }
+
+#     return usuarioinfo
+
+
+
+
+# def generarListaUsuarios():
+
+#     try:
+#         archivo_usuarios = open("usuarios.csv", "wt")
+        
+#         registro_usuarios()
+        
+#         archivo_usuarios.write(usuarioinfo)
+    
+#     except ValueError():
+#         print("Value error ocurred")
+
+#     finally:
+#         try:
+#             archivo_usuarios.close()
+#         except NameError:
+#             print("Byebye")
 
 #Main()
 #Finalizar()
 
 
-generarListaUsuarios()
+#generarListaUsuarios()
 
 
+# def write_json(filename, data):
+    
+#     with open(filename, 'w') as json_file:
+#         json.dump(data, json_file, indent=4)
+
+# write_json('pelis.json', listapelis)
