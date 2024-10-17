@@ -179,15 +179,60 @@ def Recomendacion():
     Returns:
         int or None: El índice de la película recomendada en la lista de películas, o None si no hay películas disponibles.
     """
-    pelis_disponibles = [i for i, peli in enumerate(listapelis) if peli['Disponibilidad'] > 0]
-    if pelis_disponibles:
-        indice_random = random.randint(0, len(pelis_disponibles) - 1)
-        peli_recomendada = pelis_disponibles[indice_random]
-        print(f"Te recomendamos: {listapelis[peli_recomendada]}")
-        return peli_recomendada
-    else: 
-        print("Lo siento, no hay peliculas disponibles para recomendar")
-        return None
+
+    with open('pelis.json', 'r') as file:
+        listapelis = json.load(file)
+
+    preguntas = [
+         ("¿Sueles salir a tomar algo con gente que conoces por aplicaciones?", ["Romance"]),
+        ("¿Vas al bosque con tu amix y tomas el atajo embarrado aunque no da miedo?", ["Acción", "Aventura"]),
+        ("¿Te subirías a una nave espacial sin preguntar a dónde va?", ["Ciencia Ficción", "Aventura"]),
+        ("¿Te gusta quedarte en casa viendo series cuando se cancelan tus planes?", ["Drama", "Romance"]),
+        ("¿Investigarías un ruido extraño en otra habitación?", ["Suspenso", "Acción"]),
+        ("¿Te gustaría ser un dragón o algún bicho gigante por un día?", ["Animación", "Aventura"]),
+        ("¿Aceptarías hacer un viaje improvisado a un lugar desconocido?", ["Aventura"])
+    ]
+
+    puntos_por_genero = {
+        "Romance": 0,
+        "Acción": 0,
+        "Fantasía": 0,
+        "Drama": 0,
+        "Ciencia Ficción": 0,
+        "Suspenso":0,
+        "Animación":0,
+        "Aventura":0
+    }
+            
+    for pregunta, generos in preguntas:
+        respuesta = input(f"{pregunta} (s/n): ").strip().lower()
+        while respuesta not in ['s', 'n']:
+            print("Respuesta no válida. Por favor, responda con 's' o 'n'.")
+            respuesta = input(f"{pregunta} (s/n): ").strip().lower()
+
+        if respuesta == 's':
+            for genero in generos:
+                puntos_por_genero[genero] += 1
+
+    max_puntos = max(puntos_por_genero.values())
+    generos_maximos = [genero for genero, puntos in puntos_por_genero.items() if puntos == max_puntos]
+
+    # Si hay empate
+    genero_recomendado = random.choice(generos_maximos)
+
+    peliculas_recomendadas = [
+        peli["Titulo"] for peli in listapelis
+        if genero_recomendado in peli["Generos"] and peli["Disponibilidad"] > 0
+    ]
+
+    if peliculas_recomendadas:
+        print(f"Películas recomendadas en el género {genero_recomendado}:")
+        for pelicula in peliculas_recomendadas:
+            print(f"- {pelicula}")
+    else:
+        print(f"No hay películas disponibles en el género {genero_recomendado}.")
+
+    return peliculas_recomendadas
 
 #6. Pago
 def Pago():
@@ -251,6 +296,7 @@ def Main():
     # Recomendación de película
     recomendada = input("¿Desea que le recomendemos una película? (s/n): ")
     if recomendada.lower() == "s":
+        print("Contesta las siguientes preguntas para recomendarte una película!:")
         Recomendacion()
 
     # Comprobar disponibilidad y alquilar
@@ -272,61 +318,3 @@ def Main():
 Main()
 Finalizar()
 
-
-
-
-
-
-# def registro_usuarios():
-#     global nombreusuario
-#     global contrasena
-#     global usuarioinfo
-
-#     nombreusuario=input("Cree su nombre de usuario: ")
-#     nombreusuario=validarusuario(nombreusuario)
-#     contrasena=input("Cree su contraseña, debe contener al menos 8 caracteres y un numero: ")
-#     contrasena=validarcontraseña(contrasena)
-#     registrarUsuario(nombreusuario,contrasena)
-
-
-#     usuarioinfo={
-#         "nombreUsuario": nombreusuario,
-#         "contrasena": contrasena
-#     }
-
-#     return usuarioinfo
-
-
-
-
-# def generarListaUsuarios():
-
-#     try:
-#         archivo_usuarios = open("usuarios.csv", "wt")
-        
-#         registro_usuarios()
-        
-#         archivo_usuarios.write(usuarioinfo)
-    
-#     except ValueError():
-#         print("Value error ocurred")
-
-#     finally:
-#         try:
-#             archivo_usuarios.close()
-#         except NameError:
-#             print("Byebye")
-
-#Main()
-#Finalizar()
-
-
-#generarListaUsuarios()
-
-
-# def write_json(filename, data):
-    
-#     with open(filename, 'w') as json_file:
-#         json.dump(data, json_file, indent=4)
-
-# write_json('pelis.json', listapelis)

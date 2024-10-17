@@ -57,7 +57,7 @@ listapelis=[
     },
     {
         "Titulo":"El viaje de Chihiro",
-        "Generos":["Animacióna"],
+        "Generos":["Animación"],
         "Año":"2001",
         "Reparto":"",
         "Disponibilidad":8,
