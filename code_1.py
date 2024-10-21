@@ -9,7 +9,7 @@ def registrarUsuario(usuario,contra):
          with open('usuarios.json', 'r') as file:
             content = file.read()  # Lee el contenido del archivo
             if content:  # Verifica si el contenido no está vacío
-                usuarios = json.load(content)  # Carga los usuarios
+                usuarios = json.loads(content)  # Carga los usuarios
             else:
                 usuarios = []  # Inicializa una lista vacía si el archivo está vacío
     except FileNotFoundError:

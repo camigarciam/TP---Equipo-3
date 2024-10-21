@@ -3,5 +3,10 @@
         "nombreUsuario": "cami1234",
         "contrasena": "cami1234",
         "peliculas_alquiladas": []
+    },
+    {
+        "nombreUsuario": "juan1234",
+        "contrasena": "juan1234",
+        "peliculas_alquiladas": []
     }
 ]
