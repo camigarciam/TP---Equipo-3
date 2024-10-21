@@ -9,7 +9,7 @@ def registrarUsuario(usuario,contra):
          with open('usuarios.json', 'r') as file:
             content = file.read()  # Lee el contenido del archivo
             if content:  # Verifica si el contenido no está vacío
-                usuarios = json.load(content)  # Carga los usuarios
+                usuarios = json.loads(content)  # Carga los usuarios
             else:
                 usuarios = []  # Inicializa una lista vacía si el archivo está vacío
     except FileNotFoundError:
@@ -208,13 +208,16 @@ def Recomendacion():
         listapelis = json.load(file)
 
     preguntas = [
-         ("¿Sueles salir a tomar algo con gente que conoces por aplicaciones?", ["Romance"]),
-        ("¿Vas al bosque con tu amix y tomas el atajo embarrado aunque no da miedo?", ["Acción", "Aventura"]),
+        ("¿Estás dispuesto a buscar el amor a través de aplicaciones de citas?", ["Romance"]),
+        ("¿Solés viajar en transporte público en hora pico?", ["Acción", "Aventura", "Drama"]),
         ("¿Te subirías a una nave espacial sin preguntar a dónde va?", ["Ciencia Ficción", "Aventura"]),
-        ("¿Te gusta quedarte en casa viendo series cuando se cancelan tus planes?", ["Drama", "Romance"]),
+        ("¿Te intrigan las relaciones amorosas de la gente que te rodea? ", ["Drama", "Romance"]),
         ("¿Investigarías un ruido extraño en otra habitación?", ["Suspenso", "Acción"]),
         ("¿Te gustaría ser un dragón o algún bicho gigante por un día?", ["Animación", "Aventura"]),
-        ("¿Aceptarías hacer un viaje improvisado a un lugar desconocido?", ["Aventura"])
+        ("¿Aceptarías hacer un viaje improvisado a un lugar desconocido?", ["Aventura"]),
+        ("¿Te gusta la idea de viajar por el mundo y conocer nuevos países?", ["Acción", "Aventura"]),
+        ("¿Considerás que mirar el atardecer es un plan ideal?", ["Romance"]),
+        ("¿Si estás de viaje en una zona montañosa, te agrada la idea de dormir afuera mirando las estrellas?" ["Romance", "Aventura"])
     ]
 
     puntos_por_genero = {
@@ -321,9 +324,9 @@ def Main():
     Mostrarpelis()
 
     # Recomendación de película
-    recomendada = input("¿Desea que le recomendemos una película? (s/n): ")
+    recomendada = input("¿Desea responder un test de 10 preguntas para que le recomendemos una película? (s/n): ")
     if recomendada.lower() == "s":
-        print("Contesta las siguientes preguntas para recomendarte una película!:")
+        print("Comienza el test!:")
         Recomendacion()
 
     # Comprobar disponibilidad y alquilar
