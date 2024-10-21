@@ -1,12 +1,1 @@
-[
-    {
-        "nombreUsuario": "cami1234",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": []
-    },
-    {
-        "nombreUsuario": "nicoxd",
-        "contrasena": "wowowow1",
-        "peliculas_alquiladas": []
-    }
-]
+[{"nombreUsuario": "cami1234", "contrasena": "cami1234", "peliculas_alquiladas": []}, {"nombreUsuario": "nicoxd", "contrasena": "wowowow1", "peliculas_alquiladas": []}, {"nombreUsuario": "hola1234", "contrasena": "hola1234", "peliculas_alquiladas": ["Whiplash", "El viaje de Chihiro"]}]

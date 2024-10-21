@@ -161,6 +161,8 @@ def Alquilarpeli(numero,usuario):
     Returns: bool- True si se realiza el alquiler, False si no.
     """
     global indice_alquiler
+    with open('usuarios.json', 'r') as file:
+                    usuarios = json.load(file)
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
@@ -279,6 +281,7 @@ def Finalizar():
         print("Películas que alquilaste en esta sesión:")
         for indice, titulo in peliculas_alquiladas:
             print(f"{indice}. {titulo}")
+        print ("Gracias por usar nuestro sistema de alquier de peliculas, hasta la próxima!")
     else:
         print("No alquilaste ninguna película en esta sesión.")
 
