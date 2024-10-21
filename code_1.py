@@ -7,9 +7,9 @@ from pelis import listapelis
 def registrarUsuario(usuario,contra):
     try:
          with open('usuarios.json', 'r') as file:
-            content = file.read()  # Lee el contenido del archivo
-            if content:  # Verifica si el contenido no está vacío
-                usuarios = json.loads(content)  # Carga los usuarios
+            contenido = file.read()  # Lee el contenido del archivo
+            if contenido:  # Verifica si el contenido no está vacío
+                usuarios = json.loads(contenido)  # Carga los usuarios
             else:
                 usuarios = []  # Inicializa una lista vacía si el archivo está vacío
     except FileNotFoundError:
@@ -33,7 +33,7 @@ def registrarUsuario(usuario,contra):
     print("Usuario creado con éxito")
     return True
 
-def login_user(usuario, contra):
+def login_usuario(usuario, contra):
     try:
         with open('usuarios.json', 'r') as file:
             usuarios=json.load(file)
@@ -307,13 +307,13 @@ def Main():
                 registrarUsuario(usuario, nuevacontra)
                 print("Registro exitoso. Ahora inicie sesión para continuar.")
                 contra = input("Ingrese su contraseña para iniciar sesión: ")
-                if login_user(usuario, contra):  # Intentar iniciar sesión
+                if login_usuario(usuario, contra):  # Intentar iniciar sesión
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
             elif loginregister == 2:
                 usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña: ")
-                if login_user(usuario, contra):  # devuekve True
+                if login_usuario(usuario, contra):  # devuekve True
                     print("Inicio de sesión exitoso.")
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
