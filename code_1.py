@@ -1,5 +1,6 @@
 import random
 import json
+import time
 from pelis import listapelis
 
 
@@ -219,7 +220,7 @@ def Recomendacion():
         ("¿Aceptarías hacer un viaje improvisado a un lugar desconocido?", ["Aventura"]),
         ("¿Te gusta la idea de viajar por el mundo y conocer nuevos países?", ["Acción", "Aventura"]),
         ("¿Considerás que mirar el atardecer es un plan ideal?", ["Romance"]),
-        ("¿Si estás de viaje en una zona montañosa, te agrada la idea de dormir afuera mirando las estrellas?" ["Romance", "Aventura"])
+        ("¿Si estás de viaje en una zona montañosa, te agrada la idea de dormir afuera mirando las estrellas?", ["Romance", "Aventura"])
     ]
 
     puntos_por_genero = {
@@ -264,8 +265,39 @@ def Recomendacion():
     return peliculas_recomendadas
 
 #6. Pago
-def Pago():
-        pass
+def Pago(peliculas_alquiladas):
+    if not peliculas_alquiladas:  
+        print("No hay películas seleccionadas para alquilar.")
+        return  
+
+    total_a_pagar = len(peliculas_alquiladas) * 5000
+    print(f"El total a pagar es: ${total_a_pagar}")
+
+    opcion_valida = False 
+
+    while not opcion_valida: 
+        print("Métodos de pago disponibles:\n1. Tarjeta de crédito\n2. Mercado Pago\n3. Tarjeta de debito")
+        opcion_pago = input("Seleccione método de pago (1, 2, 3): ")
+
+        if opcion_pago == '1':
+            print("Procesando pago...")
+            time.sleep(3)
+            print("Pago con tarjeta de crédito realizado con éxito.")
+            opcion_valida = True  
+        elif opcion_pago == '2':
+            print("Procesando pago...")
+            time.sleep(3)
+            print("Pago con Mercado Pago realizado con éxito.")
+            opcion_valida = True  
+        elif opcion_pago == '3':
+            print("Procesando pago...")
+            time.sleep(3)
+            print("Pago con Tarjeta de debito realizado con éxito.")
+            opcion_valida = True  
+        else:
+            print("Opción seleccionada incorrecta. Por favor, seleccione una opción válida (1, 2, 3).")
+
+
 
 #7. finalizar
 def Finalizar():
@@ -346,6 +378,9 @@ def Main():
                 Mostrarpelis()
         except ValueError:
             print("Por favor, ingrese un número.")
+    
+    #Pago
+    Pago(peliculas_alquiladas)
 
 # Ejecutar la función principal
 Main()
