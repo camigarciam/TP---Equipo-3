@@ -49,9 +49,9 @@ def login_usuario(usuario, contra):
     for u in usuarios:
         if u["nombreUsuario"] == usuario:
                 usuario_encontrado = u
-            
-    else:
-        print("El nombre de usuario no está registrado. Por favor, regístrese.")
+        else:
+            print("El nombre de usuario no está registrado. Por favor, regístrese.")
+            return False
 
     # Comprobar la contraseña
     if usuario_encontrado["contrasena"] == contra:
@@ -329,20 +329,23 @@ def Main():
 
     while sesion_iniciada == False:  #estado= no se inició sesión
         try:
-            loginregister = int(input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2. "))
+            loginregistro = int(input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2. "))
             
-            if loginregister == 1:
+            if loginregistro == 1:
                 usuario = input("Cree su nombre de usuario: ")
                 usuario = validarusuario(usuario)
                 nuevacontra = input("Cree su contraseña, debe contener al menos 8 caracteres y un número: ")
                 nuevacontra = validarcontraseña(nuevacontra)
                 registrarUsuario(usuario, nuevacontra)
                 print("Registro exitoso. Ahora inicie sesión para continuar.")
+
+                #Solicita nombre usuario y contrasena de nuevo.
+                usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña para iniciar sesión: ")
                 if login_usuario(usuario, contra):  # Intentar iniciar sesión
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
-            elif loginregister == 2:
+            elif loginregistro == 2:
                 usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña: ")
                 if login_usuario(usuario, contra):  # devuekve True
