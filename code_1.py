@@ -1,6 +1,7 @@
 import random
 import json
 import time
+from datetime import datetime
 # from pelis import listapelis
 
 
@@ -144,6 +145,19 @@ def Infopeli(numpeli):
     puntos = lambda rating: "*" * int(rating)
     print(f"{peli['Titulo']}\nGeneros: {', '.join(peli['Generos'])}\nAnio: {peli['Anio']}\nRating: {puntos(peli['Rating'])}")
 
+def selecionar_fechas():
+    fecha_inicio = datetime.now()
+
+    while True:
+        try:
+            fecha_fin = input("Ingrese fecha de finalización del alquiler (dd-mm-aaaa): ")
+            fecha_fin = datetime.strptime(fecha_fin, "%d-%m-%Y")
+            if fecha_fin > fecha_inicio:
+                return fecha_inicio, fecha_fin
+            else: 
+                print("La fecha de finalización debe ser posterior a la fecha de inicio.")
+        except ValueError:
+            print("El formato de fecha ingresado no es valido. Porfavor intente de nuevo.")
 
 #4. mostrar disponibilidad y seleccionar 
 
@@ -169,7 +183,9 @@ def Alquilarpeli(numero,usuario):
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
+            fecha_inicio, fecha_fin = selecionar_fechas()
             peli["Disponibilidad"]-= 1
+
             usuario_encontrado = None
             for u in usuarios:
                 if u["nombreUsuario"] == usuario:
@@ -183,11 +199,11 @@ def Alquilarpeli(numero,usuario):
             
             # Agrega la película a la lista de películas alquiladas del usuario
             usuario_encontrado["peliculas_alquiladas"].append(peli["Titulo"])
+            peliculas_alquiladas.append([indice_alquiler, peli["Titulo"], fecha_inicio, fecha_fin])
             
             # Guarda la lista actualizada de usuarios
             with open('usuarios.json', 'w') as file:
-                json.dump(usuarios, file, indent=4)
-            peliculas_alquiladas.append([indice_alquiler, peli["Titulo"]])
+                json.dump(usuarios, file)
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
@@ -308,8 +324,8 @@ def Finalizar():
     print("Gracias por usar el programa de alquiler de películas.")
     if peliculas_alquiladas:
         print("Películas que alquilaste en esta sesión:")
-        for indice, titulo in peliculas_alquiladas:
-            print(f"{indice}. {titulo}")
+        for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
+            print(f"{indice}. {titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
         print ("Gracias por usar nuestro sistema de alquier de peliculas, hasta la próxima!")
     else:
         print("No alquilaste ninguna película en esta sesión.")
