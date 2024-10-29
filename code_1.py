@@ -186,7 +186,7 @@ def Alquilarpeli(numero,usuario):
             
             # Guarda la lista actualizada de usuarios
             with open('usuarios.json', 'w') as file:
-                json.dump(usuarios, file)
+                json.dump(usuarios, file, indent=4)
             peliculas_alquiladas.append([indice_alquiler, peli["Titulo"]])
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
