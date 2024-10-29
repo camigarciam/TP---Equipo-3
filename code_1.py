@@ -1,7 +1,7 @@
 import random
 import json
 import time
-from pelis import listapelis
+# from pelis import listapelis
 
 
 #1.login 
@@ -142,7 +142,7 @@ def Infopeli(numpeli):
         numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
     peli = listapelis[numpeli - 1]
     puntos = lambda rating: "*" * int(rating)
-    print(f"{peli['Titulo']}\nGéneros: {', '.join(peli['Generos'])}\nAño: {peli['Año']}\nRating: {puntos(peli['Rating'])}")
+    print(f"{peli['Titulo']}\nGeneros: {', '.join(peli['Generos'])}\nAnio: {peli['Anio']}\nRating: {puntos(peli['Rating'])}")
 
 
 #4. mostrar disponibilidad y seleccionar 
@@ -206,9 +206,6 @@ def Recomendacion():
     Returns:
         int or None: El índice de la película recomendada en la lista de películas, o None si no hay películas disponibles.
     """
-
-    with open('pelis.json', 'r') as file:
-        listapelis = json.load(file)
 
     preguntas = [
         ("¿Estás dispuesto a buscar el amor a través de aplicaciones de citas?", ["Romance"]),
@@ -320,11 +317,15 @@ def Finalizar():
 
 
 
+with open('pelis.json', 'r') as file:
+        listapelis = json.load(file)
 
 
 
 #programa principal
 def Main():
+
+    
     sesion_iniciada = False #controla estado
 
     while sesion_iniciada == False:  #estado= no se inició sesión
