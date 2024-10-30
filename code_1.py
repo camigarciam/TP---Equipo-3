@@ -282,8 +282,14 @@ def Pago(peliculas_alquiladas):
     if not peliculas_alquiladas:  
         print("No hay películas seleccionadas para alquilar.")
         return  
-
-    total_a_pagar = len(peliculas_alquiladas) * 5000
+    
+    total_a_pagar = 0
+    for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
+        dias_alquilados = (fecha_fin - fecha_inicio).days
+        costo = dias_alquilados * 1200
+        total_a_pagar += costo
+        print("Detalles de tu compra:")
+        print(f"Película: {titulo}, Días alquilados: {dias_alquilados}, Costo: ${costo}")
     print(f"El total a pagar es: ${total_a_pagar}")
 
     opcion_valida = False 
