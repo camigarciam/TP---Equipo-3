@@ -326,7 +326,7 @@ with open('pelis.json', 'r') as file:
 def Main():
 
     
-    sesion_iniciada = False #controla estado
+     sesion_iniciada = False #controla estado
 
     while sesion_iniciada == False:  #estado= no se inició sesión
         try:
