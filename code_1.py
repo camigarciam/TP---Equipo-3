@@ -40,37 +40,37 @@ def login_usuario(usuario, contra):
         with open('usuarios.json', 'r') as file:
             usuarios=json.load(file)
     
+        # Verificar si el usuario existe en el diccionario
+        usuario_encontrado = None
+        for u in usuarios:
+            if u["nombreUsuario"] == usuario:
+                    usuario_encontrado = u
+                    return True
+            else:
+                print("El nombre de usuario no está registrado. Por favor, regístrese.")
+                return False
+
+        # Comprobar la contraseña
+        if usuario_encontrado["contrasena"] == contra:
+            print("Inicio de sesión exitoso.")
+
+            # Mostrar películas alquiladas y pedir reseña si hay alguna
+            if usuario_encontrado["peliculas_alquiladas"]:
+                peliculas = ", ".join(usuario_encontrado["peliculas_alquiladas"])
+                print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
+                desea_reseña = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
+                if desea_reseña == 's':
+                    reseña = input("Escribe tu reseña: ")
+                    print(f"Gracias por tu reseña sobre '{peliculas}': {reseña}")
+            else:
+                print(f"Hola, {usuario_encontrado['nombreUsuario']}. No tienes películas alquiladas anteriormente.")
+            return True
+        else:
+            print("Su contraseña es incorrecta.")
+            return False
+    
     except FileNotFoundError:
         print("No hay usuarios registrados" )
-        return False
-    
-    
-     # Verificar si el usuario existe en el diccionario
-    usuario_encontrado = None
-    for u in usuarios:
-        if u["nombreUsuario"] == usuario:
-                usuario_encontrado = u
-        else:
-            print("El nombre de usuario no está registrado. Por favor, regístrese.")
-            return False
-
-    # Comprobar la contraseña
-    if usuario_encontrado["contrasena"] == contra:
-        print("Inicio de sesión exitoso.")
-
-        # Mostrar películas alquiladas y pedir reseña si hay alguna
-        if usuario_encontrado["peliculas_alquiladas"]:
-            peliculas = ", ".join(usuario_encontrado["peliculas_alquiladas"])
-            print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
-            desea_reseña = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
-            if desea_reseña == 's':
-                reseña = input("Escribe tu reseña: ")
-                print(f"Gracias por tu reseña sobre '{peliculas}': {reseña}")
-        else:
-            print(f"Hola, {usuario_encontrado['nombreUsuario']}. No tienes películas alquiladas anteriormente.")
-        return True
-    else:
-        print("Su contraseña es incorrecta.")
         return False
     
 def validarusuario(usuario):
@@ -347,10 +347,9 @@ with open('pelis.json', 'r') as file:
 #programa principal
 def Main():
 
-    
-     sesion_iniciada = False #controla estado
-
-    while sesion_iniciada == False:  #estado= no se inició sesión
+        
+    sesion_iniciada = False #controla estado
+    while sesion_iniciada == False:  #estado = no se inició sesión
         try:
             loginregistro = int(input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2. "))
             
