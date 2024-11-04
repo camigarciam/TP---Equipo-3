@@ -41,14 +41,15 @@ def login_usuario(usuario, contra):
             usuarios=json.load(file)
     
         # Verificar si el usuario existe en el diccionario
-        usuario_encontrado = None
-        for u in usuarios:
-            if u["nombreUsuario"] == usuario:
-                    usuario_encontrado = u
-                    return True
-            else:
-                print("El nombre de usuario no está registrado. Por favor, regístrese.")
-                return False
+        for i in usuarios:
+            if i["nombreUsuario"] == usuario:
+                usuario_encontrado = i
+                return True
+
+        # Si no se encontró el usuario, mostrar mensaje de error
+        if usuario_encontrado is None:
+            print("El nombre de usuario no está registrado. Por favor, regístrese.")
+            return False
 
         # Comprobar la contraseña
         if usuario_encontrado["contrasena"] == contra:

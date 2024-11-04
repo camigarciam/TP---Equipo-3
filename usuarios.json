@@ -13,5 +13,10 @@
         "nombreUsuario": "abru1234",
         "contrasena": "abru1234",
         "peliculas_alquiladas": []
+    },
+    {
+        "nombreUsuario": "nico1234",
+        "contrasena": "nico1234",
+        "peliculas_alquiladas": []
     }
 ]
