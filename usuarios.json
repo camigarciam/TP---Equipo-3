@@ -1,11 +1,1 @@
-[
-    {
-        "nombreUsuario": "cami1234",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": [
-            "The Talented Mr Ripley",
-            "Whiplash",
-            "The Talented Mr Ripley"
-        ]
-    }
-]
+[{"nombreUsuario": "cami1234", "contrasena": "cami1234", "peliculas_alquiladas": ["The Talented Mr Ripley", "Whiplash", "The Talented Mr Ripley", "Ghost Rider", "Her", "Mente indomable", "La Laguna Azul", "Her", "El viaje de Chihiro", "La Laguna Azul", "El viaje de Chihiro", "La Langosta", "The Talented Mr Ripley", "Ghost Rider", "La Laguna Azul", "La Laguna Azul", "Mente indomable"]}]
