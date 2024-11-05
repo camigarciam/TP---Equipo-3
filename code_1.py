@@ -69,10 +69,10 @@ def login_usuario(usuario, contra):
             if usuario_encontrado["peliculas_alquiladas"]:
                 peliculas = ", ".join(usuario_encontrado["peliculas_alquiladas"])
                 print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
-                desea_reseña = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
-                if desea_reseña == 's':
-                    reseña = input("Escribe tu reseña: ")
-                    print(f"Gracias por tu reseña sobre '{peliculas}': {reseña}")
+                desea_res = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
+                if desea_res == 's':
+                    resenia = input("Escribe tu reseña: ")
+                    print(f"Gracias por tu reseña sobre '{peliculas}'")
             else:
                 print("No tienes películas alquiladas anteriormente.")
             return True
@@ -151,8 +151,6 @@ def Infopeli(numpeli):
     Returns: 
             None: La función imprime la información de la película en la maquina y no retorna ningún valor.
     """
-    while numpeli<1 or numpeli>len(listapelis):
-        numpeli=int(input("Número de película inválido. Ingrese un número válido: "))
     peli = listapelis[numpeli - 1]
     puntos = lambda rating: "*" * int(rating)
     print(f"{peli['Titulo']}\nGeneros: {', '.join(peli['Generos'])}\nAnio: {peli['Anio']}\nRating: {puntos(peli['Rating'])}")
@@ -188,6 +186,11 @@ def Alquilarpeli(numero,usuario):
     Returns: bool- True si se realiza el alquiler, False si no.
     """
     global indice_alquiler
+    
+    if numero < 1 or numero > len(listapelis):
+        print("Número de película inválido. Por favor, ingrese un número entre 1 y", len(listapelis))
+        return False
+        
     with open('usuarios.json', 'r') as file:
                     usuarios = json.load(file)
     peli = listapelis[numero - 1]
@@ -266,7 +269,7 @@ def Recomendacion():
             
     for pregunta, generos in preguntas:
         respuesta = input(f"{pregunta} (s/n): ").strip().lower()
-        while respuesta not in ['s', 'n']:
+        while respuesta not in ["s", "n"]:
             print("Respuesta no válida. Por favor, responda con 's' o 'n'.")
             respuesta = input(f"{pregunta} (s/n): ").strip().lower()
 
@@ -299,7 +302,7 @@ def Recomendacion():
 def calcular_total(peliculas_alquiladas):
     if not peliculas_alquiladas:  
         print("No hay películas seleccionadas para alquilar.")
-        return 0  
+        
 
     total_a_pagar = 0
     print("Detalles de tu compra:")
@@ -352,53 +355,36 @@ def realizar_pago(total_a_pagar, usuario):
         if u["nombreUsuario"] == usuario:
             usuario_encontrado = u
             break
+    if usuario_encontrado is None:
+        print("Usuario no encontrado.")
+        return
+
         
     # Verificar si hay saldo suficiente
-    if usuario_encontrado["saldo"] < total_a_pagar:
-        print("El saldo no es suficiente para realizar el pago.")
+    while usuario_encontrado["saldo"] < total_a_pagar:
+        diferencia = total_a_pagar - usuario_encontrado["saldo"]
+        print(f"El saldo no es suficiente para realizar el pago. Te faltan ${diferencia:.2f}")
         agregar_dinero = input("¿Desea agregar dinero a su cuenta? (s/n): ").strip().lower()
 
         if agregar_dinero == 's':
             agregar_saldo(usuario_encontrado, usuarios)
+            print(f"Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")  # Mostrar nuevo saldo tras agregar
 
+            # No se necesita una verificación adicional aquí, ya que el bucle vuelve a comprobar el saldo
         else:
-            print("Se ha cancelado la compra debido a saldo insuficiente")
-            return 
+            print("Se ha cancelado la compra debido a saldo insuficiente.")
+            return  # Salimos de la función si no se agrega dinero
 
-        # Continuar si se agregó saldo
-        continuar_compra = input(f"Tu nuevo saldo es de: ${usuario_encontrado['saldo']}. ¿Desea continuar con la compra? (s/n): ").strip().lower()
+    # Si llegamos aquí, el saldo es suficiente para pagar
+    usuario_encontrado["saldo"] -= total_a_pagar
+    print("Saldo suficiente, procesando pago...")
+    time.sleep(2)
 
-        if continuar_compra == 's':
-            while usuario_encontrado["saldo"] < total_a_pagar:
-                    mas_saldo = float(input("Aún no tienes saldo suficiente para realizar la compra. Ingrese nuevo monto o -1 para cancelar compra: "))
-                    if mas_saldo == -1:
-                        print("Compra cancelada.")
-                        return
-                    usuario_encontrado["saldo"] += mas_saldo
-                    
-                    with open('usuarios.json', 'w') as file:
-                        json.dump(usuarios, file, indent=4)
-                
-                    print("Saldo suficiente, procesando pago...")
-                    time.sleep(2)
+    # Guardar el saldo actualizado en el archivo
+    with open('usuarios.json', 'w') as file:
+        json.dump(usuarios, file, indent=4)
 
-                    usuario_encontrado["saldo"] -= total_a_pagar
-                    with open('usuarios.json', 'w') as file:
-                        json.dump(usuarios, file, indent=4)
-
-                    print(f"Compra realizada con éxito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
-        else:
-            print("Compra cancelada.")
-            return
-    else:
-        print("Saldo suficiente, procesando pago...")
-        time.sleep(2)
-
-        usuario_encontrado["saldo"] -= total_a_pagar
-        with open('usuarios.json', 'w') as file:
-            json.dump(usuarios, file, indent=4)
-
-        print(f"Compra realizada con éxito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
+    print(f"Compra realizada con éxito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
 
 def datos_tarjeta():
     pass
@@ -462,27 +448,44 @@ def Main():
         except ValueError:
             print("Por favor, ingrese un número válido.")
 
-    # Mostrar películas
-    Mostrarpelis()
 
     # Recomendación de película
-    recomendada = input("¿Desea responder un test de 10 preguntas para que le recomendemos una película? (s/n): ")
-    if recomendada.lower() == "s":
-        print("Comienza el test!:")
-        Recomendacion()
+    respuesta_valida = False
+
+    while respuesta_valida == False:  #estado = no se ha respondido
+        recomendada = input("¿Desea responder un test de 10 preguntas para que le recomendemos una película? (s/n): ").strip().lower()
+        
+        if recomendada == "s":
+            print("¡Comienza el test!")
+            Recomendacion()
+            respuesta_valida = True  # Cambia el estado para terminar el bucle
+        elif recomendada == "n":
+            print("No hay problema!.")
+            respuesta_valida = True  # Cambia el estado para terminar el bucle
+        else:
+            print("Respuesta no válida. Por favor, responda con 's' o 'n'.")
+
+     # Mostrar películas
+    Mostrarpelis()
 
     # Comprobar disponibilidad y alquilar
-    bandera = True
+    bandera = True 
     while bandera:
         try:
             numero = int(input("Ingrese el número de película sobre la que desea obtener más información: "))
-            Infopeli(numero)
-            if Alquilarpeli(numero,usuario):
-                continuar = input("¿Desea alquilar otra película? (s/n): ")
-                if continuar.lower() != 's':
-                    bandera = False
+            
+            # Validar el número antes de llamar a Infopeli
+            if numero < 1 or numero > len(listapelis):
+                print(f"Número de película inválido. Por favor, ingrese un número entre 1 y {len(listapelis)}")
             else:
-                Mostrarpelis()
+                Infopeli(numero)  # Llamar a Infopeli solo si el número es válido
+                
+                if Alquilarpeli(numero, usuario):
+                    continuar = input("¿Desea alquilar otra película? (s/n): ")
+                    if continuar.lower() != 's':
+                        bandera = False
+                else:
+                    Mostrarpelis()
         except ValueError:
             print("Por favor, ingrese un número.")
     

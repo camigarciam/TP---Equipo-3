@@ -50,7 +50,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Adam Driver, Scarlett Johanson",
-        "Disponibilidad": 4,
+        "Disponibilidad": 2,
         "Rating": 3
     },
     {
@@ -72,7 +72,7 @@
         ],
         "Anio": "2010",
         "Reparto": "",
-        "Disponibilidad": 5,
+        "Disponibilidad": 4,
         "Rating": 5
     },
     {
@@ -82,7 +82,7 @@
         ],
         "Anio": "2001",
         "Reparto": "",
-        "Disponibilidad": 7,
+        "Disponibilidad": 6,
         "Rating": 5
     },
     {
@@ -92,7 +92,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Collin Farrell",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 3
     },
     {
@@ -102,7 +102,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 6,
+        "Disponibilidad": 5,
         "Rating": 3.5
     },
     {
@@ -122,7 +122,7 @@
         ],
         "Anio": "1999",
         "Reparto": "Jude Law, Matt Damon",
-        "Disponibilidad": 3,
+        "Disponibilidad": 1,
         "Rating": 3
     },
     {
