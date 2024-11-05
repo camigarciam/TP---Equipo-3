@@ -7,21 +7,26 @@ from datetime import datetime
 
 
 #1.login 
-def registrarUsuario(usuario,contra):
+def cargar_datos(nombre_archivo):
     try:
-         with open('usuarios.json', 'r') as file:
-            contenido = file.read()  # Lee el contenido del archivo
-            if contenido:  # Verifica si el contenido no está vacío
-                usuarios = json.loads(contenido)  # Carga los usuarios
-            else:
-                usuarios = []  # Inicializa una lista vacía si el archivo está vacío
-    except FileNotFoundError:
-        usuarios = []  # Inicializa una lista vacía si el archivo no existe
+        with open(nombre_archivo, 'r') as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+usuarios = cargar_datos('usuarios.json')
+listapelis = cargar_datos('pelis.json')
+
+def actualizar_datos(nombre_archivo, datos):
+    with open(nombre_archivo, 'w') as file:
+        json.dump(datos, file, indent=4)
+
+def registrarUsuario(usuario,contra):
         
     for u in usuarios:
         if u['nombreUsuario'] == usuario:
             print("El nombre de usuario ya existe")
-            return
+            return False
  
     #Pedir al usuario ingrese su saldo incial
     saldo_inicial = float(input("Ingrese su saldo incial: $"))
@@ -34,55 +39,46 @@ def registrarUsuario(usuario,contra):
     }
     usuarios.append(nuevo_usuario)
 
-    with open('usuarios.json', 'w') as file:
-        json.dump(usuarios, file, indent=4)
+    actualizar_datos('usuarios.json', usuarios)
 
     print("Usuario creado con éxito")
     return True
 
+def encontrar_usuario(usuario):
+    for index_usuario in usuarios:
+        if index_usuario['nombreUsuario'] == usuario:
+            return index_usuario
+    return None
+
 def login_usuario(usuario, contra):
-    try:
-        with open('usuarios.json', 'r') as file:
-            usuarios = json.load(file)
-        
-        usuario_encontrado = None  # Inicializar la variable usuario_encontrado fuera del bucle
+    # Verificar si el usuario existe en el diccionario
+    usuario_encontrado = encontrar_usuario(usuario)
 
-        # Verificar si el usuario existe en el diccionario
-        for i in usuarios:
-            if i["nombreUsuario"] == usuario:
-                usuario_encontrado = i
-                break  # Usuario encontrado, salimos del bucle
-
-        # Si no se encontró el usuario, mostrar mensaje de error
-        if usuario_encontrado is None:
-            print("El nombre de usuario no está registrado. Por favor, regístrese.")
-            return False
-        
-
-        # Comprobar la contraseña
-        if usuario_encontrado["contrasena"] == contra:
-            print("Inicio de sesión exitoso.")
-            print(f"Bienvenido/a, {usuario_encontrado['nombreUsuario']}")
-            print(f"Tu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
-
-            # Mostrar películas alquiladas y pedir reseña si hay alguna
-            if usuario_encontrado["peliculas_alquiladas"]:
-                peliculas = ", ".join(usuario_encontrado["peliculas_alquiladas"])
-                print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
-                desea_res = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
-                if desea_res == 's':
-                    resenia = input("Escribe tu reseña: ")
-                    print(f"Gracias por tu reseña sobre '{peliculas}'")
-            else:
-                print("No tienes películas alquiladas anteriormente.")
-            return True
-        else:
-            print("Su contraseña es incorrecta.")
-            return False
-    
-    except FileNotFoundError:
-        print("No hay usuarios registrados.")
+    # Si no se encontró el usuario, mostrar mensaje de error
+    if not usuario_encontrado:
+        print("El nombre de usuario no está registrado. Por favor, regístrese.")
         return False
+
+    # Comprobar la contraseña
+    if usuario_encontrado["contrasena"] != contra:
+        print("Contrasena incorrecta.")
+        return False
+
+    print(f"Inicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']}")
+    print(f"Tu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
+
+    # Mostrar películas alquiladas y pedir reseña si hay alguna
+    if usuario_encontrado["peliculas_alquiladas"]:
+        peliculas = ", ".join(usuario_encontrado["peliculas_alquiladas"])
+        print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
+        desea_res = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
+        if desea_res == 's':
+            resenia = input("Escribe tu reseña: ")
+            print(f"Gracias por tu reseña sobre '{peliculas}'")
+    else:
+        print("No tienes películas alquiladas anteriormente.")
+    return True
+    
 
     
 def validarusuario(usuario):
@@ -201,29 +197,18 @@ def Alquilarpeli(numero,usuario):
             fecha_inicio, fecha_fin = selecionar_fechas()
             peli["Disponibilidad"]-= 1
 
-            usuario_encontrado = None
-            for u in usuarios:
-                if u["nombreUsuario"] == usuario:
-                    usuario_encontrado = u
-                    break
-            
-            # Si el usuario no se encuentra, informa al usuario
-            if usuario_encontrado is None:
-                print("Error: El usuario no está registrado.")
-                return False
+            data_usuario = encontrar_usuario(usuario)
+            data_usuario["peliculas_alquiladas"].append(peli["Titulo"])
             
             # Agrega la película a la lista de películas alquiladas del usuario
-            usuario_encontrado["peliculas_alquiladas"].append(peli["Titulo"])
             peliculas_alquiladas.append([indice_alquiler, peli["Titulo"], fecha_inicio, fecha_fin])
             
             # Guarda la lista actualizada de usuarios
-            with open('usuarios.json', 'w') as file:
-                json.dump(usuarios, file, indent=4)
-
+            actualizar_datos('usuarios.json', usuarios)
+            
             # Guarda la disponibilidad actualizada
-            with open('pelis.json', 'w') as file:
-                json.dump(listapelis, file, indent=4)
-
+            actualizar_datos('pelis.json', listapelis)
+            
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
@@ -301,8 +286,7 @@ def Recomendacion():
 # Función para calcular el total a pagar
 def calcular_total(peliculas_alquiladas):
     if not peliculas_alquiladas:  
-        print("No hay películas seleccionadas para alquilar.")
-        
+        print("No hay películas seleccionadas para alquilar.")    
 
     total_a_pagar = 0
     print("Detalles de tu compra:")
