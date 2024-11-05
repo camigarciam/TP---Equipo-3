@@ -1,37 +1,14 @@
 [
     {
-        "nombreUsuario": "juan1234",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": []
-    },
-    {
-        "nombreUsuario": "sol12345",
-        "contrasena": "sol12345",
-        "peliculas_alquiladas": []
-    },
-    {
         "nombreUsuario": "abru1234",
         "contrasena": "abru1234",
         "peliculas_alquiladas": [
-            "The Talented Mr Ripley",
-            "Her"
-        ]
-    },
-    {
-        "nombreUsuario": "nico1234",
-        "contrasena": "nico1234",
-        "peliculas_alquiladas": []
-    },
-    {
-        "nombreUsuario": "cami1234",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": [
-            "The Talented Mr Ripley"
-        ]
-    },
-    {
-        "nombreUsuario": "luna1234",
-        "contrasena": "luna1234",
-        "peliculas_alquiladas": []
+            "La Laguna Azul",
+            "El viaje de Chihiro",
+            "Whiplash",
+            "Whiplash",
+            "Whiplash"
+        ],
+        "saldo": 40812.0
     }
 ]

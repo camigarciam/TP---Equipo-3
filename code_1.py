@@ -1,6 +1,7 @@
 import random
 import json
 import time
+import re
 from datetime import datetime
 # from pelis import listapelis
 
@@ -21,11 +22,15 @@ def registrarUsuario(usuario,contra):
         if u['nombreUsuario'] == usuario:
             print("El nombre de usuario ya existe")
             return
+ 
+    #Pedir al usuario ingrese su saldo incial
+    saldo_inicial = float(input("Ingrese su saldo incial: $"))
 
     nuevo_usuario = {
         "nombreUsuario": usuario,
         "contrasena": contra,
-        "peliculas_alquiladas": []
+        "peliculas_alquiladas": [],
+        "saldo": saldo_inicial
     }
     usuarios.append(nuevo_usuario)
 
@@ -38,15 +43,15 @@ def registrarUsuario(usuario,contra):
 def login_usuario(usuario, contra):
     try:
         with open('usuarios.json', 'r') as file:
-            usuarios=json.load(file)
+            usuarios = json.load(file)
         
-        usuario_encontrado = None
-    
+        usuario_encontrado = None  # Inicializar la variable usuario_encontrado fuera del bucle
+
         # Verificar si el usuario existe en el diccionario
         for i in usuarios:
             if i["nombreUsuario"] == usuario:
                 usuario_encontrado = i
-                return True
+                break  # Usuario encontrado, salimos del bucle
 
         # Si no se encontró el usuario, mostrar mensaje de error
         if usuario_encontrado is None:
@@ -57,6 +62,8 @@ def login_usuario(usuario, contra):
         # Comprobar la contraseña
         if usuario_encontrado["contrasena"] == contra:
             print("Inicio de sesión exitoso.")
+            print(f"Bienvenido/a, {usuario_encontrado['nombreUsuario']}")
+            print(f"Tu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
 
             # Mostrar películas alquiladas y pedir reseña si hay alguna
             if usuario_encontrado["peliculas_alquiladas"]:
@@ -67,15 +74,16 @@ def login_usuario(usuario, contra):
                     reseña = input("Escribe tu reseña: ")
                     print(f"Gracias por tu reseña sobre '{peliculas}': {reseña}")
             else:
-                print(f"Hola, {usuario_encontrado['nombreUsuario']}. No tienes películas alquiladas anteriormente.")
+                print("No tienes películas alquiladas anteriormente.")
             return True
         else:
             print("Su contraseña es incorrecta.")
             return False
     
     except FileNotFoundError:
-        print("No hay usuarios registrados" )
+        print("No hay usuarios registrados.")
         return False
+
     
 def validarusuario(usuario):
         """
@@ -106,7 +114,7 @@ def validarcontraseña(nuevacontra):
 
     Return: str- 'Contraseña confirmada'
     """
-    while len(nuevacontra) <8 or not any(char.isdigit() for char in nuevacontra) or not any(char.isalpha() for char in nuevacontra):
+    while not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$', nuevacontra):
         nuevacontra=input("Contraseña invalida, ingrese la contraseña nuevamente: ")
     print("Contraseña válida")
     contrasena=input("Confirme su contraseña: ")
@@ -208,6 +216,11 @@ def Alquilarpeli(numero,usuario):
             # Guarda la lista actualizada de usuarios
             with open('usuarios.json', 'w') as file:
                 json.dump(usuarios, file, indent=4)
+
+            # Guarda la disponibilidad actualizada
+            with open('pelis.json', 'w') as file:
+                json.dump(listapelis, file, indent=4)
+
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
@@ -282,45 +295,113 @@ def Recomendacion():
     return peliculas_recomendadas
 
 #6. Pago
-def Pago(peliculas_alquiladas):
+# Función para calcular el total a pagar
+def calcular_total(peliculas_alquiladas):
     if not peliculas_alquiladas:  
         print("No hay películas seleccionadas para alquilar.")
-        return  
-    
+        return 0  
+
     total_a_pagar = 0
+    print("Detalles de tu compra:")
     for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
         dias_alquilados = (fecha_fin - fecha_inicio).days
         costo = dias_alquilados * 1200
         total_a_pagar += costo
-        print("Detalles de tu compra:")
         print(f"Película: {titulo}, Días alquilados: {dias_alquilados}, Costo: ${costo}")
+
     print(f"El total a pagar es: ${total_a_pagar}")
+    return total_a_pagar
 
-    opcion_valida = False 
+# Función para agregar saldo a la cuenta del usuario
+def agregar_saldo(usuario_encontrado, usuarios):
+    metodo_pago_valido = False
+    while not metodo_pago_valido:
+        print("Métodos para agregar dinero:")
+        print("1. Tarjeta de crédito")
+        print("2. Mercado Pago")
+        print("3. Tarjeta de débito")
+        opcion_pago = input("Selecciona método de pago (1, 2, 3): ")
 
-    while not opcion_valida: 
-        print("Métodos de pago disponibles:\n1. Tarjeta de crédito\n2. Mercado Pago\n3. Tarjeta de debito")
-        opcion_pago = input("Seleccione método de pago (1, 2, 3): ")
+        if opcion_pago in ['1', '2', '3']:
+            cantidad_agregar = None
+            while cantidad_agregar is None:
+                try:
+                    cantidad_agregar = float(input("Ingrese la cantidad de dinero que desea agregar a su cuenta: $"))
+                    if cantidad_agregar <= 0:
+                        print("Error, el monto debe ser mayor a cero.")
+                        cantidad_agregar = None
+                except ValueError:
+                    print("Ingrese un número válido.")
 
-        if opcion_pago == '1':
-            print("Procesando pago...")
-            time.sleep(3)
-            print("Pago con tarjeta de crédito realizado con éxito.")
-            opcion_valida = True  
-        elif opcion_pago == '2':
-            print("Procesando pago...")
-            time.sleep(3)
-            print("Pago con Mercado Pago realizado con éxito.")
-            opcion_valida = True  
-        elif opcion_pago == '3':
-            print("Procesando pago...")
-            time.sleep(3)
-            print("Pago con Tarjeta de debito realizado con éxito.")
-            opcion_valida = True  
+            usuario_encontrado["saldo"] += cantidad_agregar
+            with open('usuarios.json', 'w') as file:
+                json.dump(usuarios, file, indent=4)  
+
+            print(f"Se han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
+            metodo_pago_valido = True 
         else:
-            print("Opción seleccionada incorrecta. Por favor, seleccione una opción válida (1, 2, 3).")
+            print("Opción no válida. Por favor, selecciona una opción válida (1, 2, 3).")
 
+# Función para procesar el pago
+def realizar_pago(total_a_pagar, usuario):
+    with open('usuarios.json', 'r') as file:
+        usuarios = json.load(file)
 
+    usuario_encontrado = None
+    for u in usuarios:
+        if u["nombreUsuario"] == usuario:
+            usuario_encontrado = u
+            break
+        
+    # Verificar si hay saldo suficiente
+    if usuario_encontrado["saldo"] < total_a_pagar:
+        print("El saldo no es suficiente para realizar el pago.")
+        agregar_dinero = input("¿Desea agregar dinero a su cuenta? (s/n): ").strip().lower()
+
+        if agregar_dinero == 's':
+            agregar_saldo(usuario_encontrado, usuarios)
+
+        else:
+            print("Se ha cancelado la compra debido a saldo insuficiente")
+            return 
+
+        # Continuar si se agregó saldo
+        continuar_compra = input(f"Tu nuevo saldo es de: ${usuario_encontrado['saldo']}. ¿Desea continuar con la compra? (s/n): ").strip().lower()
+
+        if continuar_compra == 's':
+            while usuario_encontrado["saldo"] < total_a_pagar:
+                    mas_saldo = float(input("Aún no tienes saldo suficiente para realizar la compra. Ingrese nuevo monto o -1 para cancelar compra: "))
+                    if mas_saldo == -1:
+                        print("Compra cancelada.")
+                        return
+                    usuario_encontrado["saldo"] += mas_saldo
+                    
+                    with open('usuarios.json', 'w') as file:
+                        json.dump(usuarios, file, indent=4)
+                
+                    print("Saldo suficiente, procesando pago...")
+                    time.sleep(2)
+
+                    usuario_encontrado["saldo"] -= total_a_pagar
+                    with open('usuarios.json', 'w') as file:
+                        json.dump(usuarios, file, indent=4)
+
+                    print(f"Compra realizada con éxito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
+        else:
+            print("Compra cancelada.")
+            return
+    else:
+        print("Saldo suficiente, procesando pago...")
+        time.sleep(2)
+
+        usuario_encontrado["saldo"] -= total_a_pagar
+        with open('usuarios.json', 'w') as file:
+            json.dump(usuarios, file, indent=4)
+
+        print(f"Compra realizada con éxito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
+
+def datos_tarjeta():
+    pass
 
 #7. finalizar
 def Finalizar():
@@ -339,8 +420,6 @@ def Finalizar():
         print ("Gracias por usar nuestro sistema de alquier de peliculas, hasta la próxima!")
     else:
         print("No alquilaste ninguna película en esta sesión.")
-
-
 
 
 with open('pelis.json', 'r') as file:
@@ -375,7 +454,6 @@ def Main():
                 usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña: ")
                 if login_usuario(usuario, contra):  # devuekve True
-                    print("Inicio de sesión exitoso.")
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
             else:
@@ -408,8 +486,9 @@ def Main():
         except ValueError:
             print("Por favor, ingrese un número.")
     
-    #Pago
-    Pago(peliculas_alquiladas)
+    #Realizar pago
+    total_a_pagar = calcular_total(peliculas_alquiladas)
+    realizar_pago(total_a_pagar, usuario)
 
 # Ejecutar la función principal
 Main()
