@@ -294,11 +294,11 @@ def Recomendacion():
     return peliculas_recomendadas
 
 #6. Pago
-def Pago(peliculas_alquiladas):
+def Pago(peliculas_alquiladas, usuario):
     if not peliculas_alquiladas:  
         print("No hay películas seleccionadas para alquilar.")
         return  
-    
+
     total_a_pagar = 0
     for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
         dias_alquilados = (fecha_fin - fecha_inicio).days
@@ -308,30 +308,74 @@ def Pago(peliculas_alquiladas):
         print(f"Película: {titulo}, Días alquilados: {dias_alquilados}, Costo: ${costo}")
     print(f"El total a pagar es: ${total_a_pagar}")
 
-    opcion_valida = False 
+    with open('usuarios.json', 'r') as file:
+        usuarios = json.load(file)
 
-    while not opcion_valida: 
-        print("Métodos de pago disponibles:\n1. Tarjeta de crédito\n2. Mercado Pago\n3. Tarjeta de debito")
-        opcion_pago = input("Seleccione método de pago (1, 2, 3): ")
+    usuario_encontrado = None
+    for u in usuarios:
+        if u["nombreUsuario"] == usuario:
+            usuario_encontrado = u
+            break
 
-        if opcion_pago == '1':
-            print("Procesando pago...")
-            time.sleep(3)
-            print("Pago con tarjeta de crédito realizado con éxito.")
-            opcion_valida = True  
-        elif opcion_pago == '2':
-            print("Procesando pago...")
-            time.sleep(3)
-            print("Pago con Mercado Pago realizado con éxito.")
-            opcion_valida = True  
-        elif opcion_pago == '3':
-            print("Procesando pago...")
-            time.sleep(3)
-            print("Pago con Tarjeta de debito realizado con éxito.")
-            opcion_valida = True  
+    # Verificar si hay saldo suficiente
+    if usuario_encontrado["saldo"] < total_a_pagar:
+        print("El saldo no es suficiente para realizar el pago.")
+
+        agregar_dinero = input("¿Desea agregar dinero a su cuenta? (s/n): ").strip().lower()
+
+        if agregar_dinero == 's':
+            metodo_pago_valido = False
+            while not metodo_pago_valido:
+                print("Métodos para agregar dinero:")
+                print("1. Tarjeta de crédito")
+                print("2. Mercado Pago")
+                print("3. Tarjeta de débito")
+                opcion_pago = input("Selecciona método de pago (1, 2, 3): ")
+
+                if opcion_pago in ['1', '2', '3']:
+                    cantidad_agregar = None
+                    while cantidad_agregar is None:
+                        try:
+                            cantidad_agregar = float(input("Ingrese la cantidad de dinero que desea agregar a su cuenta: $"))
+                            if cantidad_agregar <= 0:
+                                print("Error, el monto debe se mayor a cero.")
+                                cantidad_agregar = None
+                        except ValueError:
+                            print("Ingrese un número valido.")
+                    
+                    usuario_encontrado["saldo"] += cantidad_agregar
+                    with open('usuarios.json', 'w') as file:
+                        json.dump(usuarios, file, indent=4)  
+
+                    print(f"Se han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
+                    metodo_pago_valido = True 
+
+                else:
+                    print("Opción no válida. Por favor, selecciona una opción válida (1, 2, 3).")
+
         else:
-            print("Opción seleccionada incorrecta. Por favor, seleccione una opción válida (1, 2, 3).")
+            print("Se ha cancelado la compra debido a saldo insuficiente")
+            return 
 
+        # seguir si se agrego saldo
+        continuar_compra = input(f"Tu nuevo saldo es de: ${usuario_encontrado['saldo']}. ¿Desea continuar con la compra? (s/n): ").strip().lower()
+
+        if continuar_compra == 's':
+            if usuario_encontrado["saldo"] < total_a_pagar:
+                print("Aún no tienes saldo suficiente para realizar la compra.")
+            else:
+                print("Saldo suficiente, procesando pago...")
+                time.sleep(2)
+
+                usuario_encontrado["saldo"] -= total_a_pagar
+                with open('usuarios.json', 'w') as file:
+                    json.dump(usuarios, file, indent=4)
+
+                print(f"Compra realizada con exito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
+        else:
+            print("Compra cancelada.")
+            return
+        
 def datos_tarjeta():
     pass
 
@@ -352,8 +396,6 @@ def Finalizar():
         print ("Gracias por usar nuestro sistema de alquier de peliculas, hasta la próxima!")
     else:
         print("No alquilaste ninguna película en esta sesión.")
-
-
 
 
 with open('pelis.json', 'r') as file:
@@ -421,7 +463,7 @@ def Main():
             print("Por favor, ingrese un número.")
     
     #Pago
-    Pago(peliculas_alquiladas)
+    Pago(peliculas_alquiladas, usuario)
 
 # Ejecutar la función principal
 Main()
