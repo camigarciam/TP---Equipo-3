@@ -21,11 +21,15 @@ def registrarUsuario(usuario,contra):
         if u['nombreUsuario'] == usuario:
             print("El nombre de usuario ya existe")
             return
+ 
+    #Pedir al usuario ingrese su saldo incial
+    saldo_inicial = float(input("Ingrese su saldo incial: $"))
 
     nuevo_usuario = {
         "nombreUsuario": usuario,
         "contrasena": contra,
-        "peliculas_alquiladas": []
+        "peliculas_alquiladas": [],
+        "saldo": saldo_inicial
     }
     usuarios.append(nuevo_usuario)
 
@@ -38,13 +42,15 @@ def registrarUsuario(usuario,contra):
 def login_usuario(usuario, contra):
     try:
         with open('usuarios.json', 'r') as file:
-            usuarios=json.load(file)
-    
+            usuarios = json.load(file)
+        
+        usuario_encontrado = None  # Inicializar la variable usuario_encontrado fuera del bucle
+
         # Verificar si el usuario existe en el diccionario
         for i in usuarios:
             if i["nombreUsuario"] == usuario:
                 usuario_encontrado = i
-                return True
+                break  # Usuario encontrado, salimos del bucle
 
         # Si no se encontró el usuario, mostrar mensaje de error
         if usuario_encontrado is None:
@@ -54,6 +60,8 @@ def login_usuario(usuario, contra):
         # Comprobar la contraseña
         if usuario_encontrado["contrasena"] == contra:
             print("Inicio de sesión exitoso.")
+            print(f"Bienvenido/a, {usuario_encontrado['nombreUsuario']}")
+            print(f"Tu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
 
             # Mostrar películas alquiladas y pedir reseña si hay alguna
             if usuario_encontrado["peliculas_alquiladas"]:
@@ -64,15 +72,16 @@ def login_usuario(usuario, contra):
                     reseña = input("Escribe tu reseña: ")
                     print(f"Gracias por tu reseña sobre '{peliculas}': {reseña}")
             else:
-                print(f"Hola, {usuario_encontrado['nombreUsuario']}. No tienes películas alquiladas anteriormente.")
+                print("No tienes películas alquiladas anteriormente.")
             return True
         else:
             print("Su contraseña es incorrecta.")
             return False
     
     except FileNotFoundError:
-        print("No hay usuarios registrados" )
+        print("No hay usuarios registrados.")
         return False
+
     
 def validarusuario(usuario):
         """
@@ -317,7 +326,8 @@ def Pago(peliculas_alquiladas):
         else:
             print("Opción seleccionada incorrecta. Por favor, seleccione una opción válida (1, 2, 3).")
 
-
+def datos_tarjeta():
+    pass
 
 #7. finalizar
 def Finalizar():
@@ -372,7 +382,6 @@ def Main():
                 usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña: ")
                 if login_usuario(usuario, contra):  # devuekve True
-                    print("Inicio de sesión exitoso.")
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
             else:
