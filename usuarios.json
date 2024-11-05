@@ -12,11 +12,26 @@
     {
         "nombreUsuario": "abru1234",
         "contrasena": "abru1234",
-        "peliculas_alquiladas": []
+        "peliculas_alquiladas": [
+            "The Talented Mr Ripley",
+            "Her"
+        ]
     },
     {
         "nombreUsuario": "nico1234",
         "contrasena": "nico1234",
+        "peliculas_alquiladas": []
+    },
+    {
+        "nombreUsuario": "cami1234",
+        "contrasena": "cami1234",
+        "peliculas_alquiladas": [
+            "The Talented Mr Ripley"
+        ]
+    },
+    {
+        "nombreUsuario": "luna1234",
+        "contrasena": "luna1234",
         "peliculas_alquiladas": []
     }
 ]

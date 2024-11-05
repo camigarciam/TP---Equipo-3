@@ -39,6 +39,8 @@ def login_usuario(usuario, contra):
     try:
         with open('usuarios.json', 'r') as file:
             usuarios=json.load(file)
+        
+        usuario_encontrado = None
     
         # Verificar si el usuario existe en el diccionario
         for i in usuarios:
@@ -50,6 +52,7 @@ def login_usuario(usuario, contra):
         if usuario_encontrado is None:
             print("El nombre de usuario no está registrado. Por favor, regístrese.")
             return False
+        
 
         # Comprobar la contraseña
         if usuario_encontrado["contrasena"] == contra:
@@ -204,7 +207,7 @@ def Alquilarpeli(numero,usuario):
             
             # Guarda la lista actualizada de usuarios
             with open('usuarios.json', 'w') as file:
-                json.dump(usuarios, file)
+                json.dump(usuarios, file, indent=4)
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
