@@ -7,7 +7,7 @@
         ],
         "Anio": "1980",
         "Reparto": "Brooke Shields, Christopher Atkins",
-        "Disponibilidad": 5,
+        "Disponibilidad": 0,
         "Rating": 3.5
     },
     {
@@ -18,7 +18,7 @@
         ],
         "Anio": "2013",
         "Reparto": "Joaquin Phoenix",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 4
     },
     {
@@ -28,7 +28,7 @@
         ],
         "Anio": "2011",
         "Reparto": "Ryan Gosling",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 3
     },
     {
@@ -39,7 +39,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Miles Teller, J.K Simmons",
-        "Disponibilidad": 7,
+        "Disponibilidad": 3,
         "Rating": 5
     },
     {
@@ -82,7 +82,7 @@
         ],
         "Anio": "2001",
         "Reparto": "",
-        "Disponibilidad": 8,
+        "Disponibilidad": 7,
         "Rating": 5
     },
     {

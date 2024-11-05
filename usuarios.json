@@ -1,19 +1,14 @@
 [
     {
-        "nombreUsuario": "cami1234",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": [
-            "La Laguna Azul"
-        ],
-        "saldo": 20000.0
-    },
-    {
         "nombreUsuario": "abru1234",
         "contrasena": "abru1234",
         "peliculas_alquiladas": [
-            "Her",
-            "Her"
+            "La Laguna Azul",
+            "El viaje de Chihiro",
+            "Whiplash",
+            "Whiplash",
+            "Whiplash"
         ],
-        "saldo": 12345678.0
+        "saldo": 40812.0
     }
 ]
