@@ -1,1 +1,18 @@
-[{"nombreUsuario": "juan1234", "contrasena": "cami1234", "peliculas_alquiladas": ["La Laguna Azul", "Her"]}, {"nombreUsuario": "sol12345", "contrasena": "sol12345", "peliculas_alquiladas": []}, {"nombreUsuario": "abru1234", "contrasena": "abru1234", "peliculas_alquiladas": []}, {"nombreUsuario": "nico1234", "contrasena": "nico1234", "peliculas_alquiladas": []}, {"nombreUsuario": "tini1234", "contrasena": "tini1234", "peliculas_alquiladas": ["La Laguna Azul", "Her"], "saldo": 2000.0}]
+[
+    {
+        "nombreUsuario": "cami1234",
+        "contrasena": "cami1234",
+        "peliculas_alquiladas": [
+            "La Laguna Azul"
+        ],
+        "saldo": 20000.0
+    },
+    {
+        "nombreUsuario": "abru1234",
+        "contrasena": "abru1234",
+        "peliculas_alquiladas": [
+            "Her"
+        ],
+        "saldo": 12345678.0
+    }
+]

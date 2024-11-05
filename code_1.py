@@ -1,6 +1,7 @@
 import random
 import json
 import time
+import re
 from datetime import datetime
 # from pelis import listapelis
 
@@ -112,7 +113,7 @@ def validarcontraseña(nuevacontra):
 
     Return: str- 'Contraseña confirmada'
     """
-    while len(nuevacontra) <8 or not any(char.isdigit() for char in nuevacontra) or not any(char.isalpha() for char in nuevacontra):
+    while not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$', nuevacontra):
         nuevacontra=input("Contraseña invalida, ingrese la contraseña nuevamente: ")
     print("Contraseña válida")
     contrasena=input("Confirme su contraseña: ")
@@ -213,7 +214,12 @@ def Alquilarpeli(numero,usuario):
             
             # Guarda la lista actualizada de usuarios
             with open('usuarios.json', 'w') as file:
-                json.dump(usuarios, file)
+                json.dump(usuarios, file, indent=4)
+
+            # Guarda la disponibilidad actualizada
+            with open('pelis.json', 'w') as file:
+                json.dump(listapelis, file, indent=4)
+
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
