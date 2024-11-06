@@ -324,14 +324,23 @@ def Recomendacion():
     genero_recomendado = random.choice(generos_maximos)
 
     peliculas_recomendadas = [
-        peli["Titulo"] for peli in listapelis
+        peli for peli in listapelis
         if genero_recomendado in peli["Generos"] and peli["Disponibilidad"] > 0
     ]
 
     if peliculas_recomendadas:
-        print(f"Películas recomendadas en el género {genero_recomendado}:")
+        n = len(peliculas_recomendadas)
+
+        # metodo de burbujeo
+        for i in range(n):
+            for j in range(0, n-i-1):  
+                if peliculas_recomendadas[j]["Rating"] < peliculas_recomendadas[j+1]["Rating"]:
+                
+                    peliculas_recomendadas[j], peliculas_recomendadas[j+1] = peliculas_recomendadas[j+1], peliculas_recomendadas[j]
+
+        print(f"Fin del test! Pareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
         for pelicula in peliculas_recomendadas:
-            print(f"- {pelicula}")
+            print(f"- {pelicula["Titulo"]}")
     else:
         print(f"No hay películas disponibles en el género {genero_recomendado}.")
 
