@@ -385,17 +385,19 @@ def agregar_saldo(usuario_encontrado, usuarios):
 
 # Función para procesar el pago
 def realizar_pago(total_a_pagar, usuario):
+    bandera=True
     with open('usuarios.json', 'r') as file:
         usuarios = json.load(file)
 
     usuario_encontrado = None
-    for u in usuarios:
-        if u["nombreUsuario"] == usuario:
-            usuario_encontrado = u
-            break
-    if usuario_encontrado is None:
-        print("Usuario no encontrado.")
-        return
+    while bandera:
+        for u in usuarios:
+            if u["nombreUsuario"] == usuario:
+                usuario_encontrado = u
+                bandera=False
+        if usuario_encontrado is None:
+            print("Usuario no encontrado.")
+            return
 
         
     # Verificar si hay saldo suficiente

@@ -16,5 +16,11 @@
         "contrasena": "juan1234",
         "peliculas_alquiladas": [],
         "saldo": 1231755.0
+    },
+    {
+        "nombreUsuario": "nicoxxgamer",
+        "contrasena": "wowowowow1",
+        "peliculas_alquiladas": [],
+        "saldo": 10000000.0
     }
 ]
