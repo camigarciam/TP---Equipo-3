@@ -4,12 +4,22 @@
         "contrasena": "cami1234",
         "peliculas_alquiladas": [
             {
-                "Titulo": "Ghost Rider",
-                "FechaInicio": "05-11-2024",
-                "FechaFin": "22-11-2024"
+                "Titulo": "Titanic",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "11-11-2024"
+            },
+            {
+                "Titulo": "La Laguna Azul",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "11-11-2024"
+            },
+            {
+                "Titulo": "The Basketball Diaries",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "11-11-2024"
             }
         ],
-        "saldo": 1216201.0
+        "saldo": 1198201.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -22,5 +32,33 @@
         "contrasena": "wowowowow1",
         "peliculas_alquiladas": [],
         "saldo": 10000000.0
+    },
+    {
+        "nombreUsuario": "sol1234",
+        "contrasena": "sol12345",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "The Basketball Diaries",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "12-12-2024"
+            },
+            {
+                "Titulo": "Como Entrenar a tu Dragon",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "12-12-2024",
+                "Precio": 200
+            },
+            {
+                "Titulo": "La Langosta",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "12-11-2024"
+            },
+            {
+                "Titulo": "Como Entrenar a tu Dragon",
+                "FechaInicio": "06-11-2024",
+                "FechaFin": "12-11-2024"
+            }
+        ],
+        "saldo": 4800.0
     }
 ]

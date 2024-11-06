@@ -5,7 +5,6 @@ import re
 from datetime import datetime
 # from pelis import listapelis
 
-
 #1.login 
 def cargar_datos(nombre_archivo):
     try:
@@ -44,15 +43,15 @@ def registrarUsuario(usuario,contra):
     print("Usuario creado con éxito")
     return True
 
-def encontrar_usuario(usuario):
+def encontrar_usuario(usuario, usuarios):
     for index_usuario in usuarios:
         if index_usuario['nombreUsuario'] == usuario:
             return index_usuario
     return None
 
-def login_usuario(usuario, contra):
+def login_usuario(usuario, contra, usuarios):
     # Verificar si el usuario existe en el diccionario
-    usuario_encontrado = encontrar_usuario(usuario)
+    usuario_encontrado = encontrar_usuario(usuario, usuarios)
 
     # Si no se encontró el usuario, mostrar mensaje de error
     if not usuario_encontrado:
@@ -123,7 +122,7 @@ def validarcontraseña(nuevacontra):
 def devolver_pelis(usuario):
 
     # Verificar si el usuario tiene películas alquiladas
-    data_usuario = encontrar_usuario(usuario)
+    data_usuario = encontrar_usuario(usuario, usuarios)
     if not data_usuario["peliculas_alquiladas"]:
         print("No tienes películas alquiladas para devolver.")
         return
@@ -230,49 +229,49 @@ def Alquilarpeli(numero,usuario):
 
     Returns: bool- True si se realiza el alquiler, False si no.
     """
-    global indice_alquiler
-    
+    global indice_alquiler, peliculas_alquiladas  
+
     if numero < 1 or numero > len(listapelis):
         print("Número de película inválido. Por favor, ingrese un número entre 1 y", len(listapelis))
         return False
-        
-    with open('usuarios.json', 'r') as file:
-                    usuarios = json.load(file)
+
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
         confirmacion = input("¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
             fecha_inicio, fecha_fin = selecionar_fechas()
-            peli["Disponibilidad"]-= 1
+            peli["Disponibilidad"] -= 1
 
-            data_usuario = encontrar_usuario(usuario)
+            # Convertir las fechas a formato de cadena
+            fecha_inicio_str = fecha_inicio.strftime("%d-%m-%Y")
+            fecha_fin_str = fecha_fin.strftime("%d-%m-%Y")
 
+            # Encontrar y actualizar usuario
+            data_usuario = encontrar_usuario(usuario, usuarios)
             info_alquiler = {
                 "Titulo": peli["Titulo"],
-                "FechaInicio": fecha_inicio.strftime("%d-%m-%Y"),
-                "FechaFin": fecha_fin.strftime("%d-%m-%Y")
+                "FechaInicio": fecha_inicio_str,
+                "FechaFin": fecha_fin_str
             }
             data_usuario["peliculas_alquiladas"].append(info_alquiler)
-            
-            # Agrega la película a la lista de películas alquiladas del usuario
-            peliculas_alquiladas.append([indice_alquiler, peli["Titulo"], fecha_inicio, fecha_fin])
-            
-            # Guarda la lista actualizada de usuarios
+
+            # Actualizar la lista global de peliculas_alquiladas
+            peliculas_alquiladas = data_usuario["peliculas_alquiladas"]
+
+            # Guardar cambios en los archivos JSON
             actualizar_datos('usuarios.json', usuarios)
-            
-            # Guarda la disponibilidad actualizada
             actualizar_datos('pelis.json', listapelis)
 
-            indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
+            return True
         else:
             print("No se ha realizado el alquiler.")
             return False
     else:
         print(f"Lo siento, '{peli['Titulo']}' no está disponible en este momento.")
-    return True
-
+        return False
+    
 #5. recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
     """
@@ -349,14 +348,25 @@ def Recomendacion():
 #6. Pago
 # Función para calcular el total a pagar
 def calcular_total(peliculas_alquiladas):
-    if not peliculas_alquiladas:  
+    if len(peliculas_alquiladas) == 0:
         print("No hay películas seleccionadas para alquilar.")    
+        return 0  # Devuelve 0 si no hay alquileres
 
     total_a_pagar = 0
     print("Detalles de tu compra:")
-    for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
+    for alquiler in peliculas_alquiladas:
+        # Acceder a los valores del diccionario por clave
+        titulo = alquiler["Titulo"]
+        fecha_inicio_str = alquiler["FechaInicio"]
+        fecha_fin_str = alquiler["FechaFin"]
+
+        # Convertir las fechas de cadena a datetime
+        fecha_inicio = datetime.strptime(fecha_inicio_str, "%d-%m-%Y")
+        fecha_fin = datetime.strptime(fecha_fin_str, "%d-%m-%Y")
+
+        # Calcular los días alquilados
         dias_alquilados = (fecha_fin - fecha_inicio).days
-        costo = dias_alquilados * 1200
+        costo = dias_alquilados * 1200  # Suponiendo que el costo es 1200 por día
         total_a_pagar += costo
         print(f"Película: {titulo}, Días alquilados: {dias_alquilados}, Costo: ${costo}")
 
@@ -438,7 +448,7 @@ def datos_tarjeta():
     pass
 
 #7. finalizar
-def Finalizar():
+def Finalizar(usuario,usuarios):
     """
     Imprime un mensaje de agradecimiento y muestra una lista de las películas que el usuario ha alquilado durante la sesión. 
     Si no se alquiló ninguna película, informa al usuario.
@@ -446,19 +456,22 @@ def Finalizar():
     Returns:
         None: La función imprime un mensaje en la maquina y no retorna ningún valor.
     """
+    data_usuario = encontrar_usuario(usuario, usuarios)
+    peliculas_alquiladas = data_usuario.get("peliculas_alquiladas", [])
+    
     print("Gracias por usar el programa de alquiler de películas.")
-    if peliculas_alquiladas:
+    if len(peliculas_alquiladas) != 0:
         print("Películas que alquilaste en esta sesión:")
-        for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
-            print(f"{indice}. {titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
-        print ("Gracias por usar nuestro sistema de alquier de peliculas, hasta la próxima!")
+        for alquiler in peliculas_alquiladas:
+            # Desempaquetar el alquiler en variables
+            titulo, fecha_inicio_str, fecha_fin_str = alquiler["Titulo"], alquiler["FechaInicio"], alquiler["FechaFin"]
+            # Convertir las fechas de cadena a datetime
+            fecha_inicio = datetime.strptime(fecha_inicio_str, "%d-%m-%Y")
+            fecha_fin = datetime.strptime(fecha_fin_str, "%d-%m-%Y")
+            print(f"{titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
+        print("Gracias por usar nuestro sistema de alquiler de películas, ¡hasta la próxima!")
     else:
         print("No alquilaste ninguna película en esta sesión.")
-
-
-with open('pelis.json', 'r') as file:
-        listapelis = json.load(file)
-
 
 
 #programa principal
@@ -481,13 +494,13 @@ def Main():
                 #Solicita nombre usuario y contrasena de nuevo.
                 usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña para iniciar sesión: ")
-                if login_usuario(usuario, contra):  # Intentar iniciar sesión
+                if login_usuario(usuario, contra,usuarios):  # Intentar iniciar sesión
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
             elif loginregistro == 2:
                 usuario = input("Ingrese su nombre de usuario: ")
                 contra = input("Ingrese su contraseña: ")
-                if login_usuario(usuario, contra):  # devuekve True
+                if login_usuario(usuario, contra, usuarios):  # devuekve True
                     sesion_iniciada = True  # Cambiar el estado para salir del ciclo
 
             else:
@@ -544,9 +557,9 @@ def Main():
     #Realizar pago
     total_a_pagar = calcular_total(peliculas_alquiladas)
     realizar_pago(total_a_pagar, usuario)
+    Finalizar(usuario, usuarios)
 
 # Ejecutar la función principal
 Main()
-Finalizar()
 
 

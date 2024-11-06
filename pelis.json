@@ -7,7 +7,7 @@
         ],
         "Anio": "1980",
         "Reparto": "Brooke Shields, Christopher Atkins",
-        "Disponibilidad": 0,
+        "Disponibilidad": 8,
         "Rating": 3.5
     },
     {
@@ -18,7 +18,7 @@
         ],
         "Anio": "2013",
         "Reparto": "Joaquin Phoenix",
-        "Disponibilidad": 0,
+        "Disponibilidad": 5,
         "Rating": 4
     },
     {
@@ -28,7 +28,7 @@
         ],
         "Anio": "2011",
         "Reparto": "Ryan Gosling",
-        "Disponibilidad": 0,
+        "Disponibilidad": 8,
         "Rating": 3
     },
     {
@@ -39,7 +39,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Miles Teller, J.K Simmons",
-        "Disponibilidad": 0,
+        "Disponibilidad": 9,
         "Rating": 5
     },
     {
@@ -50,7 +50,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Adam Driver, Scarlett Johanson",
-        "Disponibilidad": 1,
+        "Disponibilidad": 11,
         "Rating": 3
     },
     {
@@ -61,7 +61,7 @@
         ],
         "Anio": "1997",
         "Reparto": "Matt Damon, Ben Affleck",
-        "Disponibilidad": 1,
+        "Disponibilidad": 9,
         "Rating": 2
     },
     {
@@ -82,7 +82,7 @@
         ],
         "Anio": "2001",
         "Reparto": "",
-        "Disponibilidad": 4,
+        "Disponibilidad": 12,
         "Rating": 5
     },
     {
@@ -92,7 +92,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Collin Farrell",
-        "Disponibilidad": 0,
+        "Disponibilidad": 9,
         "Rating": 3
     },
     {
@@ -102,7 +102,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 5,
+        "Disponibilidad": 20,
         "Rating": 3.5
     },
     {
@@ -112,7 +112,7 @@
         ],
         "Anio": "1991",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 0,
+        "Disponibilidad": 9,
         "Rating": 4.5
     },
     {
@@ -122,7 +122,7 @@
         ],
         "Anio": "1999",
         "Reparto": "Jude Law, Matt Damon",
-        "Disponibilidad": 0,
+        "Disponibilidad": 9,
         "Rating": 3
     },
     {
@@ -132,7 +132,7 @@
         ],
         "Anio": "2007",
         "Reparto": "Nicolas Cage",
-        "Disponibilidad": 2,
+        "Disponibilidad": 12,
         "Rating": 4
     }
 ]
