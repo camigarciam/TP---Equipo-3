@@ -142,7 +142,15 @@ def devolver_pelis(usuario):
         
         pelicula = data_usuario["peliculas_alquiladas"][indice_pelicula]
         fecha_fin = datetime.strptime(pelicula['FechaFin'], "%d-%m-%Y")
-        fecha_actual = datetime.now()
+        
+        bandera = True
+        while bandera:
+            try:
+                fecha_actual = datetime.strptime(input("Ingrese la fecha del día de hoy: (dd- mm- aaaa)"), "%d-%m-%Y")
+                bandera = False
+            except ValueError:
+                print("El formato de la fecha ingresado no es válido. Por favor intente de nuevo.")
+
 
         # Verificar si se devuelve tarde
         if fecha_actual > fecha_fin:
@@ -228,6 +236,8 @@ def Alquilarpeli(numero,usuario):
         print("Número de película inválido. Por favor, ingrese un número entre 1 y", len(listapelis))
         return False
         
+    with open('usuarios.json', 'r') as file:
+                    usuarios = json.load(file)
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
@@ -425,6 +435,7 @@ def Finalizar():
     Returns:
         None: La función imprime un mensaje en la maquina y no retorna ningún valor.
     """
+    print("Gracias por usar el programa de alquiler de películas.")
     if peliculas_alquiladas:
         print("Películas que alquilaste en esta sesión:")
         for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:

@@ -14,13 +14,7 @@
     {
         "nombreUsuario": "juan1234",
         "contrasena": "juan1234",
-        "peliculas_alquiladas": [
-            {
-                "Titulo": "Ghost Rider",
-                "FechaInicio": "05-11-2024",
-                "FechaFin": "06-11-2024"
-            }
-        ],
-        "saldo": 1237755.0
+        "peliculas_alquiladas": [],
+        "saldo": 1231755.0
     }
 ]
