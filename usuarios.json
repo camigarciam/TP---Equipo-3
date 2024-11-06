@@ -4,16 +4,23 @@
         "contrasena": "cami1234",
         "peliculas_alquiladas": [
             {
-                "Titulo": "Como Entrenar a tu Dragon",
+                "Titulo": "Ghost Rider",
                 "FechaInicio": "05-11-2024",
-                "FechaFin": "06-11-2024"
-            },
-            {
-                "Titulo": "Mente indomable",
-                "FechaInicio": "05-11-2024",
-                "FechaFin": "28-12-2025"
+                "FechaFin": "22-11-2024"
             }
         ],
-        "saldo": 834.0
+        "saldo": 1216201.0
+    },
+    {
+        "nombreUsuario": "juan1234",
+        "contrasena": "juan1234",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Ghost Rider",
+                "FechaInicio": "05-11-2024",
+                "FechaFin": "06-11-2024"
+            }
+        ],
+        "saldo": 1237755.0
     }
 ]

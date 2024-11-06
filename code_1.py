@@ -69,7 +69,7 @@ def login_usuario(usuario, contra):
 
     # Mostrar películas alquiladas y pedir reseña si hay alguna
     if usuario_encontrado["peliculas_alquiladas"]:
-        peliculas = ", ".join(usuario_encontrado["peliculas_alquiladas"])
+        peliculas = ", ".join([pelicula["Titulo"] for pelicula in usuario_encontrado["peliculas_alquiladas"]])
         print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
         desea_res = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
         if desea_res == 's':
@@ -120,6 +120,47 @@ def validarcontraseña(nuevacontra):
         print("Contraseña confirmada")
     return contrasena
 
+def devolver_pelis(usuario):
+
+    # Verificar si el usuario tiene películas alquiladas
+    data_usuario = encontrar_usuario(usuario)
+    if not data_usuario["peliculas_alquiladas"]:
+        print("No tienes películas alquiladas para devolver.")
+        return
+    
+    # Mostrar las películas alquiladas
+    print("Estas son tus películas alquiladas:")
+    for i, alquiler in enumerate(data_usuario["peliculas_alquiladas"], 1):
+        print(f"{i}. {alquiler['Titulo']} (Devolver antes de: {alquiler['FechaFin']})")
+    
+    try:
+        # Solicitar al usuario la película que desea devolver
+        indice_pelicula = int(input("¿Qué película deseas devolver? (Ingrese el número): ")) - 1
+        if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
+            print("Opción no válida. Intenta de nuevo.")
+            return
+        
+        pelicula = data_usuario["peliculas_alquiladas"][indice_pelicula]
+        fecha_fin = datetime.strptime(pelicula['FechaFin'], "%d-%m-%Y")
+        fecha_actual = datetime.now()
+
+        # Verificar si se devuelve tarde
+        if fecha_actual > fecha_fin:
+            dias_retraso = (fecha_actual - fecha_fin).days
+            print(f"La película '{pelicula['Titulo']}' se devuelve con {dias_retraso} día(s) de retraso.")
+            cargo_extra = dias_retraso * 3000  # Ejemplo de cargo adicional
+            print(f"Se aplicará un cargo adicional de ${cargo_extra} por el retraso.")
+            # Descontar el cargo del saldo del usuario
+            data_usuario["saldo"] -= cargo_extra
+            print(f"Tu saldo actual es: ${data_usuario['saldo']:.2f}")
+
+        # Eliminar la película de las películas alquiladas
+        data_usuario["peliculas_alquiladas"].pop(indice_pelicula)
+        actualizar_datos('usuarios.json', usuarios)
+        print(f"Has devuelto la película '{pelicula['Titulo']}' con éxito.")
+
+    except ValueError:
+        print("Por favor, ingrese un número válido.")
 
 #2. mostrar los titulos de las peliculas 
 def Mostrarpelis():
@@ -187,8 +228,6 @@ def Alquilarpeli(numero,usuario):
         print("Número de película inválido. Por favor, ingrese un número entre 1 y", len(listapelis))
         return False
         
-    #with open('usuarios.json', 'r') as file:
-    #                usuarios = json.load(file)
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
@@ -435,6 +474,10 @@ def Main():
         except ValueError:
             print("Por favor, ingrese un número válido.")
 
+    #
+    devolver_opcion = input("¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
+    if devolver_opcion == 's':
+        devolver_pelis(usuario)
 
     # Recomendación de película
     respuesta_valida = False
