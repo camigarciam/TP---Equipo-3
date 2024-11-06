@@ -1,32 +1,19 @@
 [
     {
-        "nombreUsuario": "abru1234",
-        "contrasena": "abru1234",
-        "peliculas_alquiladas": [
-            "La Laguna Azul",
-            "El viaje de Chihiro",
-            "Whiplash",
-            "Whiplash",
-            "Whiplash"
-        ],
-        "saldo": 40812.0
-    },
-    {
         "nombreUsuario": "cami1234",
         "contrasena": "cami1234",
         "peliculas_alquiladas": [
-            "The Talented Mr Ripley",
-            "Historia de un Matrimonio",
-            "El viaje de Chihiro",
-            "The Basketball Diaries",
-            "The Talented Mr Ripley",
-            "Historia de un Matrimonio",
-            "La Langosta",
-            "Como Entrenar a tu Dragon",
-            "Whiplash",
-            "El viaje de Chihiro",
-            "Whiplash"
+            {
+                "Titulo": "Como Entrenar a tu Dragon",
+                "FechaInicio": "05-11-2024",
+                "FechaFin": "06-11-2024"
+            },
+            {
+                "Titulo": "Mente indomable",
+                "FechaInicio": "05-11-2024",
+                "FechaFin": "28-12-2025"
+            }
         ],
-        "saldo": 264431600.0
+        "saldo": 834.0
     }
 ]

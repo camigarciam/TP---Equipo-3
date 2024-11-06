@@ -187,8 +187,8 @@ def Alquilarpeli(numero,usuario):
         print("Número de película inválido. Por favor, ingrese un número entre 1 y", len(listapelis))
         return False
         
-    with open('usuarios.json', 'r') as file:
-                    usuarios = json.load(file)
+    #with open('usuarios.json', 'r') as file:
+    #                usuarios = json.load(file)
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"Hay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
@@ -198,7 +198,13 @@ def Alquilarpeli(numero,usuario):
             peli["Disponibilidad"]-= 1
 
             data_usuario = encontrar_usuario(usuario)
-            data_usuario["peliculas_alquiladas"].append(peli["Titulo"])
+
+            info_alquiler = {
+                "Titulo": peli["Titulo"],
+                "FechaInicio": fecha_inicio.strftime("%d-%m-%Y"),
+                "FechaFin": fecha_fin.strftime("%d-%m-%Y")
+            }
+            data_usuario["peliculas_alquiladas"].append(info_alquiler)
             
             # Agrega la película a la lista de películas alquiladas del usuario
             peliculas_alquiladas.append([indice_alquiler, peli["Titulo"], fecha_inicio, fecha_fin])
@@ -208,7 +214,7 @@ def Alquilarpeli(numero,usuario):
             
             # Guarda la disponibilidad actualizada
             actualizar_datos('pelis.json', listapelis)
-            
+
             indice_alquiler += 1
             print(f"Has alquilado '{peli['Titulo']}'. Quedan {peli['Disponibilidad']} unidades disponibles.")
         else:
@@ -321,8 +327,7 @@ def agregar_saldo(usuario_encontrado, usuarios):
                     print("Ingrese un número válido.")
 
             usuario_encontrado["saldo"] += cantidad_agregar
-            with open('usuarios.json', 'w') as file:
-                json.dump(usuarios, file, indent=4)  
+            actualizar_datos('usuarios.json', usuarios)
 
             print(f"Se han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
             metodo_pago_valido = True 
@@ -365,8 +370,7 @@ def realizar_pago(total_a_pagar, usuario):
     time.sleep(2)
 
     # Guardar el saldo actualizado en el archivo
-    with open('usuarios.json', 'w') as file:
-        json.dump(usuarios, file, indent=4)
+    actualizar_datos('usuarios.json', usuarios)
 
     print(f"Compra realizada con éxito. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
 
@@ -382,7 +386,6 @@ def Finalizar():
     Returns:
         None: La función imprime un mensaje en la maquina y no retorna ningún valor.
     """
-    print("Gracias por usar el programa de alquiler de películas.")
     if peliculas_alquiladas:
         print("Películas que alquilaste en esta sesión:")
         for indice, titulo, fecha_inicio, fecha_fin in peliculas_alquiladas:
