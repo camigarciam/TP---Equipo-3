@@ -132,42 +132,52 @@ def devolver_pelis(usuario):
     for i, alquiler in enumerate(data_usuario["peliculas_alquiladas"], 1):
         print(f"{i}. {alquiler['Titulo']} (Devolver antes de: {alquiler['FechaFin']})")
     
-    try:
-        # Solicitar al usuario la película que desea devolver
-        indice_pelicula = int(input("¿Qué película deseas devolver? (Ingrese el número): ")) - 1
-        if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
-            print("Opción no válida. Intenta de nuevo.")
-            return
+    devolver_otra = 's'
+
+    while devolver_otra == 's':
+        try:
+            # Solicitar al usuario la película que desea devolver
+            indice_pelicula = int(input("¿Qué película deseas devolver? (Ingrese el número): ")) - 1
+            
+            if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
+                print("Opción no válida. Intenta de nuevo.")
+                continue
         
-        pelicula = data_usuario["peliculas_alquiladas"][indice_pelicula]
-        fecha_fin = datetime.strptime(pelicula['FechaFin'], "%d-%m-%Y")
+            pelicula = data_usuario["peliculas_alquiladas"][indice_pelicula]
+            fecha_fin = datetime.strptime(pelicula['FechaFin'], "%d-%m-%Y")
         
-        bandera = True
-        while bandera:
-            try:
-                fecha_actual = datetime.strptime(input("Ingrese la fecha del día de hoy: (dd- mm- aaaa)"), "%d-%m-%Y")
-                bandera = False
-            except ValueError:
-                print("El formato de la fecha ingresado no es válido. Por favor intente de nuevo.")
+            bandera = True
+            while bandera:
+                try:
+                    fecha_actual = datetime.strptime(input("Ingrese la fecha del día de hoy: (dd- mm- aaaa)"), "%d-%m-%Y")
+                    bandera = False
+                except ValueError:
+                    print("El formato de la fecha ingresado no es válido. Por favor intente de nuevo.")
 
 
-        # Verificar si se devuelve tarde
-        if fecha_actual > fecha_fin:
-            dias_retraso = (fecha_actual - fecha_fin).days
-            print(f"La película '{pelicula['Titulo']}' se devuelve con {dias_retraso} día(s) de retraso.")
-            cargo_extra = dias_retraso * 3000  # Ejemplo de cargo adicional
-            print(f"Se aplicará un cargo adicional de ${cargo_extra} por el retraso.")
-            # Descontar el cargo del saldo del usuario
-            data_usuario["saldo"] -= cargo_extra
-            print(f"Tu saldo actual es: ${data_usuario['saldo']:.2f}")
+            # Verificar si se devuelve tarde
+            if fecha_actual > fecha_fin:
+                dias_retraso = (fecha_actual - fecha_fin).days
+                print(f"La película '{pelicula['Titulo']}' se devuelve con {dias_retraso} día(s) de retraso.")
+                cargo_extra = dias_retraso * 3000  # Ejemplo de cargo adicional
+                print(f"Se aplicará un cargo adicional de ${cargo_extra} por el retraso.")
+                # Descontar el cargo del saldo del usuario
+                data_usuario["saldo"] -= cargo_extra
+                print(f"Tu saldo actual es: ${data_usuario['saldo']:.2f}")
 
-        # Eliminar la película de las películas alquiladas
-        data_usuario["peliculas_alquiladas"].pop(indice_pelicula)
-        actualizar_datos('usuarios.json', usuarios)
-        print(f"Has devuelto la película '{pelicula['Titulo']}' con éxito.")
+            # Eliminar la película de las películas alquiladas
+            data_usuario["peliculas_alquiladas"].pop(indice_pelicula)
+            actualizar_datos('usuarios.json', usuarios)
+            print(f"Has devuelto la película '{pelicula['Titulo']}' con éxito.")
 
-    except ValueError:
-        print("Por favor, ingrese un número válido.")
+            # Pregunta al usuario si desea devolver otra pelicula
+            devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
+            while devolver_otra not in ['s', 'n']:
+                print("Respuesta no válida, intente de nuevo.")
+                devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
+    
+        except ValueError:
+            print("Por favor, ingrese un número válido.")
 
 #2. mostrar los titulos de las peliculas 
 def Mostrarpelis():
@@ -339,7 +349,7 @@ def Recomendacion():
 
         print(f"Fin del test! Pareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
         for pelicula in peliculas_recomendadas:
-            print(f"- {pelicula["Titulo"]}")
+            print(f"- {pelicula['Titulo']}")
     else:
         print(f"No hay películas disponibles en el género {genero_recomendado}.")
 
