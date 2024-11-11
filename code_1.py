@@ -21,7 +21,16 @@ def actualizar_datos(nombre_archivo, datos):
         json.dump(datos, file, indent=4)
 
 def registrarUsuario(usuario,contra):
-        
+    """
+    Registra un nuevo usuario con un saldo inicial si el nombre de usuario no existe.
+
+    Parámetros:
+        usuario (str): El nombre de usuario.
+        contra (str): La contraseña del usuario.
+
+    Retorna:
+        bool: True si el registro es exitoso, False si el usuario ya existe.
+    """
     for u in usuarios:
         if u['nombreUsuario'] == usuario:
             print("El nombre de usuario ya existe")
@@ -50,6 +59,20 @@ def encontrar_usuario(usuario, usuarios):
     return None
 
 def login_usuario(usuario, contra, usuarios):
+    """
+    Inicia sesión de un usuario y muestra información sobre su saldo y películas alquiladas.
+
+    Verifica que el usuario exista y que la contraseña sea correcta.
+    Si el usuario tiene películas alquiladas, muestra las películas y permite dejar una reseña.
+
+    Parámetros:
+        usuario (str): El nombre de usuario.
+        contra (str): La contraseña del usuario.
+        usuarios (dict): El diccionario con la información de los usuarios registrados.
+
+    Retorna:
+        bool: True si el inicio de sesión es exitoso, False si hay algún error en el proceso.
+    """
     # Verificar si el usuario existe en el diccionario
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
 
@@ -120,7 +143,15 @@ def validarcontraseña(nuevacontra):
     return contrasena
 
 def devolver_pelis(usuario):
+    """
+    Permite al usuario devolver películas alquiladas, calculando cargos por retraso si aplica.
 
+    Parámetros:
+        usuario (str): El nombre del usuario.
+
+    Retorna:
+        int: Cargo por retraso, o 0 si no hubo retraso.
+    """
     # Verificar si el usuario tiene películas alquiladas
     data_usuario = encontrar_usuario(usuario, usuarios)
     if not data_usuario["peliculas_alquiladas"]:
@@ -233,15 +264,16 @@ peliculas_alquiladas = []
 indice_alquiler = 1
 def Alquilarpeli(numero,usuario):
     """
-    Alquila una película si hay unidades disponibles.
+    Alquila una película si hay unidades disponibles, reduce la cantidad 
+    y la añade a las películas alquiladas del usuario. 
 
-    Verifica la disponibilidad de la película seleccionada y, si está disponible, 
-    reduce la cantidad y la añade a la lista de películas alquiladas.
-    Si no hay disponibilidad, informa al usuario.
+    Verifica la disponibilidad de la película y, si el usuario confirma, 
+    actualiza el inventario y los registros del usuario.
 
-    Parametro/Arg: int- Número de la película a alquilar.
+    Parametro/Arg:  int- Número de la película a alquilar. 
+                    str- El nombre de usuario que realiza el alquiler.
 
-    Returns: bool- True si se realiza el alquiler, False si no.
+    Returns: bool- True si se realiza el alquiler, False si no hay disponibilidad o el alquiler es cancelado..
     """
     global indice_alquiler, peliculas_alquiladas  
 
@@ -286,14 +318,15 @@ def Alquilarpeli(numero,usuario):
         print(f"Lo siento, '{peli['Titulo']}' no está disponible en este momento.")
         return False
     
-#5. recomendacion de una pelicula por si no sabes qué elegir! 
+# Recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
     """
-    Hace una recomendación de manera aleatoria.
-    Selecciona una película de la lista de películas disponibles y muestra su información. Si no hay películas disponibles, informa al usuario.
+    Realiza una recomendación de película basada en las respuestas del usuario. 
+    Filtra y ordena las películas por rating según el género preferido. 
+    Si no hay películas disponibles, informa al usuario.
 
     Returns:
-        int or None: El índice de la película recomendada en la lista de películas, o None si no hay películas disponibles.
+        lista: Películas recomendadas o lista vacía si no hay opciones disponibles.
     """
 
     preguntas = [
@@ -362,6 +395,16 @@ def Recomendacion():
 #6. Pago
 # Función para calcular el total a pagar
 def calcular_total(peliculas_alquiladas, cargo_extra):
+    """
+    Calcula el total a pagar por las películas alquiladas, incluyendo cargos por retraso.
+
+    Parámetros:
+        peliculas_alquiladas (list): Lista de películas alquiladas con fechas.
+        cargo_extra (int): Cargo adicional por retraso, si lo hay.
+
+    Retorna:
+        float: El total a pagar, incluyendo cargos adicionales.
+    """
     if len(peliculas_alquiladas) == 0:
         print("No hay películas seleccionadas para alquilar.")    
         return 0  # Devuelve 0 si no hay alquileres
@@ -396,6 +439,18 @@ def calcular_total(peliculas_alquiladas, cargo_extra):
 
 # Función para agregar saldo a la cuenta del usuario
 def agregar_saldo(usuario_encontrado, usuarios):
+    """
+    Permite agregar saldo a la cuenta del usuario a través de diferentes métodos de pago.
+
+    Solicita al usuario seleccionar un método de pago y la cantidad a agregar. Si la cantidad es válida, se actualiza el saldo del usuario.
+
+    Parámetros:
+        usuario_encontrado (dict): El diccionario con la información del usuario.
+        usuarios (list): Lista de usuarios registrados.
+
+    Retorna:
+        None
+    """
     metodo_pago_valido = False
     while not metodo_pago_valido:
         print("Métodos para agregar dinero:")
@@ -496,7 +551,6 @@ def Finalizar(usuario,usuarios):
 
 #programa principal
 def Main():
-
         
     sesion_iniciada = False #controla estado
     while sesion_iniciada == False:  #estado = no se inició sesión
