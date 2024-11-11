@@ -2,13 +2,7 @@
     {
         "nombreUsuario": "cami1234",
         "contrasena": "cami1234",
-        "peliculas_alquiladas": [
-            {
-                "Titulo": "La Laguna Azul",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "21-12-2024"
-            }
-        ],
+        "peliculas_alquiladas": [],
         "saldo": 1225770714.0
     },
     {
@@ -72,5 +66,22 @@
             }
         ],
         "saldo": 900.0
+    },
+    {
+        "nombreUsuario": "cami123",
+        "contrasena": "cami1234",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Como Entrenar a tu Dragon",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "12-11-2024"
+            },
+            {
+                "Titulo": "Ghost Rider",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "13-12-2025"
+            }
+        ],
+        "saldo": 40000.0
     }
 ]
