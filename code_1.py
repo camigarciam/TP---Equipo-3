@@ -171,6 +171,9 @@ def devolver_pelis(usuario):
             # Pregunta al usuario si desea devolver otra pelicula
             if len(data_usuario["peliculas_alquiladas"]) > 0:
                 devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
+                if (devolver_otra == 's'):
+                    for i, alquiler in enumerate(data_usuario["peliculas_alquiladas"], 1):
+                        print(f"{i}. {alquiler['Titulo']} (Devolver antes de: {alquiler['FechaFin']})")
                 while devolver_otra not in ['s', 'n']:
                     print("Respuesta no válida, intente de nuevo.")
                     devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
@@ -422,6 +425,7 @@ def agregar_saldo(usuario_encontrado, usuarios):
 
 # Función para procesar el pago
 def realizar_pago(total_a_pagar, usuario):
+
     bandera=True
     with open('usuarios.json', 'r') as file:
         usuarios = json.load(file)

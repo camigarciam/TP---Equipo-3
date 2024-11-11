@@ -4,12 +4,12 @@
         "contrasena": "cami1234",
         "peliculas_alquiladas": [
             {
-                "Titulo": "La Laguna Azul",
+                "Titulo": "Ghost Rider",
                 "FechaInicio": "11-11-2024",
-                "FechaFin": "21-12-2024"
+                "FechaFin": "22-11-2024"
             }
         ],
-        "saldo": 1225770714.0
+        "saldo": 1225692714.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -26,18 +26,7 @@
     {
         "nombreUsuario": "sol1234",
         "contrasena": "sol12345",
-        "peliculas_alquiladas": [
-            {
-                "Titulo": "Her",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "12-11-2024"
-            },
-            {
-                "Titulo": "Mente indomable",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "12-11-2024"
-            }
-        ],
+        "peliculas_alquiladas": [],
         "saldo": -88200.0
     },
     {
