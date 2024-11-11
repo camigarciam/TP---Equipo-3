@@ -133,8 +133,9 @@ def devolver_pelis(usuario):
         print(f"{i}. {alquiler['Titulo']} (Devolver antes de: {alquiler['FechaFin']})")
     
     devolver_otra = 's'
+    cargo_extra = 0
 
-    while devolver_otra == 's':
+    while devolver_otra == 's' and len(data_usuario["peliculas_alquiladas"]) > 0:
         try:
             # Solicitar al usuario la película que desea devolver
             indice_pelicula = int(input("¿Qué película deseas devolver? (Ingrese el número): ")) - 1
@@ -154,16 +155,13 @@ def devolver_pelis(usuario):
                 except ValueError:
                     print("El formato de la fecha ingresado no es válido. Por favor intente de nuevo.")
 
-
             # Verificar si se devuelve tarde
             if fecha_actual > fecha_fin:
                 dias_retraso = (fecha_actual - fecha_fin).days
                 print(f"La película '{pelicula['Titulo']}' se devuelve con {dias_retraso} día(s) de retraso.")
-                cargo_extra = dias_retraso * 3000  # Ejemplo de cargo adicional
+                cargo_extra = dias_retraso * 1500
                 print(f"Se aplicará un cargo adicional de ${cargo_extra} por el retraso.")
-                # Descontar el cargo del saldo del usuario
-                data_usuario["saldo"] -= cargo_extra
-                print(f"Tu saldo actual es: ${data_usuario['saldo']:.2f}")
+
 
             # Eliminar la película de las películas alquiladas
             data_usuario["peliculas_alquiladas"].pop(indice_pelicula)
@@ -171,13 +169,16 @@ def devolver_pelis(usuario):
             print(f"Has devuelto la película '{pelicula['Titulo']}' con éxito.")
 
             # Pregunta al usuario si desea devolver otra pelicula
-            devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
-            while devolver_otra not in ['s', 'n']:
-                print("Respuesta no válida, intente de nuevo.")
+            if len(data_usuario["peliculas_alquiladas"]) > 0:
                 devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
+                while devolver_otra not in ['s', 'n']:
+                    print("Respuesta no válida, intente de nuevo.")
+                    devolver_otra = input("¿Desea devolver otra pelicula? (s/n): ")
+            else: print("Ya no hay peliculas para devolver.")
     
         except ValueError:
             print("Por favor, ingrese un número válido.")
+    return cargo_extra
 
 #2. mostrar los titulos de las peliculas 
 def Mostrarpelis():
@@ -357,7 +358,7 @@ def Recomendacion():
 
 #6. Pago
 # Función para calcular el total a pagar
-def calcular_total(peliculas_alquiladas):
+def calcular_total(peliculas_alquiladas, cargo_extra):
     if len(peliculas_alquiladas) == 0:
         print("No hay películas seleccionadas para alquilar.")    
         return 0  # Devuelve 0 si no hay alquileres
@@ -379,6 +380,13 @@ def calcular_total(peliculas_alquiladas):
         costo = dias_alquilados * 1200  # Suponiendo que el costo es 1200 por día
         total_a_pagar += costo
         print(f"Película: {titulo}, Días alquilados: {dias_alquilados}, Costo: ${costo}")
+    
+    if cargo_extra is None:
+        cargo_extra = 0
+
+    if cargo_extra > 0:
+        print(f"Se le va a cobrar un cargo adicional de ${cargo_extra} por devolución tardia.")
+        total_a_pagar += cargo_extra
 
     print(f"El total a pagar es: ${total_a_pagar}")
     return total_a_pagar
@@ -437,14 +445,12 @@ def realizar_pago(total_a_pagar, usuario):
 
         if agregar_dinero == 's':
             agregar_saldo(usuario_encontrado, usuarios)
-            print(f"Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")  # Mostrar nuevo saldo tras agregar
 
-            # No se necesita una verificación adicional aquí, ya que el bucle vuelve a comprobar el saldo
         else:
             print("Se ha cancelado la compra debido a saldo insuficiente.")
             return  # Salimos de la función si no se agrega dinero
 
-    # Si llegamos aquí, el saldo es suficiente para pagar
+    # El saldo es suficiente para pagar
     usuario_encontrado["saldo"] -= total_a_pagar
     print("Saldo suficiente, procesando pago...")
     time.sleep(2)
@@ -519,11 +525,12 @@ def Main():
         except ValueError:
             print("Por favor, ingrese un número válido.")
 
-    #
+    
+    cargo_extra = 0
     devolver_opcion = input("¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
     if devolver_opcion == 's':
-        devolver_pelis(usuario)
-
+        cargo_extra = devolver_pelis(usuario)
+   
     # Recomendación de película
     respuesta_valida = False
 
@@ -565,7 +572,7 @@ def Main():
             print("Por favor, ingrese un número.")
     
     #Realizar pago
-    total_a_pagar = calcular_total(peliculas_alquiladas)
+    total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
     realizar_pago(total_a_pagar, usuario)
     Finalizar(usuario, usuarios)
 
