@@ -20,6 +20,13 @@ def actualizar_datos(nombre_archivo, datos):
     with open(nombre_archivo, 'w') as file:
         json.dump(datos, file, indent=4)
 
+def user_input(mensaje):
+    respuesta = input(mensaje).strip().lower()
+    if respuesta == "exit":
+        print("\nHas cerrado sesión. ¡Portate bien! (・∀・)! \n\n\n")
+        Main()  # 
+    return respuesta
+
 def registrarUsuario(usuario,contra):
     """
     Registra un nuevo usuario con un saldo inicial si el nombre de usuario no existe.
@@ -33,11 +40,11 @@ def registrarUsuario(usuario,contra):
     """
     for u in usuarios:
         if u['nombreUsuario'] == usuario:
-            print("\n\nEl nombre de usuario ya existe")
+            print("\n\nEl nombre de usuario ya existe. ༼ง=ಠ益ಠ=༽ง")
             return False
  
     #Pedir al usuario ingrese su saldo incial
-    saldo_inicial = float(input("\n\nIngrese su saldo incial: $"))
+    saldo_inicial = float(user_input("\n\nIngrese su saldo incial: $"))
 
     nuevo_usuario = {
         "nombreUsuario": usuario,
@@ -86,16 +93,17 @@ def login_usuario(usuario, contra, usuarios):
         print("\n\nContrasena incorrecta. (◣_◢)")
         return False
 
-    print(f"\n\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} (^◔ᴥ◔^)")
+    print(f"\n\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} ヽ༼࿃っ࿃༽ﾉ\n")
+    print("Puede cerrar sesión en cualquier momento usando la palabra clave 'exit'")
     print(f"\n\nTu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
 
     # Mostrar películas alquiladas y pedir reseña si hay alguna
     if usuario_encontrado["peliculas_alquiladas"]:
         peliculas = ", ".join([pelicula["Titulo"] for pelicula in usuario_encontrado["peliculas_alquiladas"]])
-        print(f"Hola, {usuario_encontrado['nombreUsuario']}. La vez pasada alquilaste las películas: {peliculas}.")
-        desea_res = input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
+        print(f"{usuario_encontrado['nombreUsuario']}, la vez pasada alquilaste las películas: {peliculas}.")
+        desea_res = user_input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
         if desea_res == 's':
-            resenia = input("Escribe tu reseña: ")
+            resenia = user_input("Escribe tu reseña: ")
             print(f"Gracias por tu reseña sobre '{peliculas}'")
     else:
         print("No tienes películas alquiladas anteriormente.")
@@ -114,9 +122,9 @@ def validarusuario(usuario):
         Return: str- 'El nombre de usuario es valido'
         """
         while len(usuario)<6:
-            print("El nombre de usuario debe contener al menos 6 caracteres")
-            usuario=input("Ingrese su nombre de usuario: ")
-        print("El nombre de usuario es válido")
+            print("(－‸ლ) El nombre de usuario debe contener al menos 6 caracteres")
+            usuario=user_input("Ingrese su nombre de usuario: ")
+        print("El nombre de usuario es válido ୧༼✿ ͡◕ д ◕͡ ༽୨")
         return usuario
 
 def validarcontraseña(nuevacontra):
@@ -133,13 +141,13 @@ def validarcontraseña(nuevacontra):
     Return: str- 'Contraseña confirmada'
     """
     while not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$', nuevacontra):
-        nuevacontra=input("Contraseña invalida, ingrese la contraseña nuevamente: ")
+        nuevacontra=user_input("/nContraseña invalida, ingrese la contraseña nuevamente: ")
     print("Contraseña válida")
-    contrasena=input("Confirme su contraseña: ")
+    contrasena=user_input("/nConfirme su contraseña: ")
     while contrasena != nuevacontra:
-        contrasena=input("Las contraseñas no coinciden, ingrese la contraseña nuevamente: ")
+        contrasena=user_input("/nLas contraseñas no coinciden, ingrese la contraseña nuevamente: ")
     else:
-        print("Contraseña confirmada")
+        print("Contraseña confirmada ༼ ◔ ͜ʖ ◔ ༽")
     return contrasena
 
 def devolver_pelis(usuario):
@@ -169,7 +177,7 @@ def devolver_pelis(usuario):
     while devolver_otra == 's' and len(data_usuario["peliculas_alquiladas"]) > 0:
         try:
             # Solicitar al usuario la película que desea devolver
-            indice_pelicula = int(input("\n\n¿Qué película deseas devolver? (Ingrese el número): ")) - 1
+            indice_pelicula = int(user_input("\n\n¿Qué película deseas devolver? (Ingrese el número): ")) - 1
             
             if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
                 print("\n\nOpción no válida. Intenta de nuevo. ξ(｡◕ˇ◊ˇ◕｡)ξ")
@@ -181,7 +189,7 @@ def devolver_pelis(usuario):
             bandera = True
             while bandera:
                 try:
-                    fecha_actual = datetime.strptime(input("\n\nIngrese la fecha del día de hoy: (dd- mm- aaaa)"), "%d-%m-%Y")
+                    fecha_actual = datetime.strptime(user_input("\n\nIngrese la fecha del día de hoy: (dd- mm- aaaa)"), "%d-%m-%Y")
                     bandera = False
                 except ValueError:
                     print("\n\nEl formato de la fecha ingresado no es válido. Por favor intente de nuevo.")
@@ -201,13 +209,13 @@ def devolver_pelis(usuario):
 
             # Pregunta al usuario si desea devolver otra pelicula
             if len(data_usuario["peliculas_alquiladas"]) > 0:
-                devolver_otra = input("\n\n¿Desea devolver otra pelicula? (s/n): ")
+                devolver_otra = user_input("\n\n¿Desea devolver otra pelicula? (s/n): ")
                 if (devolver_otra == 's'):
                     for i, alquiler in enumerate(data_usuario["peliculas_alquiladas"], 1):
                         print(f"\n\n{i}. {alquiler['Titulo']} (Devolver antes de: {alquiler['FechaFin']})")
                 while devolver_otra not in ['s', 'n']:
                     print("\n\nRespuesta no válida, intente de nuevo.")
-                    devolver_otra = input("\n\n¿Desea devolver otra pelicula? (s/n): ")
+                    devolver_otra = user_input("\n\n¿Desea devolver otra pelicula? (s/n): ")
             else: print("\n\nYa no hay peliculas para devolver.~(‾▿‾)~ ( ˘▽˘)っ")
     
         except ValueError:
@@ -249,7 +257,7 @@ def selecionar_fechas():
 
     while True:
         try:
-            fecha_fin = input("\n\nIngrese fecha de finalización del alquiler (dd-mm-aaaa): ")
+            fecha_fin = user_input("\n\nIngrese fecha de finalización del alquiler (dd-mm-aaaa): ")
             fecha_fin = datetime.strptime(fecha_fin, "%d-%m-%Y")
             if fecha_fin > fecha_inicio:
                 return fecha_inicio, fecha_fin
@@ -284,8 +292,9 @@ def Alquilarpeli(numero,usuario):
     peli = listapelis[numero - 1]
     if peli["Disponibilidad"] > 0:
         print(f"\nHay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
-        confirmacion = input("\n\n¿Deseas alquilar esta película? (s/n): ")
+        confirmacion = user_input("\n\n¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
+            print("/n༼✷ɷ✷༽  ༼ԾɷԾ༽ ୧༼ ͡◉ل͜ ͡◉༽୨ ヽ༼௵ل͜௵༽ﾉ/n")
             fecha_inicio, fecha_fin = selecionar_fechas()
             peli["Disponibilidad"] -= 1
 
@@ -354,10 +363,10 @@ def Recomendacion():
     }
             
     for pregunta, generos in preguntas:
-        respuesta = input(f"{pregunta} (s/n): ").strip().lower()
+        respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
         while respuesta not in ["s", "n"]:
             print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
-            respuesta = input(f"{pregunta} (s/n): ").strip().lower()
+            respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
 
         if respuesta == 's':
             for genero in generos:
@@ -457,13 +466,13 @@ def agregar_saldo(usuario_encontrado, usuarios):
         print("1. Tarjeta de crédito")
         print("2. Mercado Pago")
         print("3. Tarjeta de débito")
-        opcion_pago = input("Selecciona método de pago (1, 2, 3): ")
+        opcion_pago = user_input("Selecciona método de pago (1, 2, 3): ")
 
         if opcion_pago in ['1', '2', '3']:
             cantidad_agregar = None
             while cantidad_agregar is None:
                 try:
-                    cantidad_agregar = float(input("\n\nIngrese la cantidad de dinero que desea agregar a su cuenta: $"))
+                    cantidad_agregar = float(user_input("\n\nIngrese la cantidad de dinero que desea agregar a su cuenta: $"))
                     if cantidad_agregar <= 0:
                         print("\n\nError, el monto debe ser mayor a cero.")
                         cantidad_agregar = None
@@ -500,7 +509,7 @@ def realizar_pago(total_a_pagar, usuario):
     while usuario_encontrado["saldo"] < total_a_pagar:
         diferencia = total_a_pagar - usuario_encontrado["saldo"]
         print(f"\n\nEl saldo no es suficiente para realizar el pago. Te faltan ${diferencia:.2f} (ʘдʘ╬)")
-        agregar_dinero = input("\n¿Desea agregar dinero a su cuenta? (s/n): ").strip().lower()
+        agregar_dinero = user_input("\n¿Desea agregar dinero a su cuenta? (s/n): ").strip().lower()
 
         if agregar_dinero == 's':
             agregar_saldo(usuario_encontrado, usuarios)
@@ -554,25 +563,26 @@ def Main():
     while sesion_iniciada == True:  #estado = no se inició sesión
         try:
             print("\nBienvenido al videoclub!（●＞ω＜●）\n")
-            loginregistro = int(input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2."))
+            loginregistro = int(user_input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2. "))
             
             if loginregistro == 1:
-                usuario = input("\n\nCree su nombre de usuario: ")
+                usuario = user_input("\n\nCree su nombre de usuario: ")
                 usuario = validarusuario(usuario)
-                nuevacontra = input("\n\nCree su contraseña, debe contener al menos 8 caracteres y un número: ")
+                nuevacontra = user_input("\n\nCree su contraseña, debe contener al menos 8 caracteres y un número: ")
                 nuevacontra = validarcontraseña(nuevacontra)
                 registrarUsuario(usuario, nuevacontra)
                 print("\n\nRegistro exitoso. Ahora inicie sesión para continuar.")
 
                 #Solicita nombre usuario y contrasena de nuevo.
-                usuario = input("\n\nIngrese su nombre de usuario: ")
-                contra = input("\n\nIngrese su contraseña para iniciar sesión: ")
+                usuario = user_input("\n\nIngrese su nombre de usuario: ")
+                contra = user_input("\n\nIngrese su contraseña para iniciar sesión: ")
                 if login_usuario(usuario, contra,usuarios):  # Intentar iniciar sesión
                     sesion_iniciada = False  # Cambiar el estado para salir del ciclo
 
             elif loginregistro == 2:
-                usuario = input("\n\nIngrese su nombre de usuario: ")
-                contra = input("\n\nIngrese su contraseña: ")
+                
+                usuario = user_input("\n\nIngrese su nombre de usuario: ")
+                contra = user_input("\n\nIngrese su contraseña: ")
                 if login_usuario(usuario, contra, usuarios):  # devuekve True
                     sesion_iniciada = False  # Cambiar el estado para salir del ciclo
 
@@ -584,7 +594,7 @@ def Main():
 
     
     cargo_extra = 0
-    devolver_opcion = input("\n\n¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
+    devolver_opcion = user_input("\n\n¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
     if devolver_opcion == 's':
         cargo_extra = devolver_pelis(usuario)
    
@@ -592,7 +602,7 @@ def Main():
     respuesta_valida = True
 
     while respuesta_valida == True:  #estado = no se ha respondido
-        recomendada = input("\n\n¿Desea responder un test de 10 preguntas para que le recomendemos una película? (s/n): ").strip().lower()
+        recomendada = user_input("\n\n¿Desea responder un test de 10 preguntas para que le recomendemos una película? (s/n): ").strip().lower()
         
         if recomendada == "s":
             print("¡Comienza el test!")
@@ -611,7 +621,7 @@ def Main():
     bandera = True 
     while bandera:
         try:
-            numero = int(input("\n\nIngrese el número de película sobre la que desea obtener más información: "))
+            numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información: "))
             
             # Validar el número antes de llamar a Infopeli
             if numero < 1 or numero > len(listapelis):
@@ -620,7 +630,7 @@ def Main():
                 Infopeli(numero)  # Llamar a Infopeli solo si el número es válido
                 
                 if Alquilarpeli(numero, usuario):
-                    continuar = input("\n¿Desea alquilar otra película? (s/n): ")
+                    continuar = user_input("\n¿Desea alquilar otra película? (s/n): ")
                     if continuar.lower() != 's':
                         bandera = False
                 else:
