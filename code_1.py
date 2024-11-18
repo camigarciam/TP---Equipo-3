@@ -11,10 +11,11 @@ def cargar_datos(nombre_archivo):
         with open(nombre_archivo, 'r') as file:
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
-        return []
+        return {}
 
 usuarios = cargar_datos('usuarios.json')
 listapelis = cargar_datos('pelis.json')
+resenias=cargar_datos('resenias.json')
 
 def actualizar_datos(nombre_archivo, datos):
     with open(nombre_archivo, 'w') as file:
@@ -97,18 +98,57 @@ def login_usuario(usuario, contra, usuarios):
     print("Puede cerrar sesión en cualquier momento usando la palabra clave 'exit'")
     print(f"\n\nTu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
 
-    # Mostrar películas alquiladas y pedir reseña si hay alguna
-    if usuario_encontrado["peliculas_alquiladas"]:
-        peliculas = ", ".join([pelicula["Titulo"] for pelicula in usuario_encontrado["peliculas_alquiladas"]])
-        print(f"{usuario_encontrado['nombreUsuario']}, la vez pasada alquilaste las películas: {peliculas}.")
-        desea_res = user_input(f"¿Te gustaría dejar una reseña sobre {peliculas}? (s/n): ").strip().lower()
-        if desea_res == 's':
-            resenia = user_input("Escribe tu reseña: ")
-            print(f"Gracias por tu reseña sobre '{peliculas}'")
-    else:
-        print("No tienes películas alquiladas anteriormente.")
     return True
     
+
+def resenia(usuario):
+
+    data_usuario = encontrar_usuario(usuario, usuarios)
+    peliculas = data_usuario.get("peliculas_alquiladas",[])
+
+    if peliculas:
+        
+        print(f"{usuario}, has alquilado las siguientes películas:")
+
+        
+        for i, pelicula in enumerate(peliculas, start=1):
+            print(f"{i}. {pelicula['Titulo']}")
+
+        bandera = True  
+        while bandera:
+            try:
+                seleccion = int(user_input("\nIngrese el número de la película para dejar una reseña (o 0 para salir): "))
+                
+                if seleccion == 0:
+                    print("\nLa humanidad no podrá sobrevivir sin tus opiniones... (￣ ￣|||)")
+                    bandera = False  
+                elif 1 <= seleccion <= len(peliculas):
+                    pelicula_seleccionada = peliculas[seleccion - 1]  
+                    print(f"\nHas seleccionado '{pelicula_seleccionada['Titulo']}'.")
+
+                    resenia = user_input(f"Escribe tu reseña sobre '{pelicula_seleccionada['Titulo']}': ")
+                    pelicula_seleccionada["Resenia"] = resenia  
+                    resenia_nueva = {
+                        "usuario": usuario,
+                        "resenia": resenia
+                    }
+
+                    if pelicula_seleccionada['Titulo'] not in resenias:
+                        
+                        resenias[pelicula_seleccionada['Titulo']] = []
+                    
+                    resenias[pelicula_seleccionada['Titulo']].append(resenia_nueva)
+                    
+    
+                    actualizar_datos("resenias.json", resenias)
+                    print(f"\nGracias por tu reseña sobre '{pelicula_seleccionada['Titulo']}'.")
+                    
+                else:
+                    print(f"Por favor, selecciona un número válido entre 1 y {len(peliculas)}.")
+            except ValueError:
+                print("Por favor, ingresa un número.")
+    else:
+        print("\nNo tienes películas alquiladas anteriormente.")    
 
     
 def validarusuario(usuario):
@@ -556,6 +596,7 @@ def Finalizar(usuario,usuarios):
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
 
+
 #programa principal
 def Main():
         
@@ -597,6 +638,18 @@ def Main():
     devolver_opcion = user_input("\n\n¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
     if devolver_opcion == 's':
         cargo_extra = devolver_pelis(usuario)
+
+    reseniasiono=int(input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2"))
+    try:
+        if reseniasiono==1:
+            resenia(usuario)
+    except ValueError:
+            print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
+    
+
+
+    
+
    
     # Recomendación de película
     respuesta_valida = True
