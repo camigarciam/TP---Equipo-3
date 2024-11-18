@@ -596,6 +596,34 @@ def Finalizar(usuario,usuarios):
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
 
+def ver_resenia():
+    peliculas_con_resenias = [titulo for titulo in resenias.keys()]
+    if peliculas_con_resenias:
+        # Show the list of movies with their index
+        for i, titulo in enumerate(peliculas_con_resenias, start=1):
+            print(f"{i}. {titulo}")
+                # Ask the user to choose a movie
+        try:
+            seleccion = int(user_input("\nIngrese el número de la película para ver las reseñas (o 0 para salir): "))
+            
+            if seleccion == 0:
+                
+                return  
+            
+            if 1 <= seleccion <= len(peliculas_con_resenias):
+                titulo_pelicula = peliculas_con_resenias[seleccion - 1]
+                print(f"\nReseñas para la película '{titulo_pelicula}':")
+                
+                for i, resenia in enumerate(resenias[titulo_pelicula], start=1):
+                    print(f"\nReseña #{i}:")
+                    print(f"Usuario: {resenia['usuario']}")
+                    print(f"Reseña: {resenia['resenia']}")
+            else:
+                print("\nPor favor, seleccione un número válido.")
+        except ValueError:
+            print("\nPor favor, ingrese un número válido.")
+    else:
+        print("\nNo hay películas con reseñas disponibles.")
 
 #programa principal
 def Main():
@@ -639,17 +667,21 @@ def Main():
     if devolver_opcion == 's':
         cargo_extra = devolver_pelis(usuario)
 
-    reseniasiono=int(input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2"))
+    reseniasiono=int(input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
     try:
         if reseniasiono==1:
             resenia(usuario)
     except ValueError:
             print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
     
+    ver_reseniasiono=int(input("Te gustaría ver reseñas de otros usuarios para ayudarte en tu decisión? De ser así, pulsa 1. En caso contrario, pulsa 2"))
 
-
+    try:
+        if ver_reseniasiono==1:
+            ver_resenia()
+    except ValueError:
+            print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
     
-
    
     # Recomendación de película
     respuesta_valida = True
