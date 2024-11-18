@@ -93,8 +93,8 @@ def login_usuario(usuario, contra, usuarios):
     if usuario_encontrado["contrasena"] != contra:
         print("\n\nContrasena incorrecta. (◣_◢)")
         return False
-
-    print(f"\n\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} ヽ༼࿃っ࿃༽ﾉ\n")
+    print("\n\n\n=============================================")
+    print(f"\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} ヽ༼࿃っ࿃༽ﾉ\n")
     print("Puede cerrar sesión en cualquier momento usando la palabra clave 'exit'")
     print(f"\n\nTu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
 
@@ -631,7 +631,9 @@ def Main():
     sesion_iniciada = True #controla estado
     while sesion_iniciada == True:  #estado = no se inició sesión
         try:
-            print("\nBienvenido al videoclub!（●＞ω＜●）\n")
+            print("\n===============================================\n")
+            print("\nヽ(*・ω・)ﾉ Bienvenido al videoclub!（●＞ω＜●）\n")
+            print("\n===============================================\n")
             loginregistro = int(user_input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2. "))
             
             if loginregistro == 1:
@@ -663,9 +665,7 @@ def Main():
 
     
     cargo_extra = 0
-    devolver_opcion = user_input("\n\n¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
-    if devolver_opcion == 's':
-        cargo_extra = devolver_pelis(usuario)
+
 
     reseniasiono=int(user_input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
     try:
@@ -732,3 +732,13 @@ def Main():
 Main()
 
 
+#def menuprincipal():
+#    print("=============================================")
+#    print("Puede manejarse a través del menú con el teclado")
+#    print("=============================================")
+#    print("\n1.Ver nuestro catálogo")
+#    print("\n2.Devolver una peli")
+#    print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
+#    print("\n4.Ver reseñas de otros usuarios")
+#    print("\n5.Pagar")
+    
