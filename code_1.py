@@ -667,14 +667,14 @@ def Main():
     if devolver_opcion == 's':
         cargo_extra = devolver_pelis(usuario)
 
-    reseniasiono=int(input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
+    reseniasiono=int(user_input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
     try:
         if reseniasiono==1:
             resenia(usuario)
     except ValueError:
             print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
     
-    ver_reseniasiono=int(input("Te gustaría ver reseñas de otros usuarios para ayudarte en tu decisión? De ser así, pulsa 1. En caso contrario, pulsa 2"))
+    ver_reseniasiono=int(user_input("Te gustaría ver reseñas de otros usuarios para ayudarte en tu decisión? De ser así, pulsa 1. En caso contrario, pulsa 2"))
 
     try:
         if ver_reseniasiono==1:
