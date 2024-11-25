@@ -20,8 +20,19 @@
     {
         "nombreUsuario": "nicoxxgamer",
         "contrasena": "wowowowow1",
-        "peliculas_alquiladas": [],
-        "saldo": 10000000.0
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Ghost Rider",
+                "FechaInicio": "17-11-2024",
+                "FechaFin": "18-11-2025"
+            },
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "17-11-2024",
+                "FechaFin": "18-11-2024"
+            }
+        ],
+        "saldo": 9120400.0
     },
     {
         "nombreUsuario": "sol1234",
