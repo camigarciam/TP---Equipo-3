@@ -2,8 +2,14 @@
     {
         "nombreUsuario": "cami1234",
         "contrasena": "cami1234",
-        "peliculas_alquiladas": [],
-        "saldo": 1225770714.0
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "El viaje de Chihiro",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "23-01-2025"
+            }
+        ],
+        "saldo": 1225594314.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -20,18 +26,7 @@
     {
         "nombreUsuario": "sol1234",
         "contrasena": "sol12345",
-        "peliculas_alquiladas": [
-            {
-                "Titulo": "Her",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "12-11-2024"
-            },
-            {
-                "Titulo": "Mente indomable",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "12-11-2024"
-            }
-        ],
+        "peliculas_alquiladas": [],
         "saldo": -88200.0
     },
     {
