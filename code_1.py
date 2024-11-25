@@ -625,12 +625,69 @@ def ver_resenia():
     else:
         print("\nNo hay películas con reseñas disponibles.")
 
+
+
+
+
+
+
+def menuprincipal(usuario):
+    print("=============================================")
+    print("Puede manejarse a través del menú con el teclado")
+    print("Para volver al menú principal puede usar la palabra clave 'menu' en cualquier momento")
+    print("=============================================")
+    print("\n1.Ver nuestro catálogo")
+    print("\n2.Devolver una peli")
+    print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
+    print("\n4.Ver reseñas de otros usuarios")
+    print("\n5.Pagar")
+    navegacion=int(input("Ingrese el num deseado: "))
+    if navegacion==1:
+        Mostrarpelis()
+
+        # Comprobar disponibilidad y alquilar
+        bandera = True 
+        while bandera:
+            try:
+                numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información: "))
+
+                # Validar el número antes de llamar a Infopeli
+                if numero < 1 or numero > len(listapelis):
+                    print(f"\nNúmero de película inválido. Por favor, ingrese un número entre 1 y {len(listapelis)}")
+                else:
+                    Infopeli(numero)  # Llamar a Infopeli solo si el número es válido
+
+                    if Alquilarpeli(numero, usuario):
+                        continuar = user_input("\n¿Desea alquilar otra película? (s/n): ")
+                        if continuar.lower() != 's':
+                            bandera = False
+                    else:
+                        Mostrarpelis()
+            except ValueError:
+                print("\nPor favor, ingrese un número.")
+
+    if navegacion==2:
+        cargo_extra = devolver_pelis(usuario)
+    
+    if navegacion==3:
+        resenia(usuario)
+    
+    if navegacion == 4:
+        ver_resenia()
+    
+    if navegacion == 5:
+        total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
+        realizar_pago(total_a_pagar, usuario)
+
+
+
 #programa principal
 def Main():
         
     sesion_iniciada = True #controla estado
     while sesion_iniciada == True:  #estado = no se inició sesión
         try:
+            print("\n")
             print("\n===============================================\n")
             print("\nヽ(*・ω・)ﾉ Bienvenido al videoclub!（●＞ω＜●）\n")
             print("\n===============================================\n")
@@ -664,8 +721,13 @@ def Main():
             print("Por favor, ingrese un número válido.")
 
     
-    cargo_extra = 0
+    menuprincipal(usuario)
 
+    cargo_extra = 0
+    
+    devolver_opcion = user_input("\n\n¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
+    if devolver_opcion == 's':
+        cargo_extra = devolver_pelis(usuario)
 
     reseniasiono=int(user_input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
     try:
@@ -732,13 +794,7 @@ def Main():
 Main()
 
 
-#def menuprincipal():
-#    print("=============================================")
-#    print("Puede manejarse a través del menú con el teclado")
-#    print("=============================================")
-#    print("\n1.Ver nuestro catálogo")
-#    print("\n2.Devolver una peli")
-#    print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
-#    print("\n4.Ver reseñas de otros usuarios")
-#    print("\n5.Pagar")
+    
+        
+    
     
