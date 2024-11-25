@@ -25,7 +25,13 @@ def user_input(mensaje):
     respuesta = input(mensaje).strip().lower()
     if respuesta == "exit":
         print("\nHas cerrado sesión. ¡Portate bien! (・∀・)! \n\n\n")
+        time.sleep(1)
         Main()  # 
+    elif respuesta=="menu":
+        print("\nVolviendo al menú principal...")
+        time.sleep(2)
+        menuprincipal(usuario_encontrado)
+
     return respuesta
 
 def registrarUsuario(usuario,contra):
@@ -81,8 +87,14 @@ def login_usuario(usuario, contra, usuarios):
     Retorna:
         bool: True si el inicio de sesión es exitoso, False si hay algún error en el proceso.
     """
-    # Verificar si el usuario existe en el diccionario
+    # Verificar si el usuario existe en el diccionario 
+
+    global usuario_encontrado
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
+    
+    
+    print("Iniciando sesión...")
+    time.sleep(2)
 
     # Si no se encontró el usuario, mostrar mensaje de error
     if not usuario_encontrado:
@@ -627,21 +639,29 @@ def ver_resenia():
 
 
 
-
-
-
-
 def menuprincipal(usuario):
+    print("\n")
     print("=============================================")
+    print("\n")
     print("Puede manejarse a través del menú con el teclado")
+    print("\n")
     print("Para volver al menú principal puede usar la palabra clave 'menu' en cualquier momento")
+    print("\n")
+    time.sleep(3)
+    print("=============================================")
+    print("MENÚ PRINCIPAL")
     print("=============================================")
     print("\n1.Ver nuestro catálogo")
     print("\n2.Devolver una peli")
     print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
     print("\n4.Ver reseñas de otros usuarios")
     print("\n5.Pagar")
-    navegacion=int(input("Ingrese el num deseado: "))
+
+    try:
+        navegacion=int(user_input("\nIngrese el num deseado: "))
+    except ValueError:
+        print("Por favor, ingrese un número")
+
     if navegacion==1:
         Mostrarpelis()
 
@@ -691,6 +711,7 @@ def Main():
             print("\n===============================================\n")
             print("\nヽ(*・ω・)ﾉ Bienvenido al videoclub!（●＞ω＜●）\n")
             print("\n===============================================\n")
+            time.sleep(3)
             loginregistro = int(user_input("Si desea registrarse, pulse 1. Si desea iniciar sesión, pulse 2. "))
             
             if loginregistro == 1:
@@ -719,7 +740,7 @@ def Main():
 
         except ValueError:
             print("Por favor, ingrese un número válido.")
-
+    
     
     menuprincipal(usuario)
 
