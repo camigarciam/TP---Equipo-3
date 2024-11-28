@@ -1,6 +1,7 @@
 import random
 import json
 import time
+import segno
 import re
 from datetime import datetime
 # from pelis import listapelis
@@ -506,13 +507,13 @@ def agregar_saldo(usuario_encontrado, usuarios):
         print("1. Tarjeta de crédito")
         print("2. Mercado Pago")
         print("3. Tarjeta de débito")
-        opcion_pago = user_input("Selecciona método de pago (1, 2, 3): ")
+        opcion_pago = input("Selecciona método de pago (1, 2, 3): ")
 
         if opcion_pago in ['1', '2', '3']:
             cantidad_agregar = None
             while cantidad_agregar is None:
                 try:
-                    cantidad_agregar = float(user_input("\n\nIngrese la cantidad de dinero que desea agregar a su cuenta: $"))
+                    cantidad_agregar = float(input("\n\nIngrese la cantidad de dinero que desea agregar a su cuenta: $"))
                     if cantidad_agregar <= 0:
                         print("\n\nError, el monto debe ser mayor a cero.")
                         cantidad_agregar = None
@@ -523,7 +524,16 @@ def agregar_saldo(usuario_encontrado, usuarios):
             actualizar_datos('usuarios.json', usuarios)
 
             print(f"\nSe han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
-            metodo_pago_valido = True 
+            metodo_pago_valido = True
+
+            if opcion_pago == '2':  # Generar y mostrar código QR para Mercado Pago
+                # Crear el código QR con información relevante
+                qr_data = f"Mercado Pago - Usuario: {usuario_encontrado['nombreUsuario']} - Monto: ${cantidad_agregar:.2f}"
+                qr = segno.make(qr_data)
+                
+                # Mostrar el QR en la terminal
+                print("\nCódigo QR para Mercado Pago:")
+                qr.terminal(compact=True)  # Compacta el QR y lo invierte (opcional)
         else:
             print("\nOpción no válida. Por favor, selecciona una opción válida (1, 2, 3).")
 
@@ -736,7 +746,7 @@ def Main():
     except ValueError:
             print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
     
-    ver_reseniasiono=int(user_input("Te gustaría ver reseñas de otros usuarios para ayudarte en tu decisión? De ser así, pulsa 1. En caso contrario, pulsa 2"))
+    ver_reseniasiono=int(user_input("Te gustaría ver reseñas de otros usuarios para ayudarte en tu decisión? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
 
     try:
         if ver_reseniasiono==1:
