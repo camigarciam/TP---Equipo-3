@@ -686,8 +686,7 @@ def menuprincipal(usuario):
         ver_resenia()
     
     if navegacion == 5:
-        total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
-        realizar_pago(total_a_pagar, usuario)
+        agregar_saldo(usuario, usuarios)
 
 
 

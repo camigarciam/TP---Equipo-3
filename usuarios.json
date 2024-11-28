@@ -17,9 +17,19 @@
                 "Titulo": "La Laguna Azul",
                 "FechaInicio": "25-11-2024",
                 "FechaFin": "12-12-2024"
+            },
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "28-11-2024",
+                "FechaFin": "12-12-2025"
+            },
+            {
+                "Titulo": "La Laguna Azul",
+                "FechaInicio": "28-11-2024",
+                "FechaFin": "12-12-2024"
             }
         ],
-        "saldo": 0.0
+        "saldo": 398800.0
     },
     {
         "nombreUsuario": "juan1234",
