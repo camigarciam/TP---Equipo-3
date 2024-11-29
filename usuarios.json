@@ -4,37 +4,17 @@
         "contrasena": "cami1234",
         "peliculas_alquiladas": [
             {
-                "Titulo": "El viaje de Chihiro",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "23-01-2025"
-            },
-            {
-                "Titulo": "The Talented Mr Ripley",
-                "FechaInicio": "25-11-2024",
-                "FechaFin": "13-12-2024"
-            },
-            {
-                "Titulo": "La Laguna Azul",
-                "FechaInicio": "25-11-2024",
-                "FechaFin": "12-12-2024"
-            },
-            {
-                "Titulo": "Drive",
-                "FechaInicio": "28-11-2024",
-                "FechaFin": "12-12-2025"
-            },
-            {
-                "Titulo": "Titanic",
+                "Titulo": "Historia de un Matrimonio",
                 "FechaInicio": "29-11-2024",
-                "FechaFin": "12-12-2024"
+                "FechaFin": "25-01-2025"
             },
             {
-                "Titulo": "Drive",
+                "Titulo": "The Basketball Diaries",
                 "FechaInicio": "29-11-2024",
                 "FechaFin": "12-12-2024"
             }
         ],
-        "saldo": 1398904.0
+        "saldo": 916008.0
     },
     {
         "nombreUsuario": "juan1234",

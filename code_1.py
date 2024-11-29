@@ -123,6 +123,7 @@ def resenia(usuario):
                 if seleccion == 0:
                     print("\nLa humanidad no podrá sobrevivir sin tus opiniones... (￣ ￣|||)")
                     bandera = False  
+                    menuprincipal(usuario, usuarios)
                 elif 1 <= seleccion <= len(peliculas):
                     pelicula_seleccionada = peliculas[seleccion - 1]  
                     print(f"\nHas seleccionado '{pelicula_seleccionada['Titulo']}'.")
@@ -230,7 +231,7 @@ def devolver_pelis(usuario):
             bandera = True
             while bandera:
                 try:
-                    fecha_actual = datetime.strptime(user_input("\n\nIngrese la fecha del día de hoy: (dd- mm- aaaa)"), "%d-%m-%Y")
+                    fecha_actual = datetime.now()
                     bandera = False
                 except ValueError:
                     print("\n\nEl formato de la fecha ingresado no es válido. Por favor intente de nuevo.")
@@ -257,7 +258,9 @@ def devolver_pelis(usuario):
                 while devolver_otra not in ['s', 'n']:
                     print("\n\nRespuesta no válida, intente de nuevo.")
                     devolver_otra = user_input("\n\n¿Desea devolver otra pelicula? (s/n): ")
-            else: print("\n\nYa no hay peliculas para devolver.~(‾▿‾)~ ( ˘▽˘)っ")
+            else: 
+                print("\n\nYa no hay peliculas para devolver.~(‾▿‾)~ ( ˘▽˘)っ")
+                menuprincipal(usuario, usuarios)
     
         except ValueError:
             print("\nPor favor, ingrese un número válido.")
@@ -306,6 +309,7 @@ def selecionar_fechas():
                 print("\n\nLa fecha de finalización debe ser posterior a la fecha de inicio.")
         except ValueError:
             print("\nEl formato de fecha ingresado no es valido. Porfavor intente de nuevo.")
+
 
 #4. mostrar disponibilidad y seleccionar 
 
@@ -360,6 +364,7 @@ def Alquilarpeli(numero,usuario):
             actualizar_datos('pelis.json', listapelis)
 
             print(f"Has alquilado '{peli['Titulo']}' ♡(ŐωŐ人). Quedan {peli['Disponibilidad']} unidades disponibles.")
+
             return True
         else:
             print("\nNo se ha realizado el alquiler. (〒﹏〒)\n\n\n")
@@ -531,6 +536,41 @@ def agregar_saldo(usuario_encontrado, usuarios):
                 print("\nCódigo QR para Mercado Pago:")
                 qr.terminal(compact=True)  # Compacta el QR y lo invierte (opcional)
                 time.sleep(2)
+            
+            elif opcion_pago == '1'or opcion_pago == '3':  # Tarjeta de crédito o débito
+                tarjeta = {}
+
+    # Solicitar número de tarjeta
+                valido_numero = False
+                while not valido_numero:
+                    numero_tarjeta = input("Ingrese el número de su tarjeta (16 dígitos): ")
+                    if len(numero_tarjeta) == 16 and numero_tarjeta.isdigit():
+                        tarjeta['numero'] = numero_tarjeta
+                        valido_numero = True
+                    else:
+                        print("Número de tarjeta inválido. Debe tener 16 dígitos.")
+
+                # Solicitar fecha de vencimiento
+                valido_fecha = False
+                while not valido_fecha:
+                    fecha_vencimiento = input("Ingrese la fecha de vencimiento (MM/AA): ")
+                    if len(fecha_vencimiento) == 5 and fecha_vencimiento[2] == '/' and fecha_vencimiento[:2].isdigit() and fecha_vencimiento[3:].isdigit():
+                        tarjeta['fecha_vencimiento'] = fecha_vencimiento
+                        valido_fecha = True
+                    else:
+                        print("Fecha de vencimiento inválida. Debe estar en formato MM/AA.")
+
+                # Solicitar CVV
+                valido_cvv = False
+                while not valido_cvv:
+                    cvv = input("Ingrese el código de seguridad (CVV): ")
+                    if len(cvv) == 3 and cvv.isdigit():
+                        tarjeta['cvv'] = cvv
+                        valido_cvv = True
+                    else:
+                        print("CVV inválido. Debe tener 3 dígitos.")
+            else:
+                print("Opción no válida. Por favor, selecciona una opción válida (1, 2, 3).")    
 
             usuario_encontrado["saldo"] += cantidad_agregar
             actualizar_datos('usuarios.json', usuarios)
@@ -580,8 +620,15 @@ def realizar_pago(total_a_pagar, usuario):
 
     print(f"\n\nCompra realizada con éxito! ╰(*´︶`*)╯♡. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
 
-def datos_tarjeta():
-    pass
+    finalizar = user_input("\n¿Desea finalizar la sesión? (s/n): ")
+    while finalizar not in ['s', 'n']:
+        print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
+        finalizar = user_input("\n¿Desea finalizar la sesión? (s/n): ")
+        if finalizar == 's':
+            Finalizar(usuario,usuarios)
+        else:
+            menuprincipal(usuario,usuarios)
+
 
 #7. finalizar
 def Finalizar(usuario,usuarios):
@@ -608,7 +655,7 @@ def Finalizar(usuario,usuarios):
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
 
-def ver_resenia():
+def ver_resenia(usuario, usuarios):
     peliculas_con_resenias = [titulo for titulo in resenias.keys()]
     if peliculas_con_resenias:
         # Show the list of movies with their index
@@ -619,8 +666,7 @@ def ver_resenia():
             seleccion = int(user_input("\nIngrese el número de la película para ver las reseñas (o 0 para salir): "))
             
             if seleccion == 0:
-                
-                return  
+                menuprincipal(usuario, usuarios)
             
             if 1 <= seleccion <= len(peliculas_con_resenias):
                 titulo_pelicula = peliculas_con_resenias[seleccion - 1]
@@ -673,6 +719,7 @@ def menuprincipal(usuario, usuarios):
                     if Alquilarpeli(numero, usuario):
                         continuar = user_input("\n¿Desea alquilar otra película? (s/n): ")
                         if continuar.lower() != 's':
+                            menuprincipal(usuario, usuarios)
                             bandera = False
                     else:
                         Mostrarpelis()
@@ -686,7 +733,7 @@ def menuprincipal(usuario, usuarios):
         resenia(usuario)
     
     if navegacion == 4:
-        ver_resenia()
+        ver_resenia(usuario, usuarios)
     
     if navegacion == 5:
         agregar_saldo(usuario_encontrado, usuarios)
@@ -739,65 +786,7 @@ def Main():
 
     cargo_extra = 0
     
-    devolver_opcion = user_input("\n\n¿Te gustaría devolver alguna película? (s/n): ").strip().lower()
-    if devolver_opcion == 's':
-        cargo_extra = devolver_pelis(usuario)
-
-    reseniasiono=int(user_input("Te gustaría dejar alguna reseña? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
-    try:
-        if reseniasiono==1:
-            resenia(usuario)
-    except ValueError:
-            print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
-    
-    ver_reseniasiono=int(user_input("Te gustaría ver reseñas de otros usuarios para ayudarte en tu decisión? De ser así, pulsa 1. En caso contrario, pulsa 2. "))
-
-    try:
-        if ver_reseniasiono==1:
-            ver_resenia()
-    except ValueError:
-            print("\nPor favor, ingrese un 1 para dejar una reseña o un 2 para no hacerlo.")
-    
    
-    # Recomendación de película
-    respuesta_valida = True
-
-    while respuesta_valida == True:  #estado = no se ha respondido
-        recomendada = user_input("\n\n¿Desea responder un test de 10 preguntas para que le recomendemos una película? (s/n): ").strip().lower()
-        
-        if recomendada == "s":
-            print("¡Comienza el test!")
-            Recomendacion()
-            respuesta_valida = False # Cambia el estado para terminar el bucle
-        elif recomendada == "n":
-            print("\nNo hay problema!.")
-            respuesta_valida = False  # Cambia el estado para terminar el bucle
-        else:
-            print("\nRespuesta no válida. Por favor, responda con 's' o 'n'. (ｏ・_・)ノ”(ノ_<、)")
-
-     # Mostrar películas
-    Mostrarpelis()
-
-    # Comprobar disponibilidad y alquilar
-    bandera = True 
-    while bandera:
-        try:
-            numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información: "))
-            
-            # Validar el número antes de llamar a Infopeli
-            if numero < 1 or numero > len(listapelis):
-                print(f"\nNúmero de película inválido. Por favor, ingrese un número entre 1 y {len(listapelis)}")
-            else:
-                Infopeli(numero)  # Llamar a Infopeli solo si el número es válido
-                
-                if Alquilarpeli(numero, usuario):
-                    continuar = user_input("\n¿Desea alquilar otra película? (s/n): ")
-                    if continuar.lower() != 's':
-                        bandera = False
-                else:
-                    Mostrarpelis()
-        except ValueError:
-            print("\nPor favor, ingrese un número.")
     
     #Realizar pago
     total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
