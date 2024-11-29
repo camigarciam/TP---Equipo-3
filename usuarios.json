@@ -24,12 +24,17 @@
                 "FechaFin": "12-12-2025"
             },
             {
-                "Titulo": "La Laguna Azul",
-                "FechaInicio": "28-11-2024",
+                "Titulo": "Titanic",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "12-12-2024"
+            },
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "29-11-2024",
                 "FechaFin": "12-12-2024"
             }
         ],
-        "saldo": 398800.0
+        "saldo": 1398904.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -132,5 +137,11 @@
         "contrasena": "solares123",
         "peliculas_alquiladas": [],
         "saldo": 1234.0
+    },
+    {
+        "nombreUsuario": "fran gei",
+        "contrasena": "fa123456",
+        "peliculas_alquiladas": [],
+        "saldo": 100.0
     }
 ]

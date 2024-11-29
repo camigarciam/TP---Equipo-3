@@ -97,7 +97,7 @@ def login_usuario(usuario, contra, usuarios):
     print("\n\n\n=============================================")
     print(f"\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} ヽ༼࿃っ࿃༽ﾉ\n")
     print("Puede cerrar sesión en cualquier momento usando la palabra clave 'exit'")
-    print(f"\n\nTu saldo actual es: ${usuario_encontrado['saldo']:.2f}")
+    print(f"\n\nTu saldo actual es: {usuario_encontrado['saldo']:.2f}")
 
     return True
     
@@ -520,11 +520,7 @@ def agregar_saldo(usuario_encontrado, usuarios):
                 except ValueError:
                     print("\nIngrese un número válido.")
 
-            usuario_encontrado["saldo"] += cantidad_agregar
-            actualizar_datos('usuarios.json', usuarios)
 
-            print(f"\nSe han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
-            metodo_pago_valido = True
 
             if opcion_pago == '2':  # Generar y mostrar código QR para Mercado Pago
                 # Crear el código QR con información relevante
@@ -534,6 +530,12 @@ def agregar_saldo(usuario_encontrado, usuarios):
                 # Mostrar el QR en la terminal
                 print("\nCódigo QR para Mercado Pago:")
                 qr.terminal(compact=True)  # Compacta el QR y lo invierte (opcional)
+                time.sleep(2)
+
+            usuario_encontrado["saldo"] += cantidad_agregar
+            actualizar_datos('usuarios.json', usuarios)
+            print(f"\nSe han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
+            metodo_pago_valido = True
         else:
             print("\nOpción no válida. Por favor, selecciona una opción válida (1, 2, 3).")
 
@@ -641,7 +643,7 @@ def ver_resenia():
 
 
 
-def menuprincipal(usuario):
+def menuprincipal(usuario, usuarios):
     print("=============================================")
     print("Puede manejarse a través del menú con el teclado")
     print("Para volver al menú principal puede usar la palabra clave 'menu' en cualquier momento")
@@ -651,6 +653,7 @@ def menuprincipal(usuario):
     print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
     print("\n4.Ver reseñas de otros usuarios")
     print("\n5.Pagar")
+    usuario_encontrado = encontrar_usuario(usuario, usuarios)
     navegacion=int(input("Ingrese el num deseado: "))
     if navegacion==1:
         Mostrarpelis()
@@ -686,7 +689,7 @@ def menuprincipal(usuario):
         ver_resenia()
     
     if navegacion == 5:
-        agregar_saldo(usuario, usuarios)
+        agregar_saldo(usuario_encontrado, usuarios)
 
 
 
@@ -715,6 +718,7 @@ def Main():
                 contra = user_input("\n\nIngrese su contraseña para iniciar sesión: ")
                 if login_usuario(usuario, contra,usuarios):  # Intentar iniciar sesión
                     sesion_iniciada = False  # Cambiar el estado para salir del ciclo
+                    usuario_obj = encontrar_usuario(usuario, usuarios)
 
             elif loginregistro == 2:
                 
@@ -722,6 +726,7 @@ def Main():
                 contra = user_input("\n\nIngrese su contraseña: ")
                 if login_usuario(usuario, contra, usuarios):  # devuekve True
                     sesion_iniciada = False  # Cambiar el estado para salir del ciclo
+                    usuario_obj = encontrar_usuario(usuario, usuarios)
 
             else:
                 print("Opción no válida. Intente nuevamente.")
@@ -730,7 +735,7 @@ def Main():
             print("Por favor, ingrese un número válido.")
 
     
-    menuprincipal(usuario)
+    menuprincipal(usuario,usuarios)
 
     cargo_extra = 0
     

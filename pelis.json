@@ -7,7 +7,7 @@
         ],
         "Anio": "1980",
         "Reparto": "Brooke Shields, Christopher Atkins",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 3.5
     },
     {
@@ -28,7 +28,7 @@
         ],
         "Anio": "2011",
         "Reparto": "Ryan Gosling",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 3
     },
     {
@@ -50,7 +50,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Adam Driver, Scarlett Johanson",
-        "Disponibilidad": 7,
+        "Disponibilidad": 6,
         "Rating": 3
     },
     {
@@ -112,7 +112,7 @@
         ],
         "Anio": "1991",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 7,
+        "Disponibilidad": 4,
         "Rating": 4.5
     },
     {
@@ -132,7 +132,7 @@
         ],
         "Anio": "2007",
         "Reparto": "Nicolas Cage",
-        "Disponibilidad": 9,
+        "Disponibilidad": 8,
         "Rating": 4
     }
 ]
