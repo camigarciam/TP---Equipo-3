@@ -29,10 +29,6 @@ def user_input(mensaje):
         time.sleep(1)
         print("\nHas cerrado sesión. ¡Portate bien! (・∀・)! \n\n\n")
         Main()  # 
-    elif respuesta=="menu":
-        print("\nVolviendo al menú principal...")
-        time.sleep(2)
-        menuprincipal(usuario_encontrado, usuarios)
     return respuesta
 
 def registrarUsuario(usuario,contra):
@@ -132,7 +128,9 @@ def resenia(usuario):
                 seleccion = int(user_input("\nIngrese el número de la película para dejar una reseña (o 0 para salir): "))
                 
                 if seleccion == 0:
+
                     print("\nLa humanidad no podrá sobrevivir sin tus opiniones... (￣ ￣|||)")
+                    time.sleep(2)
                     bandera = False  
                     menuprincipal(usuario, usuarios)
                 elif 1 <= seleccion <= len(peliculas):
@@ -230,9 +228,12 @@ def devolver_pelis(usuario):
     while devolver_otra == 's' and len(data_usuario["peliculas_alquiladas"]) > 0:
         try:
             # Solicitar al usuario la película que desea devolver
-            indice_pelicula = int(user_input("\n\n¿Qué película deseas devolver? (Ingrese el número para 0 para salir: ")) - 1
+            indice_pelicula = int(user_input("\n\n¿Qué película deseas devolver? (Ingrese el número 0 para salir: ")) - 1
 
             if indice_pelicula == -1:
+                print("Volviendo al menú principal...")
+                time.sleep(2)
+                limpiarpantalla()
                 menuprincipal(usuario, usuarios)
             else:
                 if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
@@ -384,7 +385,9 @@ def Alquilarpeli(numero,usuario):
             print("\nNo se ha realizado el alquiler. (〒﹏〒)\n\n\n")
             return False
     else:
-        print(f"\n\nLo siento, '{peli['Titulo']}' no está disponible en este momento. (ó﹏ò｡)")
+        print(f"\n\nLo sentimos, '{peli['Titulo']}' no está disponible en este momento. (ó﹏ò｡)")
+        time.sleep(2)
+        limpiarpantalla()
         return False
     
 # Recomendacion de una pelicula por si no sabes qué elegir! 
@@ -593,6 +596,7 @@ def agregar_saldo(usuario_encontrado, usuarios):
             metodo_pago_valido = True
         elif opcion_pago == '4':
             print("\n\nSaliendo del menú de agregar saldo...")
+            limpiarpantalla()
             menuprincipal(usuario_encontrado["nombreUsuario"], usuarios)
         else:
             print("\nOpción no válida. Por favor, selecciona una opción válida (1, 2, 3).")
@@ -643,11 +647,6 @@ def realizar_pago(total_a_pagar, usuario):
 
     print(f"\n\nCompra realizada con éxito! ╰(*´︶`*)╯♡. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
 
-    data_usuario = encontrar_usuario(usuario, usuarios)
-    data_usuario["peliculas_alquiladas"].append(pelicula_alquilada)
-
-    # Guardar los cambios nuevamente
-    actualizar_datos('usuarios.json', usuarios)
 
     # Preguntar si desea finalizar sesión
     finalizar = user_input("\n¿Desea finalizar la sesión? (s/n): ")
@@ -699,6 +698,9 @@ def ver_resenia(usuario, usuarios):
             seleccion = int(user_input("\nIngrese el número de la película para ver las reseñas (o 0 para salir): "))
             
             if seleccion == 0:
+                print("Volviendo al menú principal...")
+                time.sleep(2)
+                limpiarpantalla()
                 menuprincipal(usuario, usuarios)
             
             if 1 <= seleccion <= len(peliculas_con_resenias):
@@ -720,6 +722,8 @@ def ver_resenia(usuario, usuarios):
 def obtener_peliculas_por_devolver(usuario):
     """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento."""
     data_usuario = encontrar_usuario(usuario, usuarios)
+    if data_usuario is None:
+        raise ValueError(f"El usuario '{usuario}' no fue encontrado.")
     peliculas = data_usuario.get("peliculas_alquiladas",[])
 
     # `filter` incluye todas las pelis 
@@ -769,18 +773,17 @@ def menuprincipal(usuario, usuarios):
     print("\n")
     print("Puede manejarse a través del menú con el teclado")
     print("\n")
-    print("Para volver al menú principal puede usar la palabra clave 'menu' en cualquier momento")
-    print("\n")
+   
     time.sleep(2)
     print("=============================================")
-    print("MENU PRINCIPAL")
+    print("૮ ˶ᵔ ᵕ ᵔ˶ ა   MENÚ PRINCIPAL   (˶˃ ᵕ ˂˶) .ᐟ.ᐟ")
     print("=============================================")
-    print("\n1.Ver nuestro catálogo")
-    print("\n2.Devolver una peli")
-    print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
-    print("\n4.Ver reseñas de otros usuarios")
-    print("\n5. Agregar Saldo")
-    print("\n6. Pagar y Finalizar")
+    print("\n     1.Ver nuestro catálogo")
+    print("\n     2.Devolver una peli")
+    print("\n     3.Dejar una reseña sobre alguna peli que alquilaste")
+    print("\n     4.Ver reseñas de otros usuarios")
+    print("\n     5.Agregar Saldo")
+    print("\n     6.Pagar y Finalizar")
     print("\n")
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
     
@@ -795,8 +798,12 @@ def menuprincipal(usuario, usuarios):
                 bandera = True 
                 while bandera:
                     try:
-                        numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información ( o 0 para salir): "))
+                        numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información (o 0 para salir): "))
                         if numero == 0:
+                            print("Volviendo al menú principal...")
+                            time.sleep(2)
+                            limpiarpantalla()
+
                             menuprincipal(usuario, usuarios)
                         else:
                         # Validar el número antes de llamar a Infopeli
@@ -890,7 +897,7 @@ def Main():
 
     
     menuprincipal(usuario,usuarios)
-    cargo_extra = 0
+    
 
 
 # Ejecutar la función principal

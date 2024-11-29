@@ -27,14 +27,14 @@
         "contrasena": "wowowowow1",
         "peliculas_alquiladas": [
             {
-                "Titulo": "Ghost Rider",
-                "FechaInicio": "17-11-2024",
-                "FechaFin": "18-11-2025"
-            },
-            {
                 "Titulo": "Drive",
                 "FechaInicio": "17-11-2024",
                 "FechaFin": "18-11-2024"
+            },
+            {
+                "Titulo": "Ghost Rider",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2024"
             }
         ],
         "saldo": 9120400.0
