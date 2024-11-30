@@ -4,17 +4,17 @@
         "contrasena": "cami1234",
         "peliculas_alquiladas": [
             {
-                "Titulo": "Historia de un Matrimonio",
-                "FechaInicio": "29-11-2024",
-                "FechaFin": "25-01-2025"
+                "Titulo": "El viaje de Chihiro",
+                "FechaInicio": "30-11-2024",
+                "FechaFin": "30-12-2026"
             },
             {
-                "Titulo": "The Basketball Diaries",
-                "FechaInicio": "29-11-2024",
-                "FechaFin": "12-12-2024"
+                "Titulo": "La Langosta",
+                "FechaInicio": "30-11-2024",
+                "FechaFin": "27-04-2025"
             }
         ],
-        "saldo": 916008.0
+        "saldo": 321113.0
     },
     {
         "nombreUsuario": "juan1234",

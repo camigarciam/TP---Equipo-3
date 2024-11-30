@@ -39,7 +39,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Miles Teller, J.K Simmons",
-        "Disponibilidad": 5,
+        "Disponibilidad": 4,
         "Rating": 5
     },
     {
@@ -82,7 +82,7 @@
         ],
         "Anio": "2001",
         "Reparto": "",
-        "Disponibilidad": 10,
+        "Disponibilidad": 9,
         "Rating": 5
     },
     {
@@ -92,7 +92,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Collin Farrell",
-        "Disponibilidad": 7,
+        "Disponibilidad": 3,
         "Rating": 3
     },
     {
@@ -102,7 +102,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 18,
+        "Disponibilidad": 17,
         "Rating": 3.5
     },
     {
@@ -112,7 +112,7 @@
         ],
         "Anio": "1991",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 4,
+        "Disponibilidad": 3,
         "Rating": 4.5
     },
     {
@@ -122,7 +122,7 @@
         ],
         "Anio": "1999",
         "Reparto": "Jude Law, Matt Damon",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 3
     },
     {
@@ -132,7 +132,7 @@
         ],
         "Anio": "2007",
         "Reparto": "Nicolas Cage",
-        "Disponibilidad": 8,
+        "Disponibilidad": 6,
         "Rating": 4
     }
 ]

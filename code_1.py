@@ -219,12 +219,15 @@ def devolver_pelis(usuario):
     while devolver_otra == 's' and len(data_usuario["peliculas_alquiladas"]) > 0:
         try:
             # Solicitar al usuario la película que desea devolver
-            indice_pelicula = int(user_input("\n\n¿Qué película deseas devolver? (Ingrese el número): ")) - 1
-            
-            if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
-                print("\n\nOpción no válida. Intenta de nuevo. ξ(｡◕ˇ◊ˇ◕｡)ξ")
-                continue
-        
+            indice_pelicula = int(user_input("\n\n¿Qué película deseas devolver? (Ingrese el número para 0 para salir: ")) - 1
+
+            if indice_pelicula == -1:
+                menuprincipal(usuario, usuarios)
+            else:
+                if indice_pelicula < 0 or indice_pelicula >= len(data_usuario["peliculas_alquiladas"]):
+                    print("\n\nOpción no válida. Intenta de nuevo. ξ(｡◕ˇ◊ˇ◕｡)ξ")
+                    continue
+
             pelicula = data_usuario["peliculas_alquiladas"][indice_pelicula]
             fecha_fin = datetime.strptime(pelicula['FechaFin'], "%d-%m-%Y")
         
@@ -512,6 +515,7 @@ def agregar_saldo(usuario_encontrado, usuarios):
         print("1. Tarjeta de crédito")
         print("2. Mercado Pago")
         print("3. Tarjeta de débito")
+        print("4. Salir")
         opcion_pago = input("Selecciona método de pago (1, 2, 3): ")
 
         if opcion_pago in ['1', '2', '3']:
@@ -576,11 +580,19 @@ def agregar_saldo(usuario_encontrado, usuarios):
             actualizar_datos('usuarios.json', usuarios)
             print(f"\nSe han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
             metodo_pago_valido = True
+        elif opcion_pago == '4':
+            print("\n\nSaliendo del menú de agregar saldo...")
+            menuprincipal(usuario_encontrado["nombreUsuario"], usuarios)
         else:
             print("\nOpción no válida. Por favor, selecciona una opción válida (1, 2, 3).")
 
 # Función para procesar el pago
 def realizar_pago(total_a_pagar, usuario):
+    """
+    Realiza el proceso de pago, verificando que el usuario tenga saldo suficiente.
+    Si no tiene suficiente saldo, se le ofrece agregar dinero a su cuenta.
+    Si el pago es exitoso, se procesa la compra y actualiza el saldo.
+    """
 
     bandera=True
     with open('usuarios.json', 'r') as file:
@@ -596,64 +608,74 @@ def realizar_pago(total_a_pagar, usuario):
             print("\nUsuario no encontrado.")
             return
 
-        
+
     # Verificar si hay saldo suficiente
-    while usuario_encontrado["saldo"] < total_a_pagar:
+    if usuario_encontrado["saldo"] < total_a_pagar:
         diferencia = total_a_pagar - usuario_encontrado["saldo"]
         print(f"\n\nEl saldo no es suficiente para realizar el pago. Te faltan ${diferencia:.2f} (ʘдʘ╬)")
+        
+        # Opción para agregar dinero
         agregar_dinero = user_input("\n¿Desea agregar dinero a su cuenta? (s/n): ").strip().lower()
-
         if agregar_dinero == 's':
             agregar_saldo(usuario_encontrado, usuarios)
-
         else:
             print("\n\nSe ha cancelado la compra debido a saldo insuficiente. >(#｀皿´)")
-            return  # Salimos de la función si no se agrega dinero
+            return  # Salir si no se agrega dinero
 
-    # El saldo es suficiente para pagar
+    # Si el saldo es suficiente, realizar el pago
     usuario_encontrado["saldo"] -= total_a_pagar
     print("\nSaldo suficiente, procesando pago...")
     time.sleep(2)
 
-    # Guardar el saldo actualizado en el archivo
+    # Guardar los cambios en el archivo
     actualizar_datos('usuarios.json', usuarios)
 
     print(f"\n\nCompra realizada con éxito! ╰(*´︶`*)╯♡. Tu saldo restante es: ${usuario_encontrado['saldo']:.2f}")
 
+    data_usuario = encontrar_usuario(usuario, usuarios)
+    data_usuario["peliculas_alquiladas"].append(pelicula_alquilada)
+
+    # Guardar los cambios nuevamente
+    actualizar_datos('usuarios.json', usuarios)
+
+    # Preguntar si desea finalizar sesión
     finalizar = user_input("\n¿Desea finalizar la sesión? (s/n): ")
     while finalizar not in ['s', 'n']:
         print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
         finalizar = user_input("\n¿Desea finalizar la sesión? (s/n): ")
-        if finalizar == 's':
-            Finalizar(usuario,usuarios)
-        else:
-            menuprincipal(usuario,usuarios)
 
+    if finalizar == 's':
+        Finalizar(usuario, usuarios)  # Llamar a Finalizar si se desea terminar la sesión
+    else:
+        print("\nRedirigiendo al menú principal...\n")
+        menuprincipal(usuario, usuarios)
 
 #7. finalizar
-def Finalizar(usuario,usuarios):
+def Finalizar(usuario, usuarios):
     """
     Imprime un mensaje de agradecimiento y muestra una lista de las películas que el usuario ha alquilado durante la sesión. 
     Si no se alquiló ninguna película, informa al usuario.
-
-    Returns:
-        None: La función imprime un mensaje en la maquina y no retorna ningún valor.
     """
+
+    # Buscar el usuario en la lista
     data_usuario = encontrar_usuario(usuario, usuarios)
     peliculas_alquiladas = data_usuario.get("peliculas_alquiladas", [])
-    
-    if len(peliculas_alquiladas) != 0:
+
+    if peliculas_alquiladas:
         print("Películas que alquilaste en esta sesión:")
         for alquiler in peliculas_alquiladas:
-            # Desempaquetar el alquiler en variables
+            # Desempaquetar alquiler
             titulo, fecha_inicio_str, fecha_fin_str = alquiler["Titulo"], alquiler["FechaInicio"], alquiler["FechaFin"]
+            
             # Convertir las fechas de cadena a datetime
             fecha_inicio = datetime.strptime(fecha_inicio_str, "%d-%m-%Y")
             fecha_fin = datetime.strptime(fecha_fin_str, "%d-%m-%Y")
             print(f"\n{titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
+        
         print("\n\nGracias por usar nuestro sistema de alquiler de películas, ¡hasta la próxima! \n❤ (ɔˆз(ˆ⌣ˆc)" )
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
+
 
 def ver_resenia(usuario, usuarios):
     peliculas_con_resenias = [titulo for titulo in resenias.keys()]
@@ -684,12 +706,45 @@ def ver_resenia(usuario, usuarios):
         print("\nNo hay películas con reseñas disponibles.")
 
 
+def obtener_peliculas_por_devolver(usuario):
+    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento."""
+    data_usuario = encontrar_usuario(usuario, usuarios)
+    peliculas = data_usuario.get("peliculas_alquiladas",[])
+
+    # `filter` incluye todas las pelis 
+    hoy = datetime.now()
+    peliculas_pendientes = list(
+        filter(lambda p: datetime.strptime(p["FechaFin"], "%d-%m-%Y") >= hoy, peliculas)
+    )
+
+    # Ordenamiento manual por fecha de vencimiento x burbujero
+    for i in range(len(peliculas_pendientes)):
+        for j in range(0, len(peliculas_pendientes) - i - 1):
+            fecha_j = datetime.strptime(peliculas_pendientes[j]["FechaFin"], "%d-%m-%Y")
+            fecha_j1 = datetime.strptime(peliculas_pendientes[j + 1]["FechaFin"], "%d-%m-%Y")
+            if fecha_j > fecha_j1:
+                peliculas_pendientes[j], peliculas_pendientes[j + 1] = peliculas_pendientes[j + 1], peliculas_pendientes[j]
+
+    return peliculas_pendientes
 
 
 
 
 
 def menuprincipal(usuario, usuarios):
+    """Muestra el menú principal y las películas por devolver al inicio."""
+    print("=============================================")
+    print("¡Bienvenido al sistema de gestión de alquileres de películas!")
+    print("=============================================")
+
+    # Mostrar películas pendientes por devolver
+    peliculas_pendientes = obtener_peliculas_por_devolver(usuario)
+    if peliculas_pendientes:
+        print("\nPelículas pendientes por devolver (ordenadas por fecha de vencimiento):")
+        for i, pelicula in enumerate(peliculas_pendientes, start=1):
+            print(f"{i}. {pelicula['Titulo']} - Fecha de vencimiento: {pelicula['FechaFin']}")
+    else:
+        print("\nNo tienes películas pendientes por devolver.")
     print("=============================================")
     print("Puede manejarse a través del menú con el teclado")
     print("Para volver al menú principal puede usar la palabra clave 'menu' en cualquier momento")
@@ -698,7 +753,8 @@ def menuprincipal(usuario, usuarios):
     print("\n2.Devolver una peli")
     print("\n3.Dejar una reseña sobre alguna peli que alquilaste")
     print("\n4.Ver reseñas de otros usuarios")
-    print("\n5.Pagar")
+    print("\n5. Agregar Saldo")
+    print("\n6. Pagar y Finalizar")
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
     navegacion=int(input("Ingrese el num deseado: "))
     if navegacion==1:
@@ -708,21 +764,23 @@ def menuprincipal(usuario, usuarios):
         bandera = True 
         while bandera:
             try:
-                numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información: "))
-
-                # Validar el número antes de llamar a Infopeli
-                if numero < 1 or numero > len(listapelis):
-                    print(f"\nNúmero de película inválido. Por favor, ingrese un número entre 1 y {len(listapelis)}")
+                numero = int(user_input("\n\nIngrese el número de película sobre la que desea obtener más información ( o 0 para salir): "))
+                if numero == 0:
+                    menuprincipal(usuario, usuarios)
                 else:
-                    Infopeli(numero)  # Llamar a Infopeli solo si el número es válido
-
-                    if Alquilarpeli(numero, usuario):
-                        continuar = user_input("\n¿Desea alquilar otra película? (s/n): ")
-                        if continuar.lower() != 's':
-                            menuprincipal(usuario, usuarios)
-                            bandera = False
+                # Validar el número antes de llamar a Infopeli
+                    if numero < 1 or numero > len(listapelis):
+                        print(f"\nNúmero de película inválido. Por favor, ingrese un número entre 1 y {len(listapelis)}")
                     else:
-                        Mostrarpelis()
+                        Infopeli(numero)  # Llamar a Infopeli solo si el número es válido
+
+                        if Alquilarpeli(numero, usuario):
+                            continuar = user_input("\n¿Desea alquilar otra película? (s/n): ")
+                            if continuar.lower() != 's':
+                                menuprincipal(usuario, usuarios)
+                                bandera = False
+                        else:
+                            Mostrarpelis()
             except ValueError:
                 print("\nPor favor, ingrese un número.")
 
@@ -737,6 +795,13 @@ def menuprincipal(usuario, usuarios):
     
     if navegacion == 5:
         agregar_saldo(usuario_encontrado, usuarios)
+    
+    cargo_extra = 0
+    if navegacion == 6:
+        total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
+        realizar_pago(total_a_pagar, usuario)
+        Finalizar(usuario, usuarios)
+    
 
 
 
@@ -783,15 +848,8 @@ def Main():
 
     
     menuprincipal(usuario,usuarios)
-
     cargo_extra = 0
-    
-   
-    
-    #Realizar pago
-    total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
-    realizar_pago(total_a_pagar, usuario)
-    Finalizar(usuario, usuarios)
+
 
 # Ejecutar la función principal
 Main()
