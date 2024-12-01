@@ -516,20 +516,21 @@ def calcular_total(usuario, cargo_extra):
     total_a_pagar = 400
     print("Detalles de tu compra:")
     for alquiler in usuario_encontrado["peliculas_alquiladas"]:
-        # Acceder a los valores del diccionario por clave
-        titulo = alquiler["Titulo"]
-        fecha_inicio_str = alquiler["FechaInicio"]
-        fecha_fin_str = alquiler["FechaFin"]
+        if alquiler["Titulo"] in peliculas_a_pagar:
+            # Acceder a los valores del diccionario por clave
+            titulo = alquiler["Titulo"]
+            fecha_inicio_str = alquiler["FechaInicio"]
+            fecha_fin_str = alquiler["FechaFin"]
 
-        # Convertir las fechas de cadena a datetime
-        fecha_inicio = datetime.strptime(fecha_inicio_str, "%d-%m-%Y")
-        fecha_fin = datetime.strptime(fecha_fin_str, "%d-%m-%Y")
+            # Convertir las fechas de cadena a datetime
+            fecha_inicio = datetime.strptime(fecha_inicio_str, "%d-%m-%Y")
+            fecha_fin = datetime.strptime(fecha_fin_str, "%d-%m-%Y")
 
-        # Calcular los días alquilados
-        dias_alquilados = (fecha_fin - fecha_inicio).days
-        costo = dias_alquilados * 1200  # Suponiendo que el costo es 1200 por día
-        total_a_pagar +=  costo
-        print(f"Película: {titulo}\n Días alquilados: {dias_alquilados}\n Costo: ${costo}")
+            # Calcular los días alquilados
+            dias_alquilados = (fecha_fin - fecha_inicio).days
+            costo = dias_alquilados * 1200  # Suponiendo que el costo es 1200 por día
+            total_a_pagar +=  costo
+            print(f"Película: {titulo}\n Días alquilados: {dias_alquilados}\n Costo: ${costo}")
     
     if cargo_extra is None:
         cargo_extra = 0
@@ -739,7 +740,7 @@ def Finalizar(usuario, usuarios):
 def ver_resenia(usuario, usuarios):
     """Función dedicada a la visualización de reseñas hechas por usuarios en el pasado.
     Parámetros
-        usuario (str): El nombre del usuariuo logeado.
+        usuario (str): El nombre del usuario logeado.
         usuarios (list): Lista de usuarios registrados."""
     peliculas_con_resenias = [titulo for titulo in resenias.keys()]
     if peliculas_con_resenias:

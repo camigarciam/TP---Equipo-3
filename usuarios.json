@@ -39,11 +39,6 @@
         "peliculas_a_pagar": [],
         "peliculas_alquiladas": [
             {
-                "Titulo": "Ghost Rider",
-                "FechaInicio": "29-11-2024",
-                "FechaFin": "30-11-2024"
-            },
-            {
                 "Titulo": "Titanic",
                 "FechaInicio": "29-11-2024",
                 "FechaFin": "30-11-2025"
@@ -54,14 +49,28 @@
                 "FechaFin": "30-11-2024"
             },
             {
-                "Titulo": "Whiplash",
+                "Titulo": "La Langosta",
                 "FechaInicio": "01-12-2024",
-                "FechaFin": "25-09-2089"
+                "FechaFin": "01-01-2025"
+            },
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "02-12-2024"
+            },
+            {
+                "Titulo": "Historia de un Matrimonio",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "03-12-2025"
+            },
+            {
+                "Titulo": "Mente indomable",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "01-01-2025"
             }
         ],
-        "saldo": 999999979385799.0
+        "saldo": 999999949580199.0
     },
-    
     {
         "nombreUsuario": "abruwu",
         "contrasena": "abru1234",
