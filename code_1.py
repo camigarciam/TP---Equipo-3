@@ -697,6 +697,8 @@ def Finalizar(usuario, usuarios):
             print(f"\n{titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
         
         print("\n\nGracias por usar nuestro sistema de alquiler de películas, ¡hasta la próxima! \n❤ (ɔˆз(ˆ⌣ˆc)" )
+        time.sleep(3)
+        Main()
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
 
