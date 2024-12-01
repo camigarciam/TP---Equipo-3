@@ -406,6 +406,9 @@ def Recomendacion():
     Returns:
         lista: Películas recomendadas o lista vacía si no hay opciones disponibles.
     """
+    print("Comienza el test! (｡・//ε//・｡)")
+    print("Recuerde que puede omitir el test en cualquier momento ingresando el número '0'")
+
 
     preguntas = [
         ("\n¿Estás dispuesto a buscar el amor a través de aplicaciones de citas?", ["Romance"]),
@@ -430,45 +433,51 @@ def Recomendacion():
         "Animación":0,
         "Aventura":0
     }
-            
-    for pregunta, generos in preguntas:
-        respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
-        while respuesta not in ["s", "n"]:
-            print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
+    banderatest=True
+    while banderatest:       
+        for pregunta, generos in preguntas:
             respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
+            while respuesta not in ["s", "n", "0"]:
+                print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
+                respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
 
-        if respuesta == 's':
-            for genero in generos:
-                puntos_por_genero[genero] += 1
-
-    max_puntos = max(puntos_por_genero.values())
-    generos_maximos = [genero for genero, puntos in puntos_por_genero.items() if puntos == max_puntos]
-
-    # Si hay empate
-    genero_recomendado = random.choice(generos_maximos)
-
-    peliculas_recomendadas = [
-        peli for peli in listapelis
-        if genero_recomendado in peli["Generos"] and peli["Disponibilidad"] > 0
-    ]
-
-    if peliculas_recomendadas:
-        n = len(peliculas_recomendadas)
-
-        # metodo de burbujeo
-        for i in range(n):
-            for j in range(0, n-i-1):  
-                if peliculas_recomendadas[j]["Rating"] < peliculas_recomendadas[j+1]["Rating"]:
+            if respuesta == 's':
+                for genero in generos:
+                    puntos_por_genero[genero] += 1
+            if respuesta=="0":
+                banderatest=False
+                break
                 
-                    peliculas_recomendadas[j], peliculas_recomendadas[j+1] = peliculas_recomendadas[j+1], peliculas_recomendadas[j]
+                
 
-        print(f"\n\n (人ﾟ∀ﾟ) Fin del test! ＠＾▽＾＠ \nPareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
-        for pelicula in peliculas_recomendadas:
-            print(f"- {pelicula['Titulo']}")
-    else:
-        print(f"\nNo hay películas disponibles en el género {genero_recomendado}.")
+        max_puntos = max(puntos_por_genero.values())
+        generos_maximos = [genero for genero, puntos in puntos_por_genero.items() if puntos == max_puntos]
 
-    return peliculas_recomendadas
+        # Si hay empate
+        genero_recomendado = random.choice(generos_maximos)
+
+        peliculas_recomendadas = [
+            peli for peli in listapelis
+            if genero_recomendado in peli["Generos"] and peli["Disponibilidad"] > 0
+        ]
+
+        if peliculas_recomendadas:
+            n = len(peliculas_recomendadas)
+
+            # metodo de burbujeo
+            for i in range(n):
+                for j in range(0, n-i-1):  
+                    if peliculas_recomendadas[j]["Rating"] < peliculas_recomendadas[j+1]["Rating"]:
+                    
+                        peliculas_recomendadas[j], peliculas_recomendadas[j+1] = peliculas_recomendadas[j+1], peliculas_recomendadas[j]
+
+            print(f"\n\n (人ﾟ∀ﾟ) Fin del test! ＠＾▽＾＠ \nPareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
+            for pelicula in peliculas_recomendadas:
+                print(f"- {pelicula['Titulo']}")
+        else:
+            print(f"\nNo hay películas disponibles en el género {genero_recomendado}.")
+
+        return peliculas_recomendadas
 
 #6. Pago
 # Función para calcular el total a pagar
@@ -804,7 +813,8 @@ def menuprincipal(usuario, usuarios):
     print("\n     3.Dejar una reseña sobre alguna peli que alquilaste")
     print("\n     4.Ver reseñas de otros usuarios")
     print("\n     5.Agregar Saldo")
-    print("\n     6.Pagar y Finalizar")
+    print("\n     6.Obtener una recomendación")
+    print("\n     7.Pagar y Finalizar")
     print("\n")
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
     banderamenu=True
@@ -853,15 +863,24 @@ def menuprincipal(usuario, usuarios):
             elif navegacion == 5:
                 agregar_saldo(usuario_encontrado, usuarios)
             
+            elif navegacion==6:
+                
+                print("El test está por comenzar...")
+                time.sleep(2)
+                
+                limpiarpantalla()
+                
+                Recomendacion()
+            
             cargo_extra = 0
 
-            if navegacion == 6:
+            if navegacion == 7:
                 total_a_pagar = calcular_total(usuario, cargo_extra)
                 realizar_pago(total_a_pagar, usuario)
                 Finalizar(usuario, usuarios)
                 banderamenu=False
 
-            elif navegacion>6 or navegacion<0:
+            elif navegacion>7 or navegacion<0:
                 print("Por favor, ingrese un número válido")
                 
                    
