@@ -147,12 +147,19 @@
     {
         "nombreUsuario": "entrenadorpokemon",
         "contrasena": "pikachuxd123",
-        "peliculas_a_pagar": [],
+        "peliculas_a_pagar": [
+            "Titanic"
+        ],
         "peliculas_alquiladas": [
             {
                 "Titulo": "El viaje de Chihiro",
                 "FechaInicio": "29-11-2024",
                 "FechaFin": "30-11-2025"
+            },
+            {
+                "Titulo": "Titanic",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "01-12-2025"
             }
         ],
         "saldo": 9560399.0

@@ -782,7 +782,7 @@ def menuprincipal(usuario, usuarios):
         print("\nNo tienes películas pendientes por devolver ٩(ˊᗜˋ*)و .")
     
     print("\n")
-    time.sleep(2)
+    time.sleep(4)
     print("=============================================")
     print("\n")
     print("Puede manejarse a través del menú con el teclado")
