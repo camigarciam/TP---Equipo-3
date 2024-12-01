@@ -112,6 +112,12 @@ def login_usuario(usuario, contra, usuarios):
     
 
 def resenia(usuario):
+    """
+    Función dedicada a la funcionalidad de reseñas, solamente habilitada a películas que el usuario haya alquilado previamente, con el fin de incentivar el uso del sistema"
+    
+    Parámetros:
+        usuario (str): El nombre de usuario
+    """
 
     data_usuario = encontrar_usuario(usuario, usuarios)
     peliculas = data_usuario.get("peliculas_alquiladas",[])
@@ -162,6 +168,8 @@ def resenia(usuario):
                 print("Por favor, ingresa un número.")
     else:
         print("\nNo tienes películas alquiladas anteriormente.")    
+    
+    return
 
     
 def validarusuario(usuario):
@@ -639,6 +647,8 @@ def realizar_pago(total_a_pagar, usuario):
     Realiza el proceso de pago, verificando que el usuario tenga saldo suficiente.
     Si no tiene suficiente saldo, se le ofrece agregar dinero a su cuenta.
     Si el pago es exitoso, se procesa la compra y actualiza el saldo.
+    Parámetros: total_a_pagar(float)
+                usuario(string)
     """
     
     bandera=True
@@ -700,6 +710,9 @@ def Finalizar(usuario, usuarios):
     """
     Imprime un mensaje de agradecimiento y muestra una lista de las películas que el usuario ha alquilado durante la sesión. 
     Si no se alquiló ninguna película, informa al usuario.
+    Parámetros:
+    usuario (string): El nombre del usuario logeado
+    usuarios (list): Lista de usuarios registrados.
     """
 
     # Buscar el usuario en la lista
@@ -724,6 +737,10 @@ def Finalizar(usuario, usuarios):
         print("\nNo alquilaste ninguna película en esta sesión.")
 
 def ver_resenia(usuario, usuarios):
+    """Función dedicada a la visualización de reseñas hechas por usuarios en el pasado.
+    Parámetros
+        usuario (str): El nombre del usuariuo logeado.
+        usuarios (list): Lista de usuarios registrados."""
     peliculas_con_resenias = [titulo for titulo in resenias.keys()]
     if peliculas_con_resenias:
         # Show the list of movies with their index
@@ -756,7 +773,9 @@ def ver_resenia(usuario, usuarios):
 
 
 def obtener_peliculas_por_devolver(usuario):
-    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento ."""
+    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento 
+    Parámetros: usuario(string): el nombre del usuario logeado
+    """
     data_usuario = encontrar_usuario(usuario, usuarios)
     if data_usuario is None:
         raise ValueError(f"El usuario '{usuario}' no fue encontrado.")
@@ -781,7 +800,10 @@ def obtener_peliculas_por_devolver(usuario):
 
 
 def limpiarpantalla():
-    # Verificamos el sistema operativo del usuario para emplear el comando correcto
+
+    """Verificamos el sistema operativo del usuario para emplear el comando correcto
+    Parámetros: none
+    """
     if os.name == 'nt':  # Windows
         os.system('cls')
     else:  # Linux/Mac
@@ -790,7 +812,10 @@ def limpiarpantalla():
 
 
 def menuprincipal(usuario, usuarios):
-    """Muestra el menú principal y las películas por devolver al inicio."""
+    """Muestra el menú principal y las películas por devolver al inicio
+    Parámetros:     
+        usuario (string): el nombre del usuario logeada.
+        usuarios (list): Lista de usuarios registrados.."""
 
 
     # Mostrar películas pendientes por devolver
