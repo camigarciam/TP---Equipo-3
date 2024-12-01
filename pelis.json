@@ -18,7 +18,7 @@
         ],
         "Anio": "2013",
         "Reparto": "Joaquin Phoenix",
-        "Disponibilidad": 0,
+        "Disponibilidad": 2,
         "Rating": 4
     },
     {
@@ -28,7 +28,7 @@
         ],
         "Anio": "2011",
         "Reparto": "Ryan Gosling",
-        "Disponibilidad": 0,
+        "Disponibilidad": 4,
         "Rating": 3
     },
     {
@@ -39,7 +39,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Miles Teller, J.K Simmons",
-        "Disponibilidad": 2,
+        "Disponibilidad": 0,
         "Rating": 5
     },
     {
@@ -50,7 +50,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Adam Driver, Scarlett Johanson",
-        "Disponibilidad": 4,
+        "Disponibilidad": 2,
         "Rating": 3
     },
     {
@@ -61,7 +61,7 @@
         ],
         "Anio": "1997",
         "Reparto": "Matt Damon, Ben Affleck",
-        "Disponibilidad": 7,
+        "Disponibilidad": 6,
         "Rating": 2
     },
     {
@@ -82,7 +82,7 @@
         ],
         "Anio": "2001",
         "Reparto": "",
-        "Disponibilidad": 8,
+        "Disponibilidad": 6,
         "Rating": 5
     },
     {
@@ -92,7 +92,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Collin Farrell",
-        "Disponibilidad": 2,
+        "Disponibilidad": 1,
         "Rating": 3
     },
     {
@@ -112,7 +112,7 @@
         ],
         "Anio": "1991",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 1,
+        "Disponibilidad": 0,
         "Rating": 4.5
     },
     {
@@ -132,7 +132,7 @@
         ],
         "Anio": "2007",
         "Reparto": "Nicolas Cage",
-        "Disponibilidad": 5,
+        "Disponibilidad": 4,
         "Rating": 4
     }
 ]

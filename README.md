@@ -1,4 +1,3 @@
-
 Intregrantes:<br>
 
 Abril Montoya <br>
@@ -29,8 +28,11 @@ Permite revertir la acción de la película elegida en el caso de no haber queri
 #6. recomendacion de una pelicula por si no sabes qué elegir! <br>
 En el caso de no saber qué película elegir dentro de la lista, responde un test en función de tus gustos y mirá el género recomendado según las respuestas.<br>
 
-#9. Pagos <br>
+#7. Pagos <br>
 Una vez elegidas las peliculas, se toman los datos de pago y los descuentos en caso de aplicar.
 
-#8. finalizar<br>
+#8. Ver y dejar reseñas <br>
+Se le permite al usuario ver cualquiera de las reseñas dejadas por otros usuarios, también se le permite dejar reseñas de películas que haya alquilado previamente.
+
+#9. finalizar<br>
 Terminar con el alquiler de las películas, mostrando cuales se seleccionaron, datos de alquiler y del usuario

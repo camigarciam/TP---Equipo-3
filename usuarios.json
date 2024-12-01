@@ -2,23 +2,30 @@
     {
         "nombreUsuario": "cami1234",
         "contrasena": "cami1234",
-        "peliculas_a_pagar": [
-            "El viaje de Chihiro",
-            "La Langosta"
-        ],
+        "peliculas_a_pagar": [],
         "peliculas_alquiladas": [
             {
-                "Titulo": "El viaje de Chihiro",
-                "FechaInicio": "30-11-2024",
-                "FechaFin": "30-12-2026"
+                "Titulo": "Mente indomable",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
             },
             {
-                "Titulo": "La Langosta",
-                "FechaInicio": "30-11-2024",
+                "Titulo": "Historia de un Matrimonio",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "30-05-2027"
+            },
+            {
+                "Titulo": "Her",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            },
+            {
+                "Titulo": "Her",
+                "FechaInicio": "01-12-2024",
                 "FechaFin": "27-04-2025"
             }
         ],
-        "saldo": 321113.0
+        "saldo": 89440712.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -54,18 +61,7 @@
         ],
         "saldo": 999999979385799.0
     },
-    {
-        "nombreUsuario": "sol1234",
-        "contrasena": "sol12345",
-        "peliculas_alquiladas": [],
-        "saldo": -88200.0
-    },
-    {
-        "nombreUsuario": "dyypeshgoddd",
-        "contrasena": "malisimo12",
-        "peliculas_alquiladas": [],
-        "saldo": 3e+16
-    },
+    
     {
         "nombreUsuario": "abruwu",
         "contrasena": "abru1234",
@@ -94,23 +90,6 @@
         "saldo": 900.0
     },
     {
-        "nombreUsuario": "cami123",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": [
-            {
-                "Titulo": "Como Entrenar a tu Dragon",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "12-11-2024"
-            },
-            {
-                "Titulo": "Ghost Rider",
-                "FechaInicio": "11-11-2024",
-                "FechaFin": "13-12-2025"
-            }
-        ],
-        "saldo": 40000.0
-    },
-    {
         "nombreUsuario": "angel1234",
         "contrasena": "angel1234",
         "peliculas_alquiladas": [
@@ -134,12 +113,6 @@
         "saldo": 1234.0
     },
     {
-        "nombreUsuario": "fran gei",
-        "contrasena": "fa123456",
-        "peliculas_alquiladas": [],
-        "saldo": 100.0
-    },
-    {
         "nombreUsuario": "entrenadorpokemon",
         "contrasena": "pikachuxd123",
         "peliculas_a_pagar": [],
@@ -155,6 +128,29 @@
                 "FechaFin": "01-12-2025"
             }
         ],
-        "saldo": 8682799.0
+        "saldo": 9560399.0
+    },
+    {
+        "nombreUsuario": "caro1234",
+        "contrasena": "caro1234",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Historia de un Matrimonio",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            },
+            {
+                "Titulo": "Ghost Rider",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            },
+            {
+                "Titulo": "Whiplash",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            }
+        ],
+        "peliculas_a_pagar": [],
+        "saldo": 928610.0
     }
 ]

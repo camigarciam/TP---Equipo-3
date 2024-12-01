@@ -28,7 +28,7 @@ def user_input(mensaje):
     if respuesta == "exit":
         time.sleep(1)
         print("\nHas cerrado sesión. ¡Portate bien! (・∀・)! \n\n\n")
-        Main()  # 
+        Main()  
     return respuesta
 
 def registrarUsuario(usuario,contra):
@@ -47,8 +47,7 @@ def registrarUsuario(usuario,contra):
             print("\n\nEl nombre de usuario ya existe. ༼ง=ಠ益ಠ=༽ง")
             return False
  
-    #Pedir al usuario ingrese su saldo incial
-    saldo_inicial = float(user_input("\n\nIngrese su saldo incial: $"))
+    saldo_inicial = 0.0
 
     nuevo_usuario = {
         "nombreUsuario": usuario,
@@ -98,6 +97,7 @@ def login_usuario(usuario, contra, usuarios):
     if usuario_encontrado["contrasena"] != contra:
         print("\n\nContrasena incorrecta. (◣_◢)")
         return False
+    
     print("Iniciando sesión...")
     time.sleep(2)
     limpiarpantalla()
@@ -112,6 +112,12 @@ def login_usuario(usuario, contra, usuarios):
     
 
 def resenia(usuario):
+    """
+    Función dedicada a la funcionalidad de reseñas, solamente habilitada a películas que el usuario haya alquilado previamente, con el fin de incentivar el uso del sistema"
+    
+    Parámetros:
+        usuario (str): El nombre de usuario
+    """
 
     data_usuario = encontrar_usuario(usuario, usuarios)
     peliculas = data_usuario.get("peliculas_alquiladas",[])
@@ -162,6 +168,8 @@ def resenia(usuario):
                 print("Por favor, ingresa un número.")
     else:
         print("\nNo tienes películas alquiladas anteriormente.")    
+    
+    return
 
     
 def validarusuario(usuario):
@@ -398,6 +406,7 @@ def Alquilarpeli(numero,usuario):
     
 # Recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
+
     """
     Realiza una recomendación de película basada en las respuestas del usuario. 
     Filtra y ordena las películas por rating según el género preferido. 
@@ -406,6 +415,9 @@ def Recomendacion():
     Returns:
         lista: Películas recomendadas o lista vacía si no hay opciones disponibles.
     """
+    print("Comienza el test! (｡・//ε//・｡)")
+    print("Recuerde que puede omitir el test en cualquier momento ingresando el número '0'")
+
 
     preguntas = [
         ("\n¿Estás dispuesto a buscar el amor a través de aplicaciones de citas?", ["Romance"]),
@@ -430,45 +442,56 @@ def Recomendacion():
         "Animación":0,
         "Aventura":0
     }
-            
-    for pregunta, generos in preguntas:
-        respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
-        while respuesta not in ["s", "n"]:
-            print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
+    banderatest=True
+    while banderatest:       
+        for pregunta, generos in preguntas:
+            if not banderatest: 
+                print("Volviendo al menú principal...")
+                time.sleep(2)
+                limpiarpantalla()
+                menuprincipal(usuario_encontrado["nombreUsuario"],usuarios) 
             respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
+            while respuesta not in ["s", "n", "0"]:
+                print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
+                respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
 
-        if respuesta == 's':
-            for genero in generos:
-                puntos_por_genero[genero] += 1
-
-    max_puntos = max(puntos_por_genero.values())
-    generos_maximos = [genero for genero, puntos in puntos_por_genero.items() if puntos == max_puntos]
-
-    # Si hay empate
-    genero_recomendado = random.choice(generos_maximos)
-
-    peliculas_recomendadas = [
-        peli for peli in listapelis
-        if genero_recomendado in peli["Generos"] and peli["Disponibilidad"] > 0
-    ]
-
-    if peliculas_recomendadas:
-        n = len(peliculas_recomendadas)
-
-        # metodo de burbujeo
-        for i in range(n):
-            for j in range(0, n-i-1):  
-                if peliculas_recomendadas[j]["Rating"] < peliculas_recomendadas[j+1]["Rating"]:
+            if respuesta == 's':
+                for genero in generos:
+                    puntos_por_genero[genero] += 1
+            if respuesta=="0":
+                banderatest=False
                 
-                    peliculas_recomendadas[j], peliculas_recomendadas[j+1] = peliculas_recomendadas[j+1], peliculas_recomendadas[j]
+                
+                
 
-        print(f"\n\n (人ﾟ∀ﾟ) Fin del test! ＠＾▽＾＠ \nPareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
-        for pelicula in peliculas_recomendadas:
-            print(f"- {pelicula['Titulo']}")
-    else:
-        print(f"\nNo hay películas disponibles en el género {genero_recomendado}.")
+        max_puntos = max(puntos_por_genero.values())
+        generos_maximos = [genero for genero, puntos in puntos_por_genero.items() if puntos == max_puntos]
 
-    return peliculas_recomendadas
+        # Si hay empate
+        genero_recomendado = random.choice(generos_maximos)
+
+        peliculas_recomendadas = [
+            peli for peli in listapelis
+            if genero_recomendado in peli["Generos"] and peli["Disponibilidad"] > 0
+        ]
+
+        if peliculas_recomendadas:
+            n = len(peliculas_recomendadas)
+
+            # metodo de burbujeo
+            for i in range(n):
+                for j in range(0, n-i-1):  
+                    if peliculas_recomendadas[j]["Rating"] < peliculas_recomendadas[j+1]["Rating"]:
+                    
+                        peliculas_recomendadas[j], peliculas_recomendadas[j+1] = peliculas_recomendadas[j+1], peliculas_recomendadas[j]
+
+            print(f"\n\n (人ﾟ∀ﾟ) Fin del test! ＠＾▽＾＠ \nPareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
+            for pelicula in peliculas_recomendadas:
+                print(f"- {pelicula['Titulo']}")
+        else:
+            print(f"\nNo hay películas disponibles en el género {genero_recomendado}.")
+
+        return peliculas_recomendadas
 
 #6. Pago
 # Función para calcular el total a pagar
@@ -582,22 +605,28 @@ def agregar_saldo(usuario_encontrado, usuarios):
                 # Solicitar fecha de vencimiento
                 valido_fecha = False
                 while not valido_fecha:
-                    fecha_vencimiento = user_input("Ingrese la fecha de vencimiento (MM/AA): ")
+                    fecha_vencimiento = input("Ingrese la fecha de vencimiento (MM/AA): ")
                     if len(fecha_vencimiento) == 5 and fecha_vencimiento[2] == '/' and fecha_vencimiento[:2].isdigit() and fecha_vencimiento[3:].isdigit():
-                        tarjeta['fecha_vencimiento'] = fecha_vencimiento
-                        valido_fecha = True
+                        try:
+                            # Parsear mes y año
+                            mes = int(fecha_vencimiento[:2])
+                            anio = int(fecha_vencimiento[3:]) + 2000  # Convertir AA a AAAA
+
+                            # Validar si la fecha es válida y no está vencida
+                            hoy = datetime.now()
+                            fecha_vencimiento_dt = datetime(anio, mes, 1)
+
+                            if fecha_vencimiento_dt >= hoy.replace(day=1):
+                                tarjeta['fecha_vencimiento'] = fecha_vencimiento
+                                valido_fecha = True
+                                print("\nTarjeta aprobada, procesando pago...")
+                                time.sleep(2)
+                            else:
+                                print("La tarjeta está vencida. Por favor, ingrese una fecha válida.")
+                        except ValueError:
+                            print("Fecha de vencimiento inválida. Debe estar en formato MM/AA y representar una fecha válida.")
                     else:
                         print("Fecha de vencimiento inválida. Debe estar en formato MM/AA.")
-
-                # Solicitar CVV
-                valido_cvv = False
-                while not valido_cvv:
-                    cvv = user_input("Ingrese el código de seguridad (CVV): ")
-                    if len(cvv) == 3 and cvv.isdigit():
-                        tarjeta['cvv'] = cvv
-                        valido_cvv = True
-                    else:
-                        print("CVV inválido. Debe tener 3 dígitos.")
             else:
                 print("Opción no válida. Por favor, selecciona una opción válida (1, 2, 3).")    
 
@@ -618,6 +647,8 @@ def realizar_pago(total_a_pagar, usuario):
     Realiza el proceso de pago, verificando que el usuario tenga saldo suficiente.
     Si no tiene suficiente saldo, se le ofrece agregar dinero a su cuenta.
     Si el pago es exitoso, se procesa la compra y actualiza el saldo.
+    Parámetros: total_a_pagar(float)
+                usuario(string)
     """
     
     bandera=True
@@ -679,6 +710,9 @@ def Finalizar(usuario, usuarios):
     """
     Imprime un mensaje de agradecimiento y muestra una lista de las películas que el usuario ha alquilado durante la sesión. 
     Si no se alquiló ninguna película, informa al usuario.
+    Parámetros:
+    usuario (string): El nombre del usuario logeado
+    usuarios (list): Lista de usuarios registrados.
     """
 
     # Buscar el usuario en la lista
@@ -702,8 +736,11 @@ def Finalizar(usuario, usuarios):
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
 
-
 def ver_resenia(usuario, usuarios):
+    """Función dedicada a la visualización de reseñas hechas por usuarios en el pasado.
+    Parámetros
+        usuario (str): El nombre del usuariuo logeado.
+        usuarios (list): Lista de usuarios registrados."""
     peliculas_con_resenias = [titulo for titulo in resenias.keys()]
     if peliculas_con_resenias:
         # Show the list of movies with their index
@@ -736,7 +773,9 @@ def ver_resenia(usuario, usuarios):
 
 
 def obtener_peliculas_por_devolver(usuario):
-    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento ."""
+    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento 
+    Parámetros: usuario(string): el nombre del usuario logeado
+    """
     data_usuario = encontrar_usuario(usuario, usuarios)
     if data_usuario is None:
         raise ValueError(f"El usuario '{usuario}' no fue encontrado.")
@@ -761,7 +800,10 @@ def obtener_peliculas_por_devolver(usuario):
 
 
 def limpiarpantalla():
-    # Verificamos el sistema operativo del usuario para emplear el comando correcto
+
+    """Verificamos el sistema operativo del usuario para emplear el comando correcto
+    Parámetros: none
+    """
     if os.name == 'nt':  # Windows
         os.system('cls')
     else:  # Linux/Mac
@@ -770,7 +812,10 @@ def limpiarpantalla():
 
 
 def menuprincipal(usuario, usuarios):
-    """Muestra el menú principal y las películas por devolver al inicio."""
+    """Muestra el menú principal y las películas por devolver al inicio
+    Parámetros:     
+        usuario (string): el nombre del usuario logeada.
+        usuarios (list): Lista de usuarios registrados.."""
 
 
     # Mostrar películas pendientes por devolver
@@ -795,12 +840,13 @@ def menuprincipal(usuario, usuarios):
     print("=============================================")
     print("૮ ˶ᵔ ᵕ ᵔ˶ ა   MENÚ PRINCIPAL   (˶˃ ᵕ ˂˶) .ᐟ.ᐟ")
     print("=============================================")
-    print("\n     1.Ver nuestro catálogo")
+    print("\n     1.Ver nuestro catálogo y alquilar una película")
     print("\n     2.Devolver una peli")
     print("\n     3.Dejar una reseña sobre alguna peli que alquilaste")
     print("\n     4.Ver reseñas de otros usuarios")
     print("\n     5.Agregar Saldo")
-    print("\n     6.Pagar y Finalizar")
+    print("\n     6.Obtener una recomendación")
+    print("\n     7.Pagar y Finalizar")
     print("\n")
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
     banderamenu=True
@@ -846,19 +892,27 @@ def menuprincipal(usuario, usuarios):
             
             elif navegacion == 4:
                 ver_resenia(usuario, usuarios)
-            
             elif navegacion == 5:
                 agregar_saldo(usuario_encontrado, usuarios)
             
+            elif navegacion==6:
+                
+                print("El test está por comenzar...")
+                time.sleep(2)
+                
+                limpiarpantalla()
+                
+                Recomendacion()
+            
             cargo_extra = 0
 
-            if navegacion == 6:
+            if navegacion == 7:
                 total_a_pagar = calcular_total(usuario, cargo_extra)
                 realizar_pago(total_a_pagar, usuario)
                 Finalizar(usuario, usuarios)
                 banderamenu=False
 
-            elif navegacion>6 or navegacion<0:
+            elif navegacion>7 or navegacion<0:
                 print("Por favor, ingrese un número válido")
                 
                    
@@ -887,13 +941,19 @@ def Main():
                 usuario = validarusuario(usuario)
                 nuevacontra = input("\n\nCree su contraseña, debe contener al menos 8 caracteres y un número: ")
                 nuevacontra = validarcontraseña(nuevacontra)
-                registrarUsuario(usuario, nuevacontra)
+
+                # Intentar registrar al usuario y verificar si es exitoso
+                registro_exitoso = registrarUsuario(usuario, nuevacontra)
+                if not registro_exitoso:  # Si el registro falla, volver al menú
+                    time.sleep(2)
+                    continue
+
                 print("\n\nRegistro exitoso. Ahora inicie sesión para continuar.")
 
-                #Solicita nombre usuario y contrasena de nuevo.
+                # Solicitar nombre de usuario y contraseña de nuevo
                 usuario = input("\n\nIngrese su nombre de usuario: ")
                 contra = input("\n\nIngrese su contraseña para iniciar sesión: ")
-                if login_usuario(usuario, contra,usuarios):  # Intentar iniciar sesión
+                if login_usuario(usuario, contra, usuarios):  # Intentar iniciar sesión
                     sesion_iniciada = False  # Cambiar el estado para salir del ciclo
                     usuario_obj = encontrar_usuario(usuario, usuarios)
 
