@@ -712,6 +712,7 @@ def Finalizar(usuario, usuarios):
             print(f"\n{titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
         
         print("\n\nGracias por usar nuestro sistema de alquiler de películas, ¡hasta la próxima! \n❤ (ɔˆз(ˆ⌣ˆc)" )
+        time.sleep(2)
         Main()
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
@@ -808,7 +809,7 @@ def menuprincipal(usuario, usuarios):
     print("=============================================")
     print("૮ ˶ᵔ ᵕ ᵔ˶ ა   MENÚ PRINCIPAL   (˶˃ ᵕ ˂˶) .ᐟ.ᐟ")
     print("=============================================")
-    print("\n     1.Ver nuestro catálogo")
+    print("\n     1.Ver nuestro catálogo y alquilar una película")
     print("\n     2.Devolver una peli")
     print("\n     3.Dejar una reseña sobre alguna peli que alquilaste")
     print("\n     4.Ver reseñas de otros usuarios")

@@ -18,9 +18,14 @@
                 "Titulo": "Her",
                 "FechaInicio": "01-12-2024",
                 "FechaFin": "27-04-2025"
+            },
+            {
+                "Titulo": "Her",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
             }
         ],
-        "saldo": 91062312.0
+        "saldo": 89440712.0
     },
     {
         "nombreUsuario": "juan1234",
