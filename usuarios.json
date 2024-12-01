@@ -2,6 +2,10 @@
     {
         "nombreUsuario": "cami1234",
         "contrasena": "cami1234",
+        "peliculas_a_pagar": [
+            "El viaje de Chihiro",
+            "La Langosta"
+        ],
         "peliculas_alquiladas": [
             {
                 "Titulo": "El viaje de Chihiro",
@@ -25,19 +29,35 @@
     {
         "nombreUsuario": "nicoxxgamer",
         "contrasena": "wowowowow1",
+        "peliculas_a_pagar": [
+            "Whiplash",
+            "Ghost Rider",
+            "Titanic",
+            "La Langosta"
+        ],
         "peliculas_alquiladas": [
-            {
-                "Titulo": "Drive",
-                "FechaInicio": "17-11-2024",
-                "FechaFin": "18-11-2024"
-            },
             {
                 "Titulo": "Ghost Rider",
                 "FechaInicio": "29-11-2024",
                 "FechaFin": "30-11-2024"
+            },
+            {
+                "Titulo": "Titanic",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2025"
+            },
+            {
+                "Titulo": "La Langosta",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2024"
+            },
+            {
+                "Titulo": "Whiplash",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "25-09-2089"
             }
         ],
-        "saldo": 9120400.0
+        "saldo": 8235600.0
     },
     {
         "nombreUsuario": "sol1234",
@@ -123,5 +143,18 @@
         "contrasena": "fa123456",
         "peliculas_alquiladas": [],
         "saldo": 100.0
+    },
+    {
+        "nombreUsuario": "entrenadorpokemon",
+        "contrasena": "pikachuxd123",
+        "peliculas_a_pagar": [],
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "El viaje de Chihiro",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2025"
+            }
+        ],
+        "saldo": 9560399.0
     }
 ]

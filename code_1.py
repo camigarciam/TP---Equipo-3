@@ -54,6 +54,7 @@ def registrarUsuario(usuario,contra):
         "nombreUsuario": usuario,
         "contrasena": contra,
         "peliculas_alquiladas": [],
+        "peliculas_a_pagar":[],
         "saldo": saldo_inicial
     }
     usuarios.append(nuevo_usuario)
@@ -105,6 +106,7 @@ def login_usuario(usuario, contra, usuarios):
     print(f"\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} ヽ༼࿃っ࿃༽ﾉ\n")
     print("Puede cerrar sesión en cualquier momento usando la palabra clave 'exit'")
     print(f"\n\nTu saldo actual es: {usuario_encontrado['saldo']:.2f}")
+    time.sleep(2)
 
     return True
     
@@ -194,7 +196,7 @@ def validarcontraseña(nuevacontra):
     while not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$', nuevacontra):
         nuevacontra=user_input("/nContraseña invalida, ingrese la contraseña nuevamente: ")
     print("Contraseña válida")
-    contrasena=user_input("/nConfirme su contraseña: ")
+    contrasena=user_input("\nConfirme su contraseña: ")
     while contrasena != nuevacontra:
         contrasena=user_input("/nLas contraseñas no coinciden, ingrese la contraseña nuevamente: ")
     else:
@@ -290,7 +292,10 @@ def Mostrarpelis():
 
    Return: Imprime número de índice mas 1 y el título de la película.
    """
-   print("Nuestro catálogo es el siguiente")
+   print("Cargando catálogo... (•ᴗ•,, )")
+   time.sleep(2)
+   limpiarpantalla()
+   print("Nuestro catálogo es el siguiente ≽^-⩊-^≼")
    for i, peli in enumerate(listapelis):
         print(f"\n{i+1}. {peli['Titulo']}")
        
@@ -354,7 +359,7 @@ def Alquilarpeli(numero,usuario):
         print(f"\nHay {peli['Disponibilidad']} unidades disponibles de '{peli['Titulo']}'")
         confirmacion = user_input("\n\n¿Deseas alquilar esta película? (s/n): ")
         if confirmacion == 's':
-            print("/n༼✷ɷ✷༽  ༼ԾɷԾ༽ ୧༼ ͡◉ل͜ ͡◉༽୨ ヽ༼௵ل͜௵༽ﾉ/n")
+            print("\n༼✷ɷ✷༽  ༼ԾɷԾ༽ ୧༼ ͡◉ل͜ ͡◉༽୨ ヽ༼௵ل͜௵༽ﾉ\n")
             fecha_inicio, fecha_fin = selecionar_fechas()
             peli["Disponibilidad"] -= 1
 
@@ -370,6 +375,7 @@ def Alquilarpeli(numero,usuario):
                 "FechaFin": fecha_fin_str
             }
             data_usuario["peliculas_alquiladas"].append(info_alquiler)
+            data_usuario["peliculas_a_pagar"].append(info_alquiler["Titulo"])
 
             # Actualizar la lista global de peliculas_alquiladas
             peliculas_alquiladas = data_usuario["peliculas_alquiladas"]
@@ -466,24 +472,27 @@ def Recomendacion():
 
 #6. Pago
 # Función para calcular el total a pagar
-def calcular_total(peliculas_alquiladas, cargo_extra):
+def calcular_total(usuario, cargo_extra):
     """
     Calcula el total a pagar por las películas alquiladas, incluyendo cargos por retraso.
 
     Parámetros:
-        peliculas_alquiladas (list): Lista de películas alquiladas con fechas.
         cargo_extra (int): Cargo adicional por retraso, si lo hay.
 
     Retorna:
         float: El total a pagar, incluyendo cargos adicionales.
     """
-    if len(peliculas_alquiladas) == 0:
-        print("No hay películas seleccionadas para alquilar.")    
+    data_usuario = encontrar_usuario(usuario, usuarios)
+    peliculas_a_pagar = data_usuario.get("peliculas_a_pagar", [])
+    
+    if len(peliculas_a_pagar) == 0:
+        print("No hay películas seleccionadas para alquilar.")  
+        menuprincipal(usuario_encontrado, usuarios)  
         return 0  # Devuelve 0 si no hay alquileres
 
-    total_a_pagar = 0
+    total_a_pagar = 400
     print("Detalles de tu compra:")
-    for alquiler in peliculas_alquiladas:
+    for alquiler in usuario_encontrado["peliculas_alquiladas"]:
         # Acceder a los valores del diccionario por clave
         titulo = alquiler["Titulo"]
         fecha_inicio_str = alquiler["FechaInicio"]
@@ -496,7 +505,7 @@ def calcular_total(peliculas_alquiladas, cargo_extra):
         # Calcular los días alquilados
         dias_alquilados = (fecha_fin - fecha_inicio).days
         costo = dias_alquilados * 1200  # Suponiendo que el costo es 1200 por día
-        total_a_pagar += costo
+        total_a_pagar +=  costo
         print(f"Película: {titulo}\n Días alquilados: {dias_alquilados}\n Costo: ${costo}")
     
     if cargo_extra is None:
@@ -507,6 +516,8 @@ def calcular_total(peliculas_alquiladas, cargo_extra):
         total_a_pagar += cargo_extra
 
     print(f"\n\nEl total a pagar es: ${total_a_pagar} ヽ(･ω･ゞ)")
+    
+
     return total_a_pagar
 
 # Función para agregar saldo a la cuenta del usuario
@@ -608,7 +619,7 @@ def realizar_pago(total_a_pagar, usuario):
     Si no tiene suficiente saldo, se le ofrece agregar dinero a su cuenta.
     Si el pago es exitoso, se procesa la compra y actualiza el saldo.
     """
-
+    
     bandera=True
     with open('usuarios.json', 'r') as file:
         usuarios = json.load(file)
@@ -634,13 +645,16 @@ def realizar_pago(total_a_pagar, usuario):
         if agregar_dinero == 's':
             agregar_saldo(usuario_encontrado, usuarios)
         else:
-            print("\n\nSe ha cancelado la compra debido a saldo insuficiente. >(#｀皿´)")
-            return  # Salir si no se agrega dinero
-
+            print("\n\nSe ha cancelado el pago debido a saldo insuficiente. >(#｀皿´)")
+            menuprincipal(usuario,usuarios)  # Volver al menu ppal
+    
     # Si el saldo es suficiente, realizar el pago
     usuario_encontrado["saldo"] -= total_a_pagar
     print("\nSaldo suficiente, procesando pago...")
     time.sleep(2)
+
+    usuario_encontrado["peliculas_a_pagar"]=[]
+    
 
     # Guardar los cambios en el archivo
     actualizar_datos('usuarios.json', usuarios)
@@ -720,7 +734,7 @@ def ver_resenia(usuario, usuarios):
 
 
 def obtener_peliculas_por_devolver(usuario):
-    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento."""
+    """Devuelve las películas pendientes por devolver, ordenadas por fecha de vencimiento ."""
     data_usuario = encontrar_usuario(usuario, usuarios)
     if data_usuario is None:
         raise ValueError(f"El usuario '{usuario}' no fue encontrado.")
@@ -757,15 +771,15 @@ def menuprincipal(usuario, usuarios):
     """Muestra el menú principal y las películas por devolver al inicio."""
 
 
-
     # Mostrar películas pendientes por devolver
     peliculas_pendientes = obtener_peliculas_por_devolver(usuario)
     if peliculas_pendientes:
-        print("\nPelículas pendientes por devolver (ordenadas por fecha de vencimiento):")
+        
+        print(f"\n{usuario}, estas son tus películas pendientes por devolver (  •̀ - •́  ) (ordenadas por fecha de vencimiento):\n")
         for i, pelicula in enumerate(peliculas_pendientes, start=1):
             print(f"{i}. {pelicula['Titulo']} - Fecha de vencimiento: {pelicula['FechaFin']}")
     else:
-        print("\nNo tienes películas pendientes por devolver.")
+        print("\nNo tienes películas pendientes por devolver ٩(ˊᗜˋ*)و .")
     
     print("\n")
     time.sleep(2)
@@ -775,6 +789,7 @@ def menuprincipal(usuario, usuarios):
     print("\n")
    
     time.sleep(2)
+
     print("=============================================")
     print("૮ ˶ᵔ ᵕ ᵔ˶ ა   MENÚ PRINCIPAL   (˶˃ ᵕ ˂˶) .ᐟ.ᐟ")
     print("=============================================")
@@ -786,7 +801,6 @@ def menuprincipal(usuario, usuarios):
     print("\n     6.Pagar y Finalizar")
     print("\n")
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
-    
     banderamenu=True
     while banderamenu:
         try:
@@ -837,7 +851,7 @@ def menuprincipal(usuario, usuarios):
             cargo_extra = 0
 
             if navegacion == 6:
-                total_a_pagar = calcular_total(peliculas_alquiladas, cargo_extra)
+                total_a_pagar = calcular_total(usuario, cargo_extra)
                 realizar_pago(total_a_pagar, usuario)
                 Finalizar(usuario, usuarios)
                 banderamenu=False
