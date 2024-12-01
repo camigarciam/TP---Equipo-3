@@ -398,6 +398,7 @@ def Alquilarpeli(numero,usuario):
     
 # Recomendacion de una pelicula por si no sabes qué elegir! 
 def Recomendacion():
+
     """
     Realiza una recomendación de película basada en las respuestas del usuario. 
     Filtra y ordena las películas por rating según el género preferido. 
@@ -436,6 +437,11 @@ def Recomendacion():
     banderatest=True
     while banderatest:       
         for pregunta, generos in preguntas:
+            if not banderatest: 
+                print("Volviendo al menú principal...")
+                time.sleep(2)
+                limpiarpantalla()
+                menuprincipal(usuario_encontrado["nombreUsuario"],usuarios) 
             respuesta = user_input(f"{pregunta} (s/n): ").strip().lower()
             while respuesta not in ["s", "n", "0"]:
                 print("\nRespuesta no válida. Por favor, responda con 's' o 'n'.")
@@ -446,7 +452,7 @@ def Recomendacion():
                     puntos_por_genero[genero] += 1
             if respuesta=="0":
                 banderatest=False
-                break
+                
                 
                 
 
