@@ -28,7 +28,7 @@ def user_input(mensaje):
     if respuesta == "exit":
         time.sleep(1)
         print("\nHas cerrado sesión. ¡Portate bien! (・∀・)! \n\n\n")
-        Main()  # 
+        Main()  
     return respuesta
 
 def registrarUsuario(usuario,contra):
@@ -47,8 +47,7 @@ def registrarUsuario(usuario,contra):
             print("\n\nEl nombre de usuario ya existe. ༼ง=ಠ益ಠ=༽ง")
             return False
  
-    #Pedir al usuario ingrese su saldo incial
-    saldo_inicial = float(user_input("\n\nIngrese su saldo incial: $"))
+    saldo_inicial = 0.0
 
     nuevo_usuario = {
         "nombreUsuario": usuario,
@@ -98,6 +97,7 @@ def login_usuario(usuario, contra, usuarios):
     if usuario_encontrado["contrasena"] != contra:
         print("\n\nContrasena incorrecta. (◣_◢)")
         return False
+    
     print("Iniciando sesión...")
     time.sleep(2)
     limpiarpantalla()
@@ -582,22 +582,28 @@ def agregar_saldo(usuario_encontrado, usuarios):
                 # Solicitar fecha de vencimiento
                 valido_fecha = False
                 while not valido_fecha:
-                    fecha_vencimiento = user_input("Ingrese la fecha de vencimiento (MM/AA): ")
+                    fecha_vencimiento = input("Ingrese la fecha de vencimiento (MM/AA): ")
                     if len(fecha_vencimiento) == 5 and fecha_vencimiento[2] == '/' and fecha_vencimiento[:2].isdigit() and fecha_vencimiento[3:].isdigit():
-                        tarjeta['fecha_vencimiento'] = fecha_vencimiento
-                        valido_fecha = True
+                        try:
+                            # Parsear mes y año
+                            mes = int(fecha_vencimiento[:2])
+                            anio = int(fecha_vencimiento[3:]) + 2000  # Convertir AA a AAAA
+
+                            # Validar si la fecha es válida y no está vencida
+                            hoy = datetime.now()
+                            fecha_vencimiento_dt = datetime(anio, mes, 1)
+
+                            if fecha_vencimiento_dt >= hoy.replace(day=1):
+                                tarjeta['fecha_vencimiento'] = fecha_vencimiento
+                                valido_fecha = True
+                                print("\nTarjeta aprobada, procesando pago...")
+                                time.sleep(2)
+                            else:
+                                print("La tarjeta está vencida. Por favor, ingrese una fecha válida.")
+                        except ValueError:
+                            print("Fecha de vencimiento inválida. Debe estar en formato MM/AA y representar una fecha válida.")
                     else:
                         print("Fecha de vencimiento inválida. Debe estar en formato MM/AA.")
-
-                # Solicitar CVV
-                valido_cvv = False
-                while not valido_cvv:
-                    cvv = user_input("Ingrese el código de seguridad (CVV): ")
-                    if len(cvv) == 3 and cvv.isdigit():
-                        tarjeta['cvv'] = cvv
-                        valido_cvv = True
-                    else:
-                        print("CVV inválido. Debe tener 3 dígitos.")
             else:
                 print("Opción no válida. Por favor, selecciona una opción válida (1, 2, 3).")    
 
@@ -697,9 +703,9 @@ def Finalizar(usuario, usuarios):
             print(f"\n{titulo} (Desde: {fecha_inicio.strftime('%d-%m-%Y')} Hasta: {fecha_fin.strftime('%d-%m-%Y')})")
         
         print("\n\nGracias por usar nuestro sistema de alquiler de películas, ¡hasta la próxima! \n❤ (ɔˆз(ˆ⌣ˆc)" )
+        Main()
     else:
         print("\nNo alquilaste ninguna película en esta sesión.")
-
 
 def ver_resenia(usuario, usuarios):
     peliculas_con_resenias = [titulo for titulo in resenias.keys()]
@@ -844,7 +850,6 @@ def menuprincipal(usuario, usuarios):
             
             elif navegacion == 4:
                 ver_resenia(usuario, usuarios)
-            
             elif navegacion == 5:
                 agregar_saldo(usuario_encontrado, usuarios)
             
@@ -885,13 +890,19 @@ def Main():
                 usuario = validarusuario(usuario)
                 nuevacontra = input("\n\nCree su contraseña, debe contener al menos 8 caracteres y un número: ")
                 nuevacontra = validarcontraseña(nuevacontra)
-                registrarUsuario(usuario, nuevacontra)
+
+                # Intentar registrar al usuario y verificar si es exitoso
+                registro_exitoso = registrarUsuario(usuario, nuevacontra)
+                if not registro_exitoso:  # Si el registro falla, volver al menú
+                    time.sleep(2)
+                    continue
+
                 print("\n\nRegistro exitoso. Ahora inicie sesión para continuar.")
 
-                #Solicita nombre usuario y contrasena de nuevo.
+                # Solicitar nombre de usuario y contraseña de nuevo
                 usuario = input("\n\nIngrese su nombre de usuario: ")
                 contra = input("\n\nIngrese su contraseña para iniciar sesión: ")
-                if login_usuario(usuario, contra,usuarios):  # Intentar iniciar sesión
+                if login_usuario(usuario, contra, usuarios):  # Intentar iniciar sesión
                     sesion_iniciada = False  # Cambiar el estado para salir del ciclo
                     usuario_obj = encontrar_usuario(usuario, usuarios)
 
