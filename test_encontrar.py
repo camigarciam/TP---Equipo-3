@@ -17,3 +17,9 @@ def test_usuario_no_encontrado():
     ]
     resultado = encontrar_usuario("user3", usuarios)
     assert resultado is None
+
+def test_listavacia():
+    usuarios = [
+    ]
+    resultado = encontrar_usuario("user3", usuarios)
+    assert resultado is None
