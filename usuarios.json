@@ -5,27 +5,17 @@
         "peliculas_a_pagar": [],
         "peliculas_alquiladas": [
             {
+                "Titulo": "The Basketball Diaries",
+                "FechaInicio": "02-12-2024",
+                "FechaFin": "27-01-2025"
+            },
+            {
                 "Titulo": "Mente indomable",
-                "FechaInicio": "01-12-2024",
-                "FechaFin": "27-04-2025"
-            },
-            {
-                "Titulo": "Historia de un Matrimonio",
-                "FechaInicio": "01-12-2024",
-                "FechaFin": "30-05-2027"
-            },
-            {
-                "Titulo": "Her",
-                "FechaInicio": "01-12-2024",
-                "FechaFin": "27-04-2025"
-            },
-            {
-                "Titulo": "Her",
-                "FechaInicio": "01-12-2024",
+                "FechaInicio": "02-12-2024",
                 "FechaFin": "27-04-2025"
             }
         ],
-        "saldo": 89440712.0
+        "saldo": 89160512.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -170,8 +160,22 @@
         "saldo": 0.0
     },
     {
-        "nombreUsuario": "marte1234",
-        "contrasena": "marte1234",
+        "nombreUsuario": "nayeon",
+        "contrasena": "nana1234",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "camisdof",
+        "contrasena": "cami1234",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "cabeza",
+        "contrasena": "cabeza12",
         "peliculas_alquiladas": [],
         "peliculas_a_pagar": [],
         "saldo": 0.0
