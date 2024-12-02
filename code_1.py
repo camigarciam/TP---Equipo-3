@@ -182,9 +182,15 @@ def validarusuario(usuario):
 
         Return: str- 'El nombre de usuario es valido'
         """
-        while len(usuario)<6:
+        while len(usuario) < 6:
             print("(－‸ლ) El nombre de usuario debe contener al menos 6 caracteres")
-            usuario=user_input("Ingrese su nombre de usuario: ")
+            usuario = input("Ingrese su nombre de usuario: ")
+
+# Verificar que el nombre de usuario no tenga mayúsculas
+        while any(c.isupper() for c in usuario):
+            print("(－‸ლ) El nombre de usuario no debe contener letras mayúsculas.")
+            usuario = input("Ingrese su nombre de usuario: ")
+
         print("El nombre de usuario es válido ୧༼✿ ͡◕ д ◕͡ ༽୨")
         return usuario
 
@@ -488,8 +494,13 @@ def Recomendacion():
             print(f"\n\n (人ﾟ∀ﾟ) Fin del test! ＠＾▽＾＠ \nPareces ser un aficionado del género {genero_recomendado}. \n Estas son nuestras recomendaciones, ordenadas por rating: ")
             for pelicula in peliculas_recomendadas:
                 print(f"- {pelicula['Titulo']}")
+            print("\n\n¡Esperamos que disfrutes de tu elección! (｡♥‿♥｡)")
+            print("\nVolviendo al menú principal...")
+            time.sleep(2)
+            menuprincipal(usuario_encontrado["nombreUsuario"],usuarios)
         else:
             print(f"\nNo hay películas disponibles en el género {genero_recomendado}.")
+            menuprincipal(usuario_encontrado["nombreUsuario"],usuarios)
 
         return peliculas_recomendadas
 

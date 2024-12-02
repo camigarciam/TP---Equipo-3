@@ -161,5 +161,19 @@
         ],
         "peliculas_a_pagar": [],
         "saldo": 928610.0
+    },
+    {
+        "nombreUsuario": "saturno1",
+        "contrasena": "saturno1",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "marte1234",
+        "contrasena": "marte1234",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
     }
 ]
