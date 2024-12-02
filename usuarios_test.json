@@ -1,0 +1,183 @@
+[
+    {
+        "nombreUsuario": "cami1234",
+        "contrasena": "cami1234",
+        "peliculas_a_pagar": [],
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "The Basketball Diaries",
+                "FechaInicio": "02-12-2024",
+                "FechaFin": "27-01-2025"
+            },
+            {
+                "Titulo": "Mente indomable",
+                "FechaInicio": "02-12-2024",
+                "FechaFin": "27-04-2025"
+            }
+        ],
+        "saldo": 89160512.0
+    },
+    {
+        "nombreUsuario": "juan1234",
+        "contrasena": "juan1234",
+        "peliculas_alquiladas": [],
+        "saldo": 9274089.0
+    },
+    {
+        "nombreUsuario": "nicoxxgamer",
+        "contrasena": "wowowowow1",
+        "peliculas_a_pagar": [],
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Titanic",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2025"
+            },
+            {
+                "Titulo": "La Langosta",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2024"
+            },
+            {
+                "Titulo": "La Langosta",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "01-01-2025"
+            },
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "02-12-2024"
+            },
+            {
+                "Titulo": "Historia de un Matrimonio",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "03-12-2025"
+            },
+            {
+                "Titulo": "Mente indomable",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "01-01-2025"
+            }
+        ],
+        "saldo": 999999949580199.0
+    },
+    {
+        "nombreUsuario": "abruwu",
+        "contrasena": "abru1234",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Her",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "12-11-2024"
+            },
+            {
+                "Titulo": "Historia de un Matrimonio",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "13-12-2024"
+            },
+            {
+                "Titulo": "La Laguna Azul",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "12-12-2024"
+            },
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "11-11-2024",
+                "FechaFin": "23-11-2024"
+            }
+        ],
+        "saldo": 900.0
+    },
+    {
+        "nombreUsuario": "angel1234",
+        "contrasena": "angel1234",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Drive",
+                "FechaInicio": "25-11-2024",
+                "FechaFin": "12-12-2025"
+            },
+            {
+                "Titulo": "The Talented Mr Ripley",
+                "FechaInicio": "25-11-2024",
+                "FechaFin": "12-12-2025"
+            }
+        ],
+        "saldo": 1223002222.0
+    },
+    {
+        "nombreUsuario": "solare123",
+        "contrasena": "solares123",
+        "peliculas_alquiladas": [],
+        "saldo": 1234.0
+    },
+    {
+        "nombreUsuario": "entrenadorpokemon",
+        "contrasena": "pikachuxd123",
+        "peliculas_a_pagar": [],
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "El viaje de Chihiro",
+                "FechaInicio": "29-11-2024",
+                "FechaFin": "30-11-2025"
+            },
+            {
+                "Titulo": "Titanic",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "01-12-2025"
+            }
+        ],
+        "saldo": 9560399.0
+    },
+    {
+        "nombreUsuario": "caro1234",
+        "contrasena": "caro1234",
+        "peliculas_alquiladas": [
+            {
+                "Titulo": "Historia de un Matrimonio",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            },
+            {
+                "Titulo": "Ghost Rider",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            },
+            {
+                "Titulo": "Whiplash",
+                "FechaInicio": "01-12-2024",
+                "FechaFin": "27-04-2025"
+            }
+        ],
+        "peliculas_a_pagar": [],
+        "saldo": 928610.0
+    },
+    {
+        "nombreUsuario": "saturno1",
+        "contrasena": "saturno1",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "nayeon",
+        "contrasena": "nana1234",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "camisdof",
+        "contrasena": "cami1234",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "cabeza",
+        "contrasena": "cabeza12",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
+    }
+]

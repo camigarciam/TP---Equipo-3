@@ -33,7 +33,7 @@ def user_input(mensaje):
         Main()  
     return respuesta
 
-def registrarUsuario(usuario,contra):
+def registrarUsuario(usuario,contra,usuarios):
     """
     Registra un nuevo usuario con un saldo inicial si el nombre de usuario no existe.
 
@@ -47,15 +47,15 @@ def registrarUsuario(usuario,contra):
     for u in usuarios:
         if u['nombreUsuario'] == usuario:
             print("\n\nEl nombre de usuario ya existe. ༼ง=ಠ益ಠ=༽ง")
-            return False
- 
+            return False, usuarios
+
     saldo_inicial = 0.0
 
     nuevo_usuario = {
         "nombreUsuario": usuario,
         "contrasena": contra,
         "peliculas_alquiladas": [],
-        "peliculas_a_pagar":[],
+        "peliculas_a_pagar": [],
         "saldo": saldo_inicial
     }
     usuarios.append(nuevo_usuario)
@@ -63,53 +63,64 @@ def registrarUsuario(usuario,contra):
     actualizar_datos('usuarios.json', usuarios)
 
     print("Usuario creado con éxito")
-    return True
+    return True, usuarios
 
 def encontrar_usuario(usuario, usuarios):
     "Busca al usuario en la lista de usuarios registrados."
     for index_usuario in usuarios:
-        if index_usuario['nombreUsuario'] == usuario:
+        if index_usuario['nombreUsuario'].lower() == usuario.lower():
             return index_usuario
     return None
 
 def login_usuario(usuario, contra, usuarios):
     """
-    Inicia sesión de un usuario y muestra información sobre su saldo y películas alquiladas.
+    Inicia sesión de un usuario y valida su información.
 
-    Verifica que el usuario exista y que la contraseña sea correcta.
-    Si el usuario tiene películas alquiladas, muestra las películas y permite dejar una reseña.
+    Verifica si el usuario existe y si la contraseña es correcta.
 
     Parámetros:
         usuario (str): El nombre de usuario.
         contra (str): La contraseña del usuario.
-        usuarios (dict): El diccionario con la información de los usuarios registrados.
+        usuarios (list): La lista con la información de los usuarios registrados.
 
     Retorna:
         bool: True si el inicio de sesión es exitoso, False si hay algún error en el proceso.
     """
-    # Verificar si el usuario existe en el diccionario
+    # Verificar si el usuario existe en la lista de usuarios
     global usuario_encontrado
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
 
     if not usuario_encontrado:
-        print("\n\nEl nombre de usuario no está registrado. Por favor, regístrese.")
-        return False
+        return False  # Usuario no encontrado
 
     if usuario_encontrado["contrasena"] != contra:
-        print("\n\nContrasena incorrecta. (◣_◢)")
-        return False
+        return False  # Contraseña incorrecta
     
+    # Si llega hasta aquí, el inicio de sesión es exitoso
+    return True
+
+def mostrar_informacion_usuario(usuario_encontrado):
+    """
+    Muestra la información del usuario tras iniciar sesión.
+    """
     print("Iniciando sesión...")
-    time.sleep(2)
-    limpiarpantalla()
+    time.sleep(2)  # Pausa para simular el inicio
+    limpiarpantalla()  # Limpiar pantalla (deberías tener implementado este método)
+
     print("\n\n\n=============================================")
-    print("\n")
     print(f"\nInicio de sesión exitoso. Bienvenid@, {usuario_encontrado['nombreUsuario']} ヽ༼࿃っ࿃༽ﾉ\n")
     print("Puede cerrar sesión en cualquier momento usando la palabra clave 'exit'")
     print(f"\n\nTu saldo actual es: {usuario_encontrado['saldo']:.2f}")
     time.sleep(2)
 
-    return True
+def iniciar_sesion():
+    usuario = input("Ingrese su nombre de usuario: ")
+    contra = input("Ingrese su contraseña: ")
+
+    if login_usuario(usuario, contra, usuarios):
+        mostrar_informacion_usuario(usuario_encontrado)
+    else:
+        print("\n\nError: Usuario o contraseña incorrectos.")
     
 
 def resenia(usuario):
@@ -172,27 +183,26 @@ def resenia(usuario):
     
     return
 
-    
 def validarusuario(usuario):
-        """
-        Verifica si el valor del nombre del usuario ingresado es valido.
-        Nombre del usuario debe tener 6 caracteres o mas para ser valido.
-        Si es muy corto, se le pide al usuario ingresar uno nuevo.
+    """
+    Verifica si el valor del nombre del usuario ingresado es válido.
+    El nombre del usuario debe tener al menos 6 caracteres para ser válido.
+    Además, las letras mayúsculas se convertirán automáticamente a minúsculas.
 
-        Parametro/Arg: Usuario ingresado
+    Parámetro:
+        usuario (str): Nombre de usuario ingresado.
 
-        Return: str- 'El nombre de usuario es valido'
-        """
-        while len(usuario) < 6:
-            print("(－‸ლ) El nombre de usuario debe contener al menos 6 caracteres")
-            usuario = input("Ingrese su nombre de usuario: ")
+    Retorna:
+        str: Nombre de usuario válido y en minúsculas.
+    """
+    usuario = usuario.lower()  # Convertir a minúsculas directamente
 
-        while any(c.isupper() for c in usuario):
-            print("(－‸ლ) El nombre de usuario no debe contener letras mayúsculas.")
-            usuario = input("Ingrese su nombre de usuario: ")
+    while len(usuario) < 6:
+        print("(－‸ლ) El nombre de usuario debe contener al menos 6 caracteres.")
+        usuario = input("Ingrese su nombre de usuario: ").lower()  # Convertir entrada a minúsculas
 
-        print("El nombre de usuario es válido ୧༼✿ ͡◕ д ◕͡ ༽୨")
-        return usuario
+    print("El nombre de usuario es válido ୧༼✿ ͡◕ д ◕͡ ༽୨")
+    return usuario
 
 def validarcontraseña(nuevacontra):
     """ 
@@ -208,14 +218,18 @@ def validarcontraseña(nuevacontra):
     Return: str- 'Contraseña confirmada'
     """
     while not re.match(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$', nuevacontra):
-        nuevacontra=user_input("/nContraseña invalida, ingrese la contraseña nuevamente: ")
+        nuevacontra = user_input("\nContraseña inválida, ingrese la contraseña nuevamente: ")
+
     print("Contraseña válida")
-    contrasena=user_input("\nConfirme su contraseña: ")
-    while contrasena != nuevacontra:
-        contrasena=user_input("/nLas contraseñas no coinciden, ingrese la contraseña nuevamente: ")
-    else:
-        print("Contraseña confirmada ༼ ◔ ͜ʖ ◔ ༽")
-    return contrasena
+    
+    while True:
+        contrasena_confirmacion = user_input("\nConfirme su contraseña: ")
+        # Comparación insensible a mayúsculas/minúsculas
+        if contrasena_confirmacion.lower() == nuevacontra.lower():
+            print("Contraseña confirmada ༼ ◔ ͜ʖ ◔ ༽")
+            return nuevacontra  # Devuelve la contraseña original
+        else:
+            print("\nLas contraseñas no coinciden, ingrese la contraseña nuevamente.")
 
 def devolver_pelis(usuario):
     """
@@ -970,6 +984,7 @@ def Main():
                     usuario = validarusuario(usuario)
                     nuevacontra = input("\n\nCree su contraseña, debe contener al menos 8 caracteres y un número: ")
                     nuevacontra = validarcontraseña(nuevacontra)
+                    continue
 
                 registro_exitoso = registrarUsuario(usuario, nuevacontra)
                 if not registro_exitoso:  
@@ -984,6 +999,7 @@ def Main():
                 if login_usuario(usuario, contra, usuarios):  
                     sesion_iniciada = False  
                     usuario_obj = encontrar_usuario(usuario, usuarios)
+                    mostrar_informacion_usuario(usuario_obj)
 
             elif loginregistro == 2:
                 
@@ -995,6 +1011,7 @@ def Main():
                     if login_usuario(usuario, contra, usuarios): 
                         sesion_iniciada = False  
                         usuario_obj = encontrar_usuario(usuario, usuarios)
+                        mostrar_informacion_usuario(usuario_obj)
 
             else:
                 print("Opción no válida. Intente nuevamente.")
@@ -1015,10 +1032,9 @@ def Main():
 
 
 # Ejecutar la función principal
-Main()
+if __name__ == "__main__":
+    Main()  # path para que no corra en el test
 
-
-    
         
     
     
