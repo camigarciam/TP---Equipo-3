@@ -164,5 +164,12 @@
         "peliculas_alquiladas": [],
         "peliculas_a_pagar": [],
         "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "jisung",
+        "contrasena": "jisungtkm2",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
     }
 ]

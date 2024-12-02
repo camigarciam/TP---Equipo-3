@@ -185,7 +185,9 @@ def resenia(usuario):
             except ValueError:
                 print("Por favor, ingresa un número.")
     else:
-        print("\nNo tienes películas alquiladas anteriormente.")    
+        print("\nNo tienes películas alquiladas anteriormente para dejar una reseña. (¬_¬)")
+        print("\nVolviendo al menú principal...")    
+        menuprincipal(usuario, usuarios)
     
     return
 
