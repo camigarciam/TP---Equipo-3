@@ -6,7 +6,6 @@ import re
 import os
 from datetime import datetime
 
-#1.login 
 def cargar_datos(nombre_archivo):
     """Abre los archivos JSON y carga los datos en un diccionario."""
     try:
@@ -46,7 +45,9 @@ def registrarUsuario(usuario,contra,usuarios):
     """
     for u in usuarios:
         if u['nombreUsuario'] == usuario:
-            print("\n\nEl nombre de usuario ya existe. ༼ง=ಠ益ಠ=༽ง")
+            print("\n\nEl nombre de usuario ya existe. ༼ง=ಠ益ಠ=༽ง, intenta con otro nombre.")
+            time.sleep(2)
+            Main()
             return False, usuarios
 
     saldo_inicial = 0.0
@@ -67,9 +68,13 @@ def registrarUsuario(usuario,contra,usuarios):
 
 def encontrar_usuario(usuario, usuarios):
     "Busca al usuario en la lista de usuarios registrados."
+    usuario = usuario.lower()
+    
     for index_usuario in usuarios:
-        if index_usuario['nombreUsuario'].lower() == usuario.lower():
+        
+        if index_usuario['nombreUsuario'].lower() == usuario:
             return index_usuario
+    
     return None
 
 def login_usuario(usuario, contra, usuarios):
@@ -91,12 +96,13 @@ def login_usuario(usuario, contra, usuarios):
     usuario_encontrado = encontrar_usuario(usuario, usuarios)
 
     if not usuario_encontrado:
-        return False  # Usuario no encontrado
+        print("\n\nError: Usuario no encontrado. (╯°□°）╯, registrate para poder acceder.")
+        return False  
 
     if usuario_encontrado["contrasena"] != contra:
-        return False  # Contraseña incorrecta
+        print("\n\nError: Contraseña incorrecta (╯°□°）╯")
+        return False 
     
-    # Si llega hasta aquí, el inicio de sesión es exitoso
     return True
 
 def mostrar_informacion_usuario(usuario_encontrado):
@@ -300,6 +306,12 @@ def devolver_pelis(usuario):
                 if (devolver_otra == 's'):
                     for i, alquiler in enumerate(data_usuario["peliculas_alquiladas"], 1):
                         print(f"\n\n{i}. {alquiler['Titulo']} (Devolver antes de: {alquiler['FechaFin']})")
+                elif (devolver_otra == 'n'):  
+                    print("\n\nGracias por devolver tus películas. (｡♥‿♥｡)")
+                    print("\n\nVolviendo al menú principal...")
+                    time.sleep(2)
+                    limpiarpantalla()
+                    menuprincipal(usuario, usuarios)
                 while devolver_otra not in ['s', 'n']:
                     print("\n\nRespuesta no válida, intente de nuevo.")
                     devolver_otra = user_input("\n\n¿Desea devolver otra pelicula? (s/n): ")
@@ -550,6 +562,7 @@ def calcular_total(usuario, cargo_extra):
 
     total_a_pagar = 400
     print("\n\nDetalles de tu compra:")
+    time.sleep(2)
     
     total_dias_alquilados = 0  
 
@@ -572,6 +585,7 @@ def calcular_total(usuario, cargo_extra):
             print(f"Película: {titulo}\n Días alquilados: {dias_alquilados}\n Costo: ${costo}")
     
     dia_actual = datetime.now().weekday()  # 0 = Lunes 6 = Domingo
+    time.sleep(2)
     if dia_actual in [0, 2]:  
         descuento_dia = total_a_pagar * 0.10
         print(f"\n¡Descuento especial de lunes/miércoles aplicado! Te regalamos: ${descuento_dia:.2f}")
@@ -582,7 +596,7 @@ def calcular_total(usuario, cargo_extra):
     if descuento_dias > 0:
         print(f"\n¡Descuento por mes alquilado aplicado! Te regalamos: ${descuento_dias:.2f}")
         total_a_pagar -= descuento_dias
-
+    time.sleep(2)
     # Añadir cargo adicional si aplica
     if cargo_extra is None:
         cargo_extra = 0
@@ -683,6 +697,9 @@ def agregar_saldo(usuario_encontrado, usuarios):
             usuario_encontrado["saldo"] += cantidad_agregar
             actualizar_datos('usuarios.json', usuarios)
             print(f"\nSe han agregado ${cantidad_agregar} a tu saldo. Tu nuevo saldo es: ${usuario_encontrado['saldo']:.2f}")
+            print("\n Salir del menú de agregar saldo...")
+            limpiarpantalla()
+            menuprincipal(usuario_encontrado["nombreUsuario"], usuarios)
             metodo_pago_valido = True
         elif opcion_pago == '4':
             print("\n\nSaliendo del menú de agregar saldo...")
@@ -984,12 +1001,11 @@ def Main():
                     usuario = validarusuario(usuario)
                     nuevacontra = input("\n\nCree su contraseña, debe contener al menos 8 caracteres y un número: ")
                     nuevacontra = validarcontraseña(nuevacontra)
-                    continue
+                
 
-                registro_exitoso = registrarUsuario(usuario, nuevacontra)
+                registro_exitoso = registrarUsuario(usuario, nuevacontra,usuarios)
                 if not registro_exitoso:  
                     time.sleep(2)
-                    continue
 
                 print("\n\nRegistro exitoso. Ahora inicie sesión para continuar.")
 

@@ -179,5 +179,12 @@
         "peliculas_alquiladas": [],
         "peliculas_a_pagar": [],
         "saldo": 0.0
+    },
+    {
+        "nombreUsuario": "juno1234",
+        "contrasena": "Juno1234",
+        "peliculas_alquiladas": [],
+        "peliculas_a_pagar": [],
+        "saldo": 0.0
     }
 ]

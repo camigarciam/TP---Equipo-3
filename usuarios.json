@@ -5,17 +5,23 @@
         "peliculas_a_pagar": [],
         "peliculas_alquiladas": [
             {
-                "Titulo": "The Basketball Diaries",
+                "Titulo": "Como Entrenar a tu Dragon",
                 "FechaInicio": "02-12-2024",
-                "FechaFin": "27-01-2025"
+                "FechaFin": "27-04-2025",
+                "Resenia": "la amooo soy tan feliz quiero a 5 chimuleos en mi casa"
+            },
+            {
+                "Titulo": "Whiplash",
+                "FechaInicio": "02-12-2024",
+                "FechaFin": "30-12-2040"
             },
             {
                 "Titulo": "Mente indomable",
                 "FechaInicio": "02-12-2024",
-                "FechaFin": "27-04-2025"
+                "FechaFin": "08-08-2025"
             }
         ],
-        "saldo": 89160512.0
+        "saldo": 0.0
     },
     {
         "nombreUsuario": "juan1234",
@@ -153,29 +159,8 @@
         "saldo": 928610.0
     },
     {
-        "nombreUsuario": "saturno1",
-        "contrasena": "saturno1",
-        "peliculas_alquiladas": [],
-        "peliculas_a_pagar": [],
-        "saldo": 0.0
-    },
-    {
-        "nombreUsuario": "nayeon",
-        "contrasena": "nana1234",
-        "peliculas_alquiladas": [],
-        "peliculas_a_pagar": [],
-        "saldo": 0.0
-    },
-    {
-        "nombreUsuario": "camisdof",
-        "contrasena": "cami1234",
-        "peliculas_alquiladas": [],
-        "peliculas_a_pagar": [],
-        "saldo": 0.0
-    },
-    {
-        "nombreUsuario": "cabeza",
-        "contrasena": "cabeza12",
+        "nombreUsuario": "venus23",
+        "contrasena": "venus1234",
         "peliculas_alquiladas": [],
         "peliculas_a_pagar": [],
         "saldo": 0.0

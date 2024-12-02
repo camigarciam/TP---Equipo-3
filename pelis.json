@@ -7,7 +7,7 @@
         ],
         "Anio": "1980",
         "Reparto": "Brooke Shields, Christopher Atkins",
-        "Disponibilidad": 0,
+        "Disponibilidad": 10,
         "Rating": 3.5
     },
     {
@@ -39,7 +39,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Miles Teller, J.K Simmons",
-        "Disponibilidad": 0,
+        "Disponibilidad": 7,
         "Rating": 5
     },
     {
@@ -50,7 +50,7 @@
         ],
         "Anio": "2014",
         "Reparto": "Adam Driver, Scarlett Johanson",
-        "Disponibilidad": 1,
+        "Disponibilidad": 2,
         "Rating": 3
     },
     {
@@ -61,7 +61,7 @@
         ],
         "Anio": "1997",
         "Reparto": "Matt Damon, Ben Affleck",
-        "Disponibilidad": 4,
+        "Disponibilidad": 3,
         "Rating": 2
     },
     {
@@ -72,7 +72,7 @@
         ],
         "Anio": "2010",
         "Reparto": "",
-        "Disponibilidad": 0,
+        "Disponibilidad": 4,
         "Rating": 5
     },
     {
@@ -92,7 +92,7 @@
         ],
         "Anio": "2015",
         "Reparto": "Collin Farrell",
-        "Disponibilidad": 0,
+        "Disponibilidad": 10,
         "Rating": 3
     },
     {
@@ -112,7 +112,7 @@
         ],
         "Anio": "1991",
         "Reparto": "Leonardo Di Caprio",
-        "Disponibilidad": 0,
+        "Disponibilidad": 11,
         "Rating": 4.5
     },
     {
@@ -122,7 +122,7 @@
         ],
         "Anio": "1999",
         "Reparto": "Jude Law, Matt Damon",
-        "Disponibilidad": 0,
+        "Disponibilidad": 8,
         "Rating": 3
     },
     {
